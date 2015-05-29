@@ -242,6 +242,7 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Assets\Styles\variables.less" />
     <Content Include="Assets\Styles\reset.less" />
+    <Content Include="Views\Shared\_TopNavigation.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
