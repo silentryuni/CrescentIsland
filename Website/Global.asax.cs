@@ -71,6 +71,9 @@ namespace CrescentIsland.Website
             {
                 switch (property)
                 {
+                    case PropertyUpdate.Avatar:
+                        _model.CurrentUser.AvatarUrl = string.Format("data:image/{0};base64,{1}", user.AvatarMimeType, Convert.ToBase64String(user.AvatarImage, 0, user.AvatarImage.Length));
+                        break;
                     case PropertyUpdate.CurHealth:
                         _model.CurrentUser.CurHealth = user.CurHealth;
                         break;
@@ -107,6 +110,7 @@ namespace CrescentIsland.Website
 
     public enum PropertyUpdate
     {
+        Avatar,
         CurHealth,
         MaxHealth,
         CurEnergy,

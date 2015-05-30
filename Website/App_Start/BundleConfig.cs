@@ -22,7 +22,7 @@ namespace CrescentIsland.Website
             bundles.Add(new ScriptBundle("~/bundles/mainjs").Include(
                     "~/Assets/Scripts/bootstrap.min.js",
                     "~/Assets/Scripts/respond.js",
-                    "~/Assets/Scripts/grids.min.js",
+                    "~/Assets/Scripts/grids.js",
                     "~/Assets/Scripts/jquery.ba-resize.min.js",
                     "~/Assets/Scripts/functions.js",
                     "~/Assets/Scripts/onload.js"));
@@ -34,6 +34,7 @@ namespace CrescentIsland.Website
                     "~/Assets/Styles/font-awesome.css",
                     "~/Assets/Styles/global.less",
                     "~/Assets/Styles/header.less",
+                    "~/Assets/Styles/sidebar.less",
                     "~/Assets/Styles/main.less",
                     "~/Assets/Styles/sprite-icons.less");
             lessBundle.Transforms.Add(new LessTransform());

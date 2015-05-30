@@ -54,6 +54,21 @@ var Global = {
     }
 }
 
+var Manage = {
+    SetAvatar: function () {
+        $(function () {
+            $('.change-avatar .avatar-selection').click(function () {
+                $('.change-avatar .avatar-selection').removeClass('selected');
+                $(this).addClass('selected');
+                var selectedSrc = $(this).find('img').attr('src');
+
+                $('.selected-avatar').show().find('img').attr('src', selectedSrc);
+                $('#SelectedAvatar').val(selectedSrc);
+            });
+        });
+    }
+}
+
 var Battle = {
     UpdateHealth: function (actionId) {
         $.ajax({

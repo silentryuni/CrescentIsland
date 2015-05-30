@@ -1,0 +1,41 @@
+﻿@model CrescentIsland.Website.Models.ChangeAvatarViewModel
+@{
+    ViewBag.Title = "Change Avatar";
+}
+
+<div class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <h2 class="text-center">@ViewBag.Title</h2>
+
+        @using (Html.BeginForm("ChangeAvatar", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="row form-row">
+                <div class="col-sm-6 current-avatar">
+                    Current Avatar:
+                    <img src="@MvcApplication.GetGlobalModel().CurrentUser.AvatarUrl" />
+                </div>
+                <div class="col-sm-6 selected-avatar">
+                    Selected Avatar:
+                    <img src="@MvcApplication.GetGlobalModel().CurrentUser.AvatarUrl" />
+                </div>
+            </div>
+            <div class="row form-row change-avatar">
+                @Html.EditorFor(m => m.Avatars)
+                @Html.HiddenFor(m => m.SelectedAvatar)
+            </div>
+            <div class="row form-row">
+                <div class="col-sm-12">
+                    <input type="submit" value="Change avatar" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-xs-2"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

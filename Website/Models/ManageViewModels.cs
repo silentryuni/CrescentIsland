@@ -9,6 +9,7 @@ namespace CrescentIsland.Website.Models
     {
         public bool HasPassword { get; set; }
         public bool HasVerified { get; set; }
+        public string Email { get; set; }
     }
     
     public class SetPasswordViewModel
@@ -42,5 +43,16 @@ namespace CrescentIsland.Website.Models
         [Display(Name = "Confirm new password")]
         [Compare("NewPassword", ErrorMessage = "The new password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+    }
+
+    public class ChangeAvatarViewModel
+    {
+        public IEnumerable<Avatar> Avatars { get; set; }
+        public string SelectedAvatar { get; set; }
+    }
+
+    public class Avatar
+    {
+        public string ImageUrl { get; set; }
     }
 }

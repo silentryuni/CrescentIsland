@@ -1,0 +1,140 @@
+﻿#main {
+    #sidebar {
+        display: block;
+        width: 100%;
+        height: 100%;
+        box-shadow: inset 0 15px 15px -15px @black;
+        color: @black;
+
+        .right-shadow {
+            display: block;
+            width: 100%;
+            height: 100%;
+            padding: 3px 0 25px;
+            box-shadow: inset -15px 0 15px -15px @black;
+        }
+
+        .hide-menu {
+            float: left;
+            width: 100%;
+            padding-bottom: 5px;
+            font-size: 28px;
+
+            a {
+                display: block;
+                float: right;
+                padding: 0 15px;
+
+                i {
+                    -webkit-transition: all 500ms ease-out;
+                    -o-transition: all 500ms ease-out;
+                    transition: all 500ms ease-out;
+                }
+            }
+        }
+
+        &.rotate {
+            .hide-menu {
+                a {
+                    i {
+                        -webkit-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+
+        .battle {
+            width: 100%;
+            padding: 0 15px;
+            margin: 10px 0 20px;
+        }
+
+        a {
+            color: @dark-teal;
+
+            &:hover {
+                color: @black;
+            }
+        }
+
+        h3 {
+            font-size: 20px;
+            padding: 0 15px;
+            margin: 0;
+        }
+
+        ul {
+            width: 100%;
+            padding: 0 15px;
+            margin-bottom: 40px;
+
+            li {
+                a {
+                    display: block;
+                    padding: 7px 0;
+                }
+            }
+        }
+    }
+
+    #hiddenSidebar {
+        display: none;
+        width: 100%;
+        height: 100%;
+        position: absolute;
+        background-color: @white;
+        width: 20px;
+        left: 15px;
+        top: 0;
+        box-shadow: inset 0 15px 15px -15px @black;
+        z-index: 100;
+
+        .right-shadow {
+            display: block;
+            width: 100%;
+            height: 100%;
+            box-shadow: inset -15px 0 15px -15px @black;
+        }
+
+        .hide-menu {
+            float: left;
+            width: 100%;
+            padding-bottom: 5px;
+            font-size: 28px;
+
+            a {
+                display: block;
+                width: 100%;
+                float: right;
+                text-align: center;
+                color: @dark-teal;
+
+                &:hover {
+                    color: @black;
+                }
+
+                i {
+                    -webkit-transition: all 500ms ease-out;
+                    -o-transition: all 500ms ease-out;
+                    transition: all 500ms ease-out;
+                }
+            }
+        }
+
+        &.rotate {
+            .hide-menu {
+                a {
+                    i {
+                        -webkit-transform: rotate(180deg);
+                        -ms-transform: rotate(180deg);
+                        -o-transform: rotate(180deg);
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+    }
+}
