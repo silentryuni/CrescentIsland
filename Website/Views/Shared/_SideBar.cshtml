@@ -1,0 +1,41 @@
+﻿@using Microsoft.AspNet.Identity
+
+<div id="sidebar">
+    <div class="right-shadow">
+        <div class="hide-menu">
+            <a href="#">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        </div>
+
+        @if (Request.IsAuthenticated)
+        {
+            <div class="battle">
+                <a href="#">
+                    <img src="~/Assets/Images/button-battle.png" />
+                </a>
+            </div>
+            <h3>Stores</h3>
+            <ul>
+                <li><a href="#">Lucy's General Store</a></li>
+                <li><a href="#">Axebeard's Anvil</a></li>
+                <li><a href="#">The Last Spell</a></li>
+            </ul>
+        }
+        
+        <h3>Links</h3>
+        <ul>
+            <li>@Html.ActionLink("Home", "Index", "Page")</li>
+        </ul>
+    </div>
+</div>
+
+<div id="hiddenSidebar">
+    <div class="right-shadow">
+        <div class="hide-menu">
+            <a href="#">
+                <i class="fa fa-angle-left"></i>
+            </a>
+        </div>
+    </div>
+</div>

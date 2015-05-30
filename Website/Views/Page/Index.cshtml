@@ -1,0 +1,31 @@
+﻿@{
+    ViewBag.Title = "Start Page";
+}
+
+<div class="row">
+    <div class="col-xs-12">
+        <div class="frontpage-logo">
+            <img src="~/Assets/Images/ci-logo-normal.png" />
+        </div>
+    </div>
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        <div class="frontpage-intro">
+            <h1>Welcome to Crescent Island, the completely browser based web RPG</h1>
+            <p>
+                Crescent Island is a free game that can be played from nearly any computer in the world. Play from your office, from school, from internet cafes or just from home. Interact with countless others around the world, level up and rise to power.
+            </p>
+            <p>
+                Just hit @Html.ActionLink("register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" }) to create a new character, select your class and start hunting right away. <br />
+                You have a limited amount of battle attempts, but these are refreshed at a rate of one per hour.
+            </p>
+            <h4>Features List</h4>
+            <ul>
+                <li>Free to play with no advertisements or other annoyances.</li>
+                <li>Level up, get better equipment and become a level xx avatar.</li>
+                <li>Erm... that's it for now, but more will be added when they're developed!</li>
+            </ul>
+        </div>
+    </div>
+    <div class="col-xs-2"></div>
+</div>

@@ -14,8 +14,17 @@
     <div class="container">
         @Html.Partial("_TopNavigation")
 
-        <div class="body-content">
-            @RenderBody()
+        <div id="main">
+            <div class="row equal-row">
+                <div class="col-lg-2 col-md-3 col-sm-4 equal-col">
+                    @Html.Partial("_SideBar")
+                </div>
+                <div class="col-lg-10 col-md-9 col-sm-8 equal-col">
+                    <div class="body-content">
+                        @RenderBody()
+                    </div>
+                </div>
+            </div>
         </div>
 
         <footer>
@@ -25,7 +34,7 @@
     @*Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })*@
 
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/bundles/mainjs")
     @RenderSection("scripts", required: false)
 </body>
 </html>

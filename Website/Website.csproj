@@ -184,31 +184,48 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
-    <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\PageController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\GlobalModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\PageModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\Fonts\fontawesome-webfont.svg" />
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.svg" />
+    <Content Include="Assets\Images\button-battle.png" />
+    <Content Include="Assets\Images\ci-logo-big.png" />
+    <Content Include="Assets\Images\ci-logo-normal.png" />
+    <Content Include="Assets\Images\ci-logo-small.png" />
+    <Content Include="Assets\Images\icon-set.png" />
     <Content Include="Assets\Scripts\bootstrap.min.js" />
+    <Content Include="Assets\Scripts\functions.js" />
+    <Content Include="Assets\Scripts\grids.min.js" />
     <Content Include="Assets\Scripts\jquery-1.11.3.min.js" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.eot" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.ttf" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.woff" />
+    <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <None Include="Assets\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validate.min.js" />
     <Content Include="Assets\Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Assets\Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Assets\Scripts\modernizr-2.6.2.js" />
+    <Content Include="Assets\Scripts\onload.js" />
     <Content Include="Assets\Scripts\respond.js" />
     <Content Include="Assets\Scripts\respond.min.js" />
     <Content Include="Assets\Styles\bootstrap.css" />
+    <Content Include="Assets\Styles\font-awesome.css" />
+    <Content Include="Assets\Styles\header.less" />
     <Content Include="favicon.png" />
     <Content Include="Global.asax" />
     <Content Include="Assets\Styles\global.less" />
@@ -216,6 +233,8 @@
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Views\Page\AltIndex.cshtml" />
+    <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -227,7 +246,6 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
     <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
@@ -243,10 +261,13 @@
     <Content Include="Assets\Styles\variables.less" />
     <Content Include="Assets\Styles\reset.less" />
     <Content Include="Views\Shared\_TopNavigation.cshtml" />
+    <Content Include="Assets\Styles\mixins.less" />
+    <Content Include="Views\Shared\_SideBar.cshtml" />
+    <Content Include="Assets\Styles\main.less" />
+    <Content Include="Assets\Styles\sprite-icons.less" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Assets\Images\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

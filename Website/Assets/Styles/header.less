@@ -1,0 +1,79 @@
+﻿header
+{
+    display: block;
+    width: 100%;
+    background-color: #42c5be;
+    box-shadow: inset 0 15px 15px -15px @black;
+    border-left: solid 1px @gray;
+    border-right: solid 1px @gray;
+    
+    #nav-top {
+        .nav-login, .nav-character {
+            float: right;
+            padding: 0;
+            margin: 0 15px 0 0;
+
+            li {
+                display: inline-block;
+                
+                a {
+                    display: block;
+                    padding: 0 15px;
+                    line-height: 40px;
+                    color: @white;
+                    font-size: 18px;
+
+                    &:hover {
+                        color: @black;
+                    }
+                }
+            }
+        }
+        .nav-character {
+            float: left;
+        }
+
+        .avatar {
+            float: left;
+            margin: 0 15px;
+            line-height: 40px;
+
+            img {
+                max-width: 34px;
+                max-height: 34px;
+            }
+        }
+        .username {
+            float: left;
+            margin-right: 10px;
+
+            .sprite-icon {
+                vertical-align: middle;
+            }
+            
+            a {
+                line-height: 40px;
+                color: @white;
+
+                &:hover {
+                    color: @black;
+                }
+            }
+        }
+        .level {
+            float: left;
+            padding-right: 20px;
+            line-height: 40px;
+            color: @black;
+        }
+        .health, .energy {
+            float: left;
+            line-height: 40px;
+            margin-left: 20px;
+
+            .sprite-icon {
+                vertical-align: sub;
+            }
+        }
+    }
+}

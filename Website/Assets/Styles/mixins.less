@@ -1,0 +1,21 @@
+﻿.toEm(@selector, @amt) when (isem(@amt))
+{
+    @{selector}: @amt;
+}
+.toEm(@selector, @amt) when (ispixel(@amt))
+{
+    @{selector}: unit((@amt / @base-font-size), em);
+}
+/*
+//left
+box-shadow: inset 15px 0 15px -15px black;
+
+//right
+box-shadow: inset -15px 0 15px -15px black;
+
+//top
+box-shadow: inset 0 15px 15px -15px black;
+
+//bottom
+box-shadow: inset 0 -15px 15px -15px black;
+*/

@@ -19,15 +19,22 @@ namespace CrescentIsland.Website
             bundles.Add(new ScriptBundle("~/bundles/modernizr").Include(
                     "~/Assets/Scripts/modernizr-*"));
 
-            bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
+            bundles.Add(new ScriptBundle("~/bundles/mainjs").Include(
                     "~/Assets/Scripts/bootstrap.min.js",
-                    "~/Assets/Scripts/respond.js"));
+                    "~/Assets/Scripts/respond.js",
+                    "~/Assets/Scripts/grids.min.js",
+                    "~/Assets/Scripts/functions.js",
+                    "~/Assets/Scripts/onload.js"));
 
             var lessBundle = new StyleBundle("~/styles/maincss").Include(
                     "~/Assets/Styles/reset.less",
                     "~/Assets/Styles/variables.less",
                     "~/Assets/Styles/bootstrap.css",
-                    "~/Assets/Styles/global.less");
+                    "~/Assets/Styles/font-awesome.css",
+                    "~/Assets/Styles/global.less",
+                    "~/Assets/Styles/header.less",
+                    "~/Assets/Styles/main.less",
+                    "~/Assets/Styles/sprite-icons.less");
             lessBundle.Transforms.Add(new LessTransform());
             lessBundle.Transforms.Add(new CssMinify());
 
