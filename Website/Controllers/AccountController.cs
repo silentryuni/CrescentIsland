@@ -118,16 +118,16 @@ namespace CrescentIsland.Website.Controllers
                 switch (user.UserGender)
                 {
                     case UserGender.Male:
-                        file = Server.MapPath("/Assets/Images/Avatars/default-male.png");
+                        file = Server.MapPath("/Assets/Images/Avatars/small-face001.png");
                         break;
                     case UserGender.Female:
-                        file = Server.MapPath("/Assets/Images/Avatars/default-female.png");
+                        file = Server.MapPath("/Assets/Images/Avatars/small-face011.png");
                         break;
                     case UserGender.None:
-                        file = Server.MapPath("/Assets/Images/Avatars/default-none.png");
+                        file = Server.MapPath("/Assets/Images/Avatars/small-face028.png");
                         break;
                     default:
-                        file = Server.MapPath("/Assets/Images/Avatars/default-none.png");
+                        file = Server.MapPath("/Assets/Images/Avatars/small-face028.png");
                         break;
                 }
 

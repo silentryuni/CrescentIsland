@@ -23,6 +23,7 @@ namespace CrescentIsland.Website
                     "~/Assets/Scripts/bootstrap.min.js",
                     "~/Assets/Scripts/respond.js",
                     "~/Assets/Scripts/grids.min.js",
+                    "~/Assets/Scripts/jquery.ba-resize.min.js",
                     "~/Assets/Scripts/functions.js",
                     "~/Assets/Scripts/onload.js"));
 

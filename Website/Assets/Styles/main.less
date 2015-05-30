@@ -193,6 +193,25 @@
         .form-row {
             margin-bottom: 15px;
         }
+        .form-control:focus {
+            border-color: @light-teal;
+            -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(66, 197, 190, 0.6);
+            box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(66, 197, 190, 0.6);
+        }
+
+        .radio-button label, .radio-button input {
+            cursor: pointer;
+        }
+        .checkbox {
+            margin-bottom: 20px;
+
+            input[type="checkbox"] {
+                margin-left: 0;
+            }
+            label {
+                padding-left: 30px;
+            }
+        }
     }
 
     &.no-menu {

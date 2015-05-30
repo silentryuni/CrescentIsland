@@ -18,7 +18,7 @@ namespace CrescentIsland.Website.Controllers
 
         public ActionResult HeaderPartial(HeaderModel model)
         {
-            return PartialView("_TopNavigation");
+            return PartialView("_Header");
         }
     }
 }

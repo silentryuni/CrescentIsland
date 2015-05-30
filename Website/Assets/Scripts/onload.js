@@ -16,3 +16,7 @@
         Battle.UpdateUser();
     });
 });
+
+$('.equal-col #sidebar, .equal-col .row').resize(function () {
+    Initialize.Grids('.equal-row .equal-col');
+});
