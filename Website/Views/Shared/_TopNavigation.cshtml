@@ -1,6 +1,4 @@
-﻿@using Microsoft.AspNet.Identity
-
-@{ 
+﻿@{
     var globalModel = MvcApplication.GetGlobalModel();
 }
 
@@ -13,33 +11,39 @@
                 @Html.AntiForgeryToken()
 
                 <div class="col-xs-6">
-                    <div class="avatar">
-                        <a href="@Url.Action("Index", "Manage", routeValues: null)">
-                            <img src="@globalModel.CurrentUser.AvatarUrl" />
-                        </a>
+                    <div class="character-name">
+                        <div class="avatar">
+                            <a href="@Url.Action("Index", "Manage", routeValues: null)">
+                                <img src="@globalModel.CurrentUser.AvatarUrl" />
+                            </a>
+                        </div>
+
+                        <div class="username">
+                            <a href="@Url.Action("Index", "Manage")">
+                                @if (globalModel.CurrentUser.IsAdmin)
+                                {
+                                    <span class="sprite-icon sprite-icon-medal"></span>
+                                }
+                                @globalModel.CurrentUser.Username
+                            </a>
+                        </div>
+                        <div class="level">
+                            [@globalModel.CurrentUser.Level]
+                        </div>
                     </div>
-                    <div class="username">
-                        <a href="@Url.Action("Index", "Manage")">
-                            @if (globalModel.CurrentUser.IsAdmin)
-                            {
-                                <span class="sprite-icon sprite-icon-medal"></span>
-                            }
-                            @globalModel.CurrentUser.Username
-                    </a>
+
+                    <div class="health-energy">
+                        <div class="health">
+                            <span class="sprite-icon sprite-icon-redpotion"></span>
+                            <span class="cur-health">@globalModel.CurrentUser.CurHealth</span> / @globalModel.CurrentUser.MaxHealth
+                        </div>
+                        <div class="energy">
+                            <span class="sprite-icon sprite-icon-bread"></span>
+                            <span class="cur-energy">@globalModel.CurrentUser.CurEnergy</span> / @globalModel.CurrentUser.MaxEnergy
+                        </div>
+                    </div>
                 </div>
-                    <div class="level">
-                        [@globalModel.CurrentUser.Level]
-                    </div>
-                    <div class="health">
-                        <span class="sprite-icon sprite-icon-redpotion"></span>
-                        @globalModel.CurrentUser.CurHealth / @globalModel.CurrentUser.MaxHealth
-                    </div>
-                    <div class="energy">
-                        <span class="sprite-icon sprite-icon-bread"></span>
-                        @globalModel.CurrentUser.CurEnergy / @globalModel.CurrentUser.MaxEnergy
-                    </div>
-                </div>
-                <div class="col-xs-4">
+                <div class="col-sm-3 col-md-4">
                     <ul class="nav-character">
                         <li>
                             <a href="#">
@@ -55,26 +59,26 @@
                         </li>
                     </ul>
                 </div>
-                <div class="col-xs-2">
+                <div class="col-sm-3 col-md-2">
                     <ul class="nav-login">
                         <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                     </ul>
                 </div>
-                            }
-                            }
-                            else
-                            {
-                            <div class="col-xs-9"></div>
-                            <div class="col-xs-3">
-                                <ul class="nav-login">
-                                    <li>
-                                        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
-                                    </li>
-                                    <li>
-                                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
-                                    </li>
-                                </ul>
-                            </div>
-                            }
-                        </div>
-                    </header>
+            }
+        }
+        else
+        {
+            <div class="col-xs-9"></div>
+            <div class="col-xs-3">
+                <ul class="nav-login">
+                    <li>
+                        @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                    </li>
+                </ul>
+            </div>
+        }
+    </div>
+</header>

@@ -1,0 +1,25 @@
+﻿@using CrescentIsland.Website.Models
+@model UserGender?
+
+@{
+    bool first = true;
+
+    foreach (var gender in Enum.GetValues(typeof(UserGender)))
+    {
+        <div class="radio-button">
+            <label>
+                @if (first)
+                {
+                    @Html.RadioButtonFor(m => m, gender, new { @checked = "checked" })
+                    first = false;
+                }
+                else
+                {
+                    @Html.RadioButtonFor(m => m, gender)
+                }
+                @gender.ToString()
+            </label>
+        </div>
+    }
+}
+

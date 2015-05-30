@@ -5,6 +5,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
+using System.IO;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -101,11 +103,53 @@ namespace CrescentIsland.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User { UserName = model.Username, Email = model.Email };
+                var user = new User {
+                    UserGender = model.Gender.HasValue ? model.Gender.Value : UserGender.None,
+                    UserName = model.Username,
+                    Email = model.Email,
+                    Level = 1,
+                    CurHealth = 20,
+                    MaxHealth = 20,
+                    CurEnergy = 10,
+                    MaxEnergy = 10
+                };
+
+                var file = string.Empty;
+                switch (user.UserGender)
+                {
+                    case UserGender.Male:
+                        file = Server.MapPath("/Assets/Images/Avatars/default-male.png");
+                        break;
+                    case UserGender.Female:
+                        file = Server.MapPath("/Assets/Images/Avatars/default-female.png");
+                        break;
+                    case UserGender.None:
+                        file = Server.MapPath("/Assets/Images/Avatars/default-none.png");
+                        break;
+                    default:
+                        file = Server.MapPath("/Assets/Images/Avatars/default-none.png");
+                        break;
+                }
+
+                if (!string.IsNullOrEmpty(file))
+                {
+                    FileStream stream = System.IO.File.OpenRead(file);
+                    var fileBytes = new byte[stream.Length];
+
+                    stream.Read(fileBytes, 0, fileBytes.Length);
+                    stream.Close();
+
+                    var ext = Path.GetExtension(stream.Name).Substring(1);
+
+                    user.AvatarImage = fileBytes;
+                    user.AvatarMimeType = ext;
+                }
+
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    SetGlobalValues(user.UserName);
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -322,6 +366,9 @@ namespace CrescentIsland.Website.Controllers
 
         private void SetGlobalValues(string username)
         {
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var adminRole = roleManager.FindByName("Administrator");
+
             MvcApplication.SetGlobalModel(UserManager.FindByName(username));
         }
         #endregion

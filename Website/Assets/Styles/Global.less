@@ -25,6 +25,35 @@ a:hover {
     text-decoration: none;
 }
 
+.form-control:focus {
+    border-color: @light-teal;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(66, 197, 190, 0.6);
+    box-shadow: inset 0 1px 1px rgba(0,0,0,.075),0 0 8px rgba(66, 197, 190, 0.6);
+}
+
+.radio-button label, .radio-button input {
+    cursor: pointer;
+}
+
+#global-animations {
+    .update {
+        position: absolute;
+        color: @number-red;
+        z-index: 20;
+        top: 20px;
+        font-size: 18px;
+        text-shadow:
+           -1px -1px 0 @black,  
+            1px -1px 0 @black,
+            -1px 1px 0 @black,
+             1px 1px 0 @black;
+
+        &.positive {
+            color: @number-green;
+        }
+    }
+}
+
 footer {
     display: block;
     width: 100%;

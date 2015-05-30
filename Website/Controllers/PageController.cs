@@ -10,7 +10,15 @@ namespace CrescentIsland.Website.Controllers
         // GET: Page
         public ActionResult Index()
         {
-            return View();
+            if (Request.IsAuthenticated)
+                return View("AltIndex");
+            else
+                return View();
+        }
+
+        public ActionResult HeaderPartial(HeaderModel model)
+        {
+            return PartialView("_TopNavigation");
         }
     }
 }

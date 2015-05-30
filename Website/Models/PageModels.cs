@@ -8,4 +8,9 @@ namespace CrescentIsland.Website.Models
     public class PageModel
     {
     }
+
+    public class HeaderModel
+    {
+
+    }
 }

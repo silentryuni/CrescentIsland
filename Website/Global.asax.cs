@@ -1,7 +1,10 @@
 ﻿using CrescentIsland.Website.Models;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Optimization;
@@ -12,6 +15,7 @@ namespace CrescentIsland.Website
     public class MvcApplication : HttpApplication
     {
         private static GlobalModel _model;
+        private static string adminRoleId;
 
         protected void Application_Start()
         {
@@ -20,6 +24,9 @@ namespace CrescentIsland.Website
             RouteConfig.RegisterRoutes(RouteTable.Routes);
             BundleConfig.RegisterBundles(BundleTable.Bundles);
 
+            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
+            var adminRole = roleManager.FindByName("Administrator");
+            adminRoleId = adminRole.Id;
             SetGlobalModel();
         }
 
@@ -30,11 +37,11 @@ namespace CrescentIsland.Website
             {
                 AvatarUrl = "",
                 Username = "",
-                Level = "",
-                CurHealth = "",
-                MaxHealth = "",
-                CurEnergy = "",
-                MaxEnergy = ""
+                Level = 0,
+                CurHealth = 0,
+                MaxHealth = 0,
+                CurEnergy = 0,
+                MaxEnergy = 0
             };
 
             _model = model;
@@ -45,17 +52,41 @@ namespace CrescentIsland.Website
 
             var model = new GlobalModel();
             model.CurrentUser = new CurrentUserModel();
-
-            model.CurrentUser.AvatarUrl = "/Assets/Images/tmp-avatar.png";
+            
+            model.CurrentUser.AvatarUrl = string.Format("data:image/{0};base64,{1}", user.AvatarMimeType, Convert.ToBase64String(user.AvatarImage, 0, user.AvatarImage.Length));
             model.CurrentUser.Username = user.UserName;
-            model.CurrentUser.IsAdmin = (user.UserName == "Ryuni" ? true : false);
-            model.CurrentUser.Level = (user.UserName == "Ryuni" ? "100" : "5");
-            model.CurrentUser.CurHealth = "18";
-            model.CurrentUser.MaxHealth = "25";
-            model.CurrentUser.CurEnergy = "6";
-            model.CurrentUser.MaxEnergy = "10";
+            model.CurrentUser.IsAdmin = (user.Roles.Any(r => r.RoleId.Equals(adminRoleId, StringComparison.InvariantCultureIgnoreCase)) ? true : false);
+            model.CurrentUser.Level = user.Level;
+            model.CurrentUser.CurHealth = user.CurHealth;
+            model.CurrentUser.MaxHealth = user.MaxHealth;
+            model.CurrentUser.CurEnergy = user.CurEnergy;
+            model.CurrentUser.MaxEnergy = user.MaxEnergy;
 
             _model = model;
+        }
+
+        public static void SetGlobalModel(User user, List<PropertyUpdate> properties)
+        {
+            foreach (var property in properties)
+            {
+                switch (property)
+                {
+                    case PropertyUpdate.CurHealth:
+                        _model.CurrentUser.CurHealth = user.CurHealth;
+                        break;
+                    case PropertyUpdate.MaxHealth:
+                        _model.CurrentUser.MaxHealth = user.MaxHealth;
+                        break;
+                    case PropertyUpdate.CurEnergy:
+                        _model.CurrentUser.CurEnergy = user.CurEnergy;
+                        break;
+                    case PropertyUpdate.MaxEnergy:
+                        _model.CurrentUser.MaxEnergy = user.MaxEnergy;
+                        break;
+                    default:
+                        break;
+                }
+            }
         }
 
         public static GlobalModel GetGlobalModel()
@@ -72,5 +103,13 @@ namespace CrescentIsland.Website
 
             return _model;
         }
+    }
+
+    public enum PropertyUpdate
+    {
+        CurHealth,
+        MaxHealth,
+        CurEnergy,
+        MaxEnergy
     }
 }

@@ -28,7 +28,7 @@ namespace CrescentIsland.Website.Models
     public class RegisterViewModel
     {
         [Required]
-        [StringLength(25, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
+        [StringLength(16, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [Display(Name = "Username")]
         public string Username { get; set; }
 
@@ -36,6 +36,10 @@ namespace CrescentIsland.Website.Models
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        [Required]
+        [Display(Name = "Gender")]
+        public UserGender? Gender { get; set; }
 
         [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]

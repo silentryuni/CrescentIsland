@@ -11,7 +11,12 @@
 
 </head>
 <body>
+    @* Used for ajax in Global.AddAntiForgeryToken() *@
+    <form id="__AjaxAntiForgeryForm" action="#" method="post">@Html.AntiForgeryToken()</form>
+
     <div class="container">
+        <div id="global-animations"></div>
+
         @Html.Partial("_TopNavigation")
 
         <div id="main">

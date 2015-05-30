@@ -13,10 +13,21 @@ namespace CrescentIsland.Website.Models
         {
             // Note the authenticationType must match the one defined in CookieAuthenticationOptions.AuthenticationType
             var userIdentity = await manager.CreateIdentityAsync(this, DefaultAuthenticationTypes.ApplicationCookie);
-            userIdentity.AddClaim(new Claim("Avatar", "/Assets/Images/tmp-avatar.png"));
 
             return userIdentity;
         }
+
+        //Extended Properties
+
+        public UserGender UserGender { get; set; }
+        public byte[] AvatarImage { get; set; }
+        public string AvatarMimeType { get; set; }
+
+        public int Level { get; set; }
+        public int CurHealth { get; set; }
+        public int MaxHealth { get; set; }
+        public int CurEnergy { get; set; }
+        public int MaxEnergy { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<User>
@@ -33,7 +44,7 @@ namespace CrescentIsland.Website.Models
             modelBuilder.Entity<User>().ToTable("Users", "dbo").Property(p => p.Id).HasColumnName("UserId");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UsersToRoles");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
-            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims").Property(p => p.Id).HasColumnName("ClaimId"); ;
+            modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims").Property(p => p.Id).HasColumnName("ClaimId");
             modelBuilder.Entity<IdentityRole>().ToTable("UserRoles").Property(p => p.Id).HasColumnName("RoleId"); ;
         }
 
@@ -41,5 +52,12 @@ namespace CrescentIsland.Website.Models
         {
             return new ApplicationDbContext();
         }
+    }
+
+    public enum UserGender
+    {
+        Male,
+        Female,
+        None
     }
 }

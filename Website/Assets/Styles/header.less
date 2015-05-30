@@ -6,6 +6,10 @@
     box-shadow: inset 0 15px 15px -15px @black;
     border-left: solid 1px @gray;
     border-right: solid 1px @gray;
+
+    @media (max-width: 992px) {
+        font-size: 14px;
+    }
     
     #nav-top {
         .nav-login, .nav-character {
@@ -21,7 +25,10 @@
                     padding: 0 15px;
                     line-height: 40px;
                     color: @white;
-                    font-size: 18px;
+
+                    @media (max-width: 992px) {
+                        font-size: 14px;
+                    }
 
                     &:hover {
                         color: @black;
@@ -43,6 +50,14 @@
                 max-height: 34px;
             }
         }
+
+        .top-stats, .character-name, .health-energy {
+            float: left;
+        }
+        .health-energy {
+            margin-left: 15px;
+        }
+
         .username {
             float: left;
             margin-right: 10px;
@@ -69,7 +84,7 @@
         .health, .energy {
             float: left;
             line-height: 40px;
-            margin-left: 20px;
+            margin-right: 20px;
 
             .sprite-icon {
                 vertical-align: sub;

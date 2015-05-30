@@ -10,10 +10,10 @@
         public string AvatarUrl { get; set; }
         public string Username { get; set; }
         public bool IsAdmin { get; set; }
-        public string Level { get; set; }
-        public string CurHealth { get; set; }
-        public string MaxHealth { get; set; }
-        public string CurEnergy { get; set; }
-        public string MaxEnergy { get; set; }
+        public int Level { get; set; }
+        public int CurHealth { get; set; }
+        public int MaxHealth { get; set; }
+        public int CurEnergy { get; set; }
+        public int MaxEnergy { get; set; }
     }
 }
