@@ -1,11 +1,59 @@
-﻿@{
+﻿@using CrescentIsland.Website.Models
+@{
     ViewBag.Title = "Character";
+    var globalModel = MvcApplication.GetGlobalModel();
 }
 
 <div class="row">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
         <h2 class="text-center">Character</h2>
+        <div class="character-class">
+            <div class="character-class-name">
+                @globalModel.CurrentUser.UserClass.ToString()
+            </div>
+            @switch (globalModel.CurrentUser.UserClass)
+            {
+                case UserClass.Valkyrie:
+                    <div class="class-valkyrie">
+                        <img src="~/Assets/Images/Classes/class-valkyrie.png" />
+                        <div class="valkyrie-face"></div>
+                    </div>
+                    break;
+                case UserClass.Warrior:
+                    <div class="class-warrior">
+                        <img src="~/Assets/Images/Classes/class-warrior.png" />
+                        <div class="warrior-face"></div>
+                    </div>
+                    break;
+                case UserClass.Sorceress:
+                    <div class="class-sorceress">
+                        <img src="~/Assets/Images/Classes/class-sorceress.png" />
+                        <div class="sorceress-face"></div>
+                    </div>
+                    break;
+                case UserClass.Rogue:
+                    <div class="class-rogue">
+                        <img src="~/Assets/Images/Classes/class-rogue.png" />
+                        <div class="rogue-face"></div>
+                    </div>
+                    break;
+                case UserClass.Engineer:
+                    <div class="class-engineer">
+                        <img src="~/Assets/Images/Classes/class-engineer.png" />
+                        <div class="engineer-face"></div>
+                    </div>
+                    break;
+                case UserClass.Samurai:
+                    <div class="class-samurai">
+                        <img src="~/Assets/Images/Classes/class-samurai.png" />
+                        <div class="samurai-face"></div>
+                    </div>
+                    break;
+                default:
+                    break;
+            }
+        </div>
     </div>
     <div class="col-xs-2"></div>
 </div>

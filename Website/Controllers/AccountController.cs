@@ -105,6 +105,7 @@ namespace CrescentIsland.Website.Controllers
             {
                 var user = new User {
                     UserGender = model.Gender.HasValue ? model.Gender.Value : UserGender.None,
+                    UserClass = model.UserClass.HasValue ? model.UserClass.Value : UserClass.Valkyrie,
                     UserName = model.Username,
                     Email = model.Email,
                     Level = 1,

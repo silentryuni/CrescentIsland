@@ -33,6 +33,7 @@ namespace CrescentIsland.Website
                     "~/Assets/Styles/bootstrap.css",
                     "~/Assets/Styles/font-awesome.css",
                     "~/Assets/Styles/global.less",
+                    "~/Assets/Styles/classes.less",
                     "~/Assets/Styles/header.less",
                     "~/Assets/Styles/sidebar.less",
                     "~/Assets/Styles/main.less",

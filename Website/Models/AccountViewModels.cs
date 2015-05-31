@@ -27,6 +27,9 @@ namespace CrescentIsland.Website.Models
 
     public class RegisterViewModel
     {
+        [Display(Name = "Class")]
+        public UserClass? UserClass { get; set; }
+
         [Required]
         [StringLength(16, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 3)]
         [Display(Name = "Username")]

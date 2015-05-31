@@ -1,0 +1,80 @@
+﻿@using CrescentIsland.Website.Models
+@model UserClass?
+
+<div class="class-selection">
+    @foreach (UserClass userclass in Enum.GetValues(typeof(UserClass)))
+    {
+        <div class="col-sm-4">
+            @switch (userclass)
+            {
+                case UserClass.Valkyrie:
+                    <div class="class-button selected" data-class=".class-valkyrie">
+                        <span class="sprite-icon sprite-icon-spear3"></span>
+                        Valkyrie
+                    </div>
+                    break;
+                case UserClass.Warrior:
+                    <div class="class-button" data-class=".class-warrior">
+                        <span class="sprite-icon sprite-icon-axe"></span>
+                        Warrior
+                    </div>
+                    break;
+                case UserClass.Sorceress:
+                    <div class="class-button" data-class=".class-sorceress">
+                        <span class="sprite-icon sprite-icon-staff3"></span>
+                        Sorceress
+                    </div>
+                    break;
+                case UserClass.Rogue:
+                    <div class="class-button" data-class=".class-rogue">
+                        <span class="sprite-icon sprite-icon-knife3"></span>
+                        Rogue
+                    </div>
+                    break;
+                case UserClass.Engineer:
+                    <div class="class-button" data-class=".class-engineer">
+                        <span class="sprite-icon sprite-icon-gun2"></span>
+                        Engineer
+                    </div>
+                    break;
+                case UserClass.Samurai:
+                    <div class="class-button" data-class=".class-samurai">
+                        <span class="sprite-icon sprite-icon-katana"></span>
+                        Samurai
+                    </div>
+                    break;
+                default:
+                    break;
+            }
+
+            @Html.RadioButtonFor(m => m, userclass)
+        </div>
+    }
+</div>
+
+<div class="class-selected">
+    <div class="class-valkyrie selected">
+        <img src="~/Assets/Images/Classes/class-valkyrie.png" />
+        <div class="valkyrie-face"></div>
+    </div>
+    <div class="class-warrior">
+        <img src="~/Assets/Images/Classes/class-warrior.png" />
+        <div class="warrior-face"></div>
+    </div>
+    <div class="class-sorceress">
+        <img src="~/Assets/Images/Classes/class-sorceress.png" />
+        <div class="sorceress-face"></div>
+    </div>
+    <div class="class-rogue">
+        <img src="~/Assets/Images/Classes/class-rogue.png" />
+        <div class="rogue-face"></div>
+    </div>
+    <div class="class-engineer">
+        <img src="~/Assets/Images/Classes/class-engineer.png" />
+        <div class="engineer-face"></div>
+    </div>
+    <div class="class-samurai">
+        <img src="~/Assets/Images/Classes/class-samurai.png" />
+        <div class="samurai-face"></div>
+    </div>
+</div>

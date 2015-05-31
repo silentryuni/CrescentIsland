@@ -23,11 +23,20 @@ namespace CrescentIsland.Website.Models
         public byte[] AvatarImage { get; set; }
         public string AvatarMimeType { get; set; }
 
+        public UserClass UserClass { get; set; }
+
         public int Level { get; set; }
         public int CurHealth { get; set; }
         public int MaxHealth { get; set; }
         public int CurEnergy { get; set; }
         public int MaxEnergy { get; set; }
+
+        public int Attack { get; set; }
+        public int Defense { get; set; }
+        public int MagicAttack { get; set; }
+        public int MagicDefense { get; set; }
+        public int Accuracy { get; set; }
+        public int Evasion { get; set; }
     }
 
     public class ApplicationDbContext : IdentityDbContext<User>
@@ -59,5 +68,15 @@ namespace CrescentIsland.Website.Models
         Male,
         Female,
         None
+    }
+
+    public enum UserClass
+    {
+        Valkyrie,
+        Warrior,
+        Sorceress,
+        Rogue,
+        Engineer,
+        Samurai
     }
 }

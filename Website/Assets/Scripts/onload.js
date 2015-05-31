@@ -3,6 +3,7 @@
     Initialize.HideMenu('.hide-menu a');
 
     Manage.SetAvatar();
+    Manage.SetClass();
 
     $battleButton = $('.battle a');
     $battleButton.on('click', function (e) {

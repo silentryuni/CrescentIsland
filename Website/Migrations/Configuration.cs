@@ -7,7 +7,7 @@ namespace CrescentIsland.Website.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = true;
-            AutomaticMigrationDataLossAllowed = true;
+            //AutomaticMigrationDataLossAllowed = true;
         }
 
         protected override void Seed(Models.ApplicationDbContext context)

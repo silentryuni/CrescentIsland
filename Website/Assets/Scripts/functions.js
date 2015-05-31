@@ -56,15 +56,25 @@ var Global = {
 
 var Manage = {
     SetAvatar: function () {
-        $(function () {
-            $('.change-avatar .avatar-selection').click(function () {
-                $('.change-avatar .avatar-selection').removeClass('selected');
-                $(this).addClass('selected');
-                var selectedSrc = $(this).find('img').attr('src');
+        $('.change-avatar .avatar-selection').click(function () {
+            $('.change-avatar .avatar-selection').removeClass('selected');
+            $(this).addClass('selected');
+            var selectedSrc = $(this).find('img').attr('src');
 
-                $('.selected-avatar').show().find('img').attr('src', selectedSrc);
-                $('#SelectedAvatar').val(selectedSrc);
-            });
+            $('.selected-avatar').show().find('img').attr('src', selectedSrc);
+            $('#SelectedAvatar').val(selectedSrc);
+        });
+    },
+    SetClass: function () {
+        $('.class-selection .class-button').click(function () {
+            $('.class-selection .class-button').removeClass('selected');
+            $(this).addClass('selected');
+            var selectedClass = $(this).data('class');
+
+            $('.class-selection input').removeAttr('checked');
+            $(this).next().attr('checked', 'checked')
+            $('.class-selected > div').removeClass('selected');
+            $('.class-selected').find(selectedClass).addClass('selected');
         });
     }
 }

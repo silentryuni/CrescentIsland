@@ -12,6 +12,11 @@
             {
                 @Html.AntiForgeryToken()
                 @Html.ValidationSummary("", new { @class = "text-danger" })
+
+                <div class="row form-row">
+                    @Html.EditorFor(m => m.UserClass)
+                </div>
+
                 <div class="row form-row">
                     <div class="col-sm-6">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Username) })
