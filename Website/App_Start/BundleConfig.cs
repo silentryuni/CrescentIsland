@@ -24,6 +24,7 @@ namespace CrescentIsland.Website
                     "~/Assets/Scripts/respond.js",
                     "~/Assets/Scripts/grids.js",
                     "~/Assets/Scripts/jquery.ba-resize.min.js",
+                    "~/Assets/Scripts/jquery.tooltipster.js",
                     "~/Assets/Scripts/functions.js",
                     "~/Assets/Scripts/onload.js"));
 
@@ -37,7 +38,9 @@ namespace CrescentIsland.Website
                     "~/Assets/Styles/header.less",
                     "~/Assets/Styles/sidebar.less",
                     "~/Assets/Styles/main.less",
-                    "~/Assets/Styles/sprite-icons.less");
+                    "~/Assets/Styles/pages.less",
+                    "~/Assets/Styles/sprite-icons.less",
+                    "~/Assets/Styles/tooltipster.less");
             lessBundle.Transforms.Add(new LessTransform());
             lessBundle.Transforms.Add(new CssMinify());
 

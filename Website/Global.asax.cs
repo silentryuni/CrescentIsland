@@ -32,52 +32,13 @@ namespace CrescentIsland.Website
 
         public static void SetGlobalModel()
         {
-            var model = new GlobalModel();
-            model.CurrentUser = new CurrentUserModel()
-            {
-                AvatarUrl = "",
-                Username = "",
-                IsAdmin = false,
-                UserClass = UserClass.Valkyrie,
-                Level = 0,
-                CurHealth = 0,
-                MaxHealth = 0,
-                CurEnergy = 0,
-                MaxEnergy = 0,
-                Attack = 0,
-                Defense = 0,
-                MagicAttack = 0,
-                MagicDefense = 0,
-                Accuracy = 0,
-                Evasion = 0
-            };
-
-            _model = model;
+            _model = new GlobalModel();
         }
         public static void SetGlobalModel(User user)
         {
             if (user == null) return;
-
-            var model = new GlobalModel();
-            model.CurrentUser = new CurrentUserModel();
             
-            model.CurrentUser.AvatarUrl = string.Format("data:image/{0};base64,{1}", user.AvatarMimeType, Convert.ToBase64String(user.AvatarImage, 0, user.AvatarImage.Length));
-            model.CurrentUser.Username = user.UserName;
-            model.CurrentUser.IsAdmin = (user.Roles.Any(r => r.RoleId.Equals(adminRoleId, StringComparison.InvariantCultureIgnoreCase)) ? true : false);
-            model.CurrentUser.UserClass = user.UserClass;
-            model.CurrentUser.Level = user.Level;
-            model.CurrentUser.CurHealth = user.CurHealth;
-            model.CurrentUser.MaxHealth = user.MaxHealth;
-            model.CurrentUser.CurEnergy = user.CurEnergy;
-            model.CurrentUser.MaxEnergy = user.MaxEnergy;
-            model.CurrentUser.Attack = user.Attack;
-            model.CurrentUser.Defense = user.Defense;
-            model.CurrentUser.MagicAttack = user.MagicAttack;
-            model.CurrentUser.MagicDefense = user.MagicDefense;
-            model.CurrentUser.Accuracy = user.Accuracy;
-            model.CurrentUser.Evasion = user.Evasion;
-
-            _model = model;
+            _model = new GlobalModel(user, adminRoleId);
         }
 
         public static void SetGlobalModel(User user, List<PropertyUpdate> properties)
@@ -91,6 +52,15 @@ namespace CrescentIsland.Website
                         break;
                     case PropertyUpdate.Level:
                         _model.CurrentUser.Level = user.Level;
+                        break;
+                    case PropertyUpdate.CurExp:
+                        _model.CurrentUser.CurExp = user.CurExp;
+                        break;
+                    case PropertyUpdate.MaxExp:
+                        _model.CurrentUser.MaxExp = user.MaxExp;
+                        break;
+                    case PropertyUpdate.Gold:
+                        _model.CurrentUser.Gold = user.Gold;
                         break;
                     case PropertyUpdate.CurHealth:
                         _model.CurrentUser.CurHealth = user.CurHealth;
@@ -148,6 +118,9 @@ namespace CrescentIsland.Website
     {
         Avatar,
         Level,
+        CurExp,
+        MaxExp,
+        Gold,
         CurHealth,
         MaxHealth,
         CurEnergy,

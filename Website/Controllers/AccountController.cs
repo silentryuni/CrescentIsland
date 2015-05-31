@@ -7,6 +7,8 @@ using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
 using System.IO;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CrescentIsland.Website.Models.Interfaces;
+using CrescentIsland.Website.Models.Repositories;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -103,48 +105,8 @@ namespace CrescentIsland.Website.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new User {
-                    UserGender = model.Gender.HasValue ? model.Gender.Value : UserGender.None,
-                    UserClass = model.UserClass.HasValue ? model.UserClass.Value : UserClass.Valkyrie,
-                    UserName = model.Username,
-                    Email = model.Email,
-                    Level = 1,
-                    CurHealth = 20,
-                    MaxHealth = 20,
-                    CurEnergy = 10,
-                    MaxEnergy = 10
-                };
-
-                var file = string.Empty;
-                switch (user.UserGender)
-                {
-                    case UserGender.Male:
-                        file = Server.MapPath("/Assets/Images/Avatars/small-face001.png");
-                        break;
-                    case UserGender.Female:
-                        file = Server.MapPath("/Assets/Images/Avatars/small-face011.png");
-                        break;
-                    case UserGender.None:
-                        file = Server.MapPath("/Assets/Images/Avatars/small-face028.png");
-                        break;
-                    default:
-                        file = Server.MapPath("/Assets/Images/Avatars/small-face028.png");
-                        break;
-                }
-
-                if (!string.IsNullOrEmpty(file))
-                {
-                    FileStream stream = System.IO.File.OpenRead(file);
-                    var fileBytes = new byte[stream.Length];
-
-                    stream.Read(fileBytes, 0, fileBytes.Length);
-                    stream.Close();
-
-                    var ext = Path.GetExtension(stream.Name).Substring(1);
-
-                    user.AvatarImage = fileBytes;
-                    user.AvatarMimeType = ext;
-                }
+                IUserRepository userRepo = new UserRepository();
+                var user = userRepo.CreateNewUser(model, Server.MapPath("/"));
 
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)

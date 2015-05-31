@@ -283,6 +283,7 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <None Include="Assets\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery.ba-resize.min.js" />
+    <Content Include="Assets\Scripts\jquery.tooltipster.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validate.min.js" />
     <Content Include="Assets\Scripts\jquery.validate.unobtrusive.js" />
@@ -343,6 +344,8 @@
     <Content Include="Views\Page\Inventory.cshtml" />
     <Content Include="Views\Account\EditorTemplates\UserClass.cshtml" />
     <Content Include="Assets\Styles\classes.less" />
+    <Content Include="Assets\Styles\pages.less" />
+    <Content Include="Assets\Styles\tooltipster.less" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

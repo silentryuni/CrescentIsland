@@ -1,0 +1,35 @@
+﻿#main {
+    .body-content {
+        .sub-title {
+            display: block;
+            width: 100%;
+            font-size: 18px;
+
+            &.extra-margin {
+                margin-top: 25px;
+            }
+        }
+
+        .character-class {
+            @media (max-width: 1199px) {
+                text-align: center;
+            }
+        }
+
+        .character-stats-row {
+            margin-bottom: 5px;
+
+            &.extra-margin {
+                margin-bottom: 15px;
+            }
+
+            .character-stats-name {
+                cursor: help;
+            }
+
+            .character-stats-info {
+                display: none;
+            }
+        }
+    }
+}

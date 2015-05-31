@@ -2,8 +2,9 @@
     Initialize.Grids('.equal-row .equal-col');
     Initialize.HideMenu('.hide-menu a');
 
-    Manage.SetAvatar();
-    Manage.SetClass();
+    Pages.SetAvatar();
+    Pages.SetClass();
+    Pages.StatsTooltip();
 
     $battleButton = $('.battle a');
     $battleButton.on('click', function (e) {

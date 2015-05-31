@@ -5,55 +5,173 @@
 }
 
 <div class="row">
-    <div class="col-xs-2"></div>
-    <div class="col-xs-8">
+    <div class="col-xs-12">
         <h2 class="text-center">Character</h2>
-        <div class="character-class">
-            <div class="character-class-name">
-                @globalModel.CurrentUser.UserClass.ToString()
+        <div class="col-lg-6">
+            <div class="character-class">
+                @switch (globalModel.CurrentUser.UserClass)
+                {
+                    case UserClass.Valkyrie:
+                        <div class="class-valkyrie">
+                            <img src="~/Assets/Images/Classes/class-valkyrie.png" />
+                            <div class="valkyrie-face"></div>
+                        </div>
+                        break;
+                    case UserClass.Warrior:
+                        <div class="class-warrior">
+                            <img src="~/Assets/Images/Classes/class-warrior.png" />
+                            <div class="warrior-face"></div>
+                        </div>
+                        break;
+                    case UserClass.Sorceress:
+                        <div class="class-sorceress">
+                            <img src="~/Assets/Images/Classes/class-sorceress.png" />
+                            <div class="sorceress-face"></div>
+                        </div>
+                        break;
+                    case UserClass.Rogue:
+                        <div class="class-rogue">
+                            <img src="~/Assets/Images/Classes/class-rogue.png" />
+                            <div class="rogue-face"></div>
+                        </div>
+                        break;
+                    case UserClass.Engineer:
+                        <div class="class-engineer">
+                            <img src="~/Assets/Images/Classes/class-engineer.png" />
+                            <div class="engineer-face"></div>
+                        </div>
+                        break;
+                    case UserClass.Samurai:
+                        <div class="class-samurai">
+                            <img src="~/Assets/Images/Classes/class-samurai.png" />
+                            <div class="samurai-face"></div>
+                        </div>
+                        break;
+                    default:
+                        break;
+                }
             </div>
-            @switch (globalModel.CurrentUser.UserClass)
-            {
-                case UserClass.Valkyrie:
-                    <div class="class-valkyrie">
-                        <img src="~/Assets/Images/Classes/class-valkyrie.png" />
-                        <div class="valkyrie-face"></div>
-                    </div>
-                    break;
-                case UserClass.Warrior:
-                    <div class="class-warrior">
-                        <img src="~/Assets/Images/Classes/class-warrior.png" />
-                        <div class="warrior-face"></div>
-                    </div>
-                    break;
-                case UserClass.Sorceress:
-                    <div class="class-sorceress">
-                        <img src="~/Assets/Images/Classes/class-sorceress.png" />
-                        <div class="sorceress-face"></div>
-                    </div>
-                    break;
-                case UserClass.Rogue:
-                    <div class="class-rogue">
-                        <img src="~/Assets/Images/Classes/class-rogue.png" />
-                        <div class="rogue-face"></div>
-                    </div>
-                    break;
-                case UserClass.Engineer:
-                    <div class="class-engineer">
-                        <img src="~/Assets/Images/Classes/class-engineer.png" />
-                        <div class="engineer-face"></div>
-                    </div>
-                    break;
-                case UserClass.Samurai:
-                    <div class="class-samurai">
-                        <img src="~/Assets/Images/Classes/class-samurai.png" />
-                        <div class="samurai-face"></div>
-                    </div>
-                    break;
-                default:
-                    break;
-            }
+        </div>
+        <div class="col-lg-6 col-xs-offset-2 col-lg-offset-0">
+            <div class="sub-title">
+                <span class="sprite-icon sprite-icon-knuckle"></span>
+                Progress
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Class:
+                    <span class="character-stats-info">
+                        Class is chosen when creating a new account. Classes effect stats and which equipment and spells that can be used.
+                    </span>
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.UserClass.ToString()
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Level:
+                    <span class="character-stats-info">
+                        Gaining levels will increase your stats. Levels also affects which equipment and spells you can use.
+                    </span>
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Level
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Exp:
+                    <span class="character-stats-info">
+                        Experience is gained by hunting monsters around the island. Left number indicates your current experience and the right number indicates when you will level up.
+                    </span>
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @{
+                        double percent = (double)globalModel.CurrentUser.CurExp / (double)globalModel.CurrentUser.MaxExp;
+                        percent = percent * 100;
+                    }
+                    @globalModel.CurrentUser.CurExp / @globalModel.CurrentUser.MaxExp (@((int)percent)%)
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Gold:
+
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Gold
+                </div>
+            </div>
+
+            <div class="sub-title extra-margin">
+                <span class="sprite-icon sprite-icon-openbook"></span>
+                Stats
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    HP:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.CurHealth / @globalModel.CurrentUser.MaxHealth
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Energy:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.CurEnergy / @globalModel.CurrentUser.MaxEnergy
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Atk:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Attack
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Def:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Defense
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    MAtk:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.MagicAttack
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    MDef:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.MagicDefense
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Acc:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Accuracy
+                </div>
+            </div>
+            <div class="row character-stats-row">
+                <div class="col-xs-3 character-stats-name">
+                    Eva:
+                </div>
+                <div class="col-xs-9 character-stats-value">
+                    @globalModel.CurrentUser.Evasion
+                </div>
+            </div>
         </div>
     </div>
-    <div class="col-xs-2"></div>
 </div>

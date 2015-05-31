@@ -54,7 +54,7 @@ var Global = {
     }
 }
 
-var Manage = {
+var Pages = {
     SetAvatar: function () {
         $('.change-avatar .avatar-selection').click(function () {
             $('.change-avatar .avatar-selection').removeClass('selected');
@@ -75,6 +75,17 @@ var Manage = {
             $(this).next().attr('checked', 'checked')
             $('.class-selected > div').removeClass('selected');
             $('.class-selected').find(selectedClass).addClass('selected');
+        });
+    },
+    StatsTooltip: function () {
+        $('.character-stats-row .character-stats-name').each(function () {
+            $(this).tooltipster({
+                animation: 'grow',
+                content: $(this).find('.character-stats-info').html(),
+                delay: 200,
+                position: 'top',
+                theme: 'tooltipster-crescent'
+            });
         });
     }
 }
