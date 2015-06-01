@@ -77,7 +77,6 @@ namespace CrescentIsland.Website.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    SetGlobalValues(model.Username);
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -112,7 +111,6 @@ namespace CrescentIsland.Website.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    SetGlobalValues(user.UserName);
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
@@ -245,8 +243,20 @@ namespace CrescentIsland.Website.Controllers
         public ActionResult LogOff()
         {
             AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
-            MvcApplication.SetGlobalModel();
             return RedirectToAction("Index", "Page");
+        }
+
+
+        //
+        // POST: /Account/LockoutUser
+        public JsonResult LockoutUser()
+        {
+            if (UserManager.IsLockedOut(User.Identity.GetUserId()))
+            {
+                AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
+            }
+
+            return Json(Url.Action("Index", "Page"), JsonRequestBehavior.DenyGet);
         }
 
         protected override void Dispose(bool disposing)
@@ -325,14 +335,6 @@ namespace CrescentIsland.Website.Controllers
                 }
                 context.HttpContext.GetOwinContext().Authentication.Challenge(properties, LoginProvider);
             }
-        }
-
-        private void SetGlobalValues(string username)
-        {
-            var roleManager = new RoleManager<IdentityRole>(new RoleStore<IdentityRole>(new ApplicationDbContext()));
-            var adminRole = roleManager.FindByName("Administrator");
-
-            MvcApplication.SetGlobalModel(UserManager.FindByName(username));
         }
         #endregion
     }

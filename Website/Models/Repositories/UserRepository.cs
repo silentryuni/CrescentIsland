@@ -151,16 +151,16 @@ namespace CrescentIsland.Website.Models.Repositories
 
         public async Task<bool> UpdateHealth(int healthChange, int maxHealthChange)
         {
+            if (HttpContext.Current == null) return false;
+
             var user = await UserManager.FindByIdAsync(HttpContext.Current.User.Identity.GetUserId());
-            var propertyUpdates = new List<PropertyUpdate>();
+            if (user == null) return false;
+
             bool modifiedMax = false;
 
-            if (user == null) return false;
-            
             if (maxHealthChange > 0)
             {
                 user.MaxHealth += maxHealthChange;
-                propertyUpdates.Add(PropertyUpdate.MaxHealth);
                 modifiedMax = true;
             }
 
@@ -169,7 +169,6 @@ namespace CrescentIsland.Website.Models.Repositories
                 user.CurHealth += healthChange;
                 if (user.CurHealth < 0) user.CurHealth = 0;
                 else if (user.CurHealth > user.MaxHealth) user.CurHealth = user.MaxHealth;
-                propertyUpdates.Add(PropertyUpdate.CurHealth);
             }
 
             using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
@@ -180,23 +179,21 @@ namespace CrescentIsland.Website.Models.Repositories
                 var result = await db.SaveChangesAsync();
             }
 
-            MvcApplication.SetGlobalModel(user, propertyUpdates);
-
             return true;
         }
 
         public async Task<bool> UpdateEnergy(int energyChange, int maxEnergyChange)
         {
+            if (HttpContext.Current == null) return false;
+
             var user = await UserManager.FindByIdAsync(HttpContext.Current.User.Identity.GetUserId());
-            var propertyUpdates = new List<PropertyUpdate>();
+            if (user == null) return false;
+
             bool modifiedMax = false;
 
-            if (user == null) return false;
-            
             if (maxEnergyChange > 0)
             {
                 user.MaxEnergy += maxEnergyChange;
-                propertyUpdates.Add(PropertyUpdate.MaxEnergy);
                 modifiedMax = true;
             }
 
@@ -205,7 +202,6 @@ namespace CrescentIsland.Website.Models.Repositories
                 user.CurEnergy += energyChange;
                 if (user.CurEnergy < 0) user.CurEnergy = 0;
                 else if (user.CurEnergy > user.MaxEnergy) user.CurEnergy = user.MaxEnergy;
-                propertyUpdates.Add(PropertyUpdate.CurEnergy);
             }
 
             using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
@@ -215,18 +211,6 @@ namespace CrescentIsland.Website.Models.Repositories
                 if (modifiedMax) db.Entry(user).Property(x => x.MaxEnergy).IsModified = true;
                 var result = await db.SaveChangesAsync();
             }
-
-            MvcApplication.SetGlobalModel(user, propertyUpdates);
-
-            return true;
-        }
-
-        public async Task<bool> UpdateUser()
-        {
-            var user = await UserManager.FindByIdAsync(HttpContext.Current.User.Identity.GetUserId());
-            if (user == null) return false;
-
-            MvcApplication.SetGlobalModel(user);
 
             return true;
         }

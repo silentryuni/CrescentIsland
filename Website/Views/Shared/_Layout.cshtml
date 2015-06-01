@@ -18,7 +18,7 @@
         <div id="global-animations"></div>
 
         <header>
-            @Html.Partial("_Header")
+            @{ Html.RenderAction("HeaderPartial", "Page"); }
         </header>
 
         <div id="main">

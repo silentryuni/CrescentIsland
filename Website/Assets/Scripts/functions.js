@@ -67,15 +67,40 @@ var Global = {
 
         var chat = $.connection.chatHub;
         // Create a function that the hub can call back to display messages.
-        chat.client.addNewMessageToPage = function (name, message, timestamp) {
+        chat.client.addMessage = function (id, name, message, timestamp, role) {
             // Add the message to the page.
-            $('#discussion').prepend('<li><strong>' + Global.HtmlEncode(name)
-                + '</strong>: ' + timestamp + '<br />' + Global.HtmlEncode(message) + '</li>');
+            var buttons = '';
+            if ($('.admin-medal').length > 0) {
+                buttons = '<span class="admin-buttons"> <a href="#" onclick="return Global.DeleteChatMessage(this);">[D]</a> <a href="#" onclick="return Global.BanChatUser(this);">[B]</a></span>';
+            }
+
+            $('#discussion').prepend('<li id="' + id + '"><span class="role' + role + '">' + Global.HtmlEncode(name)
+                + ': </span><span class="chat-time">' + timestamp + '</span>' + buttons + '<br /><span class="chat-message">'
+                + Global.HtmlEncode(message) + '</span></li>');
 
             if ($('#discussion li').length > 50) {
                 $('#discussion li').last().remove();
             }
         };
+        chat.client.removeMessage = function (id) {
+            $('#discussion li#' + id).remove();
+        };
+        chat.client.lockout = function () {
+            $.ajax({
+                type: "post",
+                cache: false,
+                dataType: "json",
+                url: "/Account/LockoutUser",
+                success: function (response) {
+                    console.log('lock');
+                    window.location = response;
+                },
+                error: function () {
+                    console.log('Failed on lockout - Ajax fail');
+                }
+            });
+        };
+
         // Set initial focus to message input box.
         $('#message').focus();
         // Start the connection.
@@ -84,26 +109,7 @@ var Global = {
                 $('#sendmessage').click(function () {
                     var textvalue = $('#message').val().trim();
                     if (textvalue) {
-                        $.ajax({
-                            type: "post",
-                            cache: false,
-                            async: true,
-                            dataType: "json",
-                            url: "/Chat/SaveMessage",
-                            data: Global.AddAntiForgeryToken({ username: username, message: textvalue}),
-                            success: function (response) {
-                                if (response) {
-                                    chat.server.send(username, textvalue, response);
-                                }
-                                else {
-                                    chat.server.send(username, textvalue, '00:00');
-                                }
-                            },
-                            error: function () {
-                                chat.server.send(username, textvalue, '00:00');
-                            }
-                        });
-
+                        chat.server.send(username, textvalue);
                     }
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
@@ -119,6 +125,26 @@ var Global = {
                 return false;
             }
         });
+    },
+    DeleteChatMessage: function (elem) {
+        if (confirm('Are you sure you want to delete?')) {
+            var msgid = $(elem).closest('li').attr('id');
+
+            var chat = $.connection.chatHub;
+            chat.server.delete(msgid);
+        }
+
+        return false;
+    },
+    BanChatUser: function (elem) {
+        if (confirm('Are you sure you want to ban?')) {
+            var msgid = $(elem).closest('li').attr('id');
+
+            var chat = $.connection.chatHub;
+            chat.server.ban(msgid);
+        }
+
+        return false;
     },
     GetChatMessages: function () {
         $.ajax({
@@ -139,8 +165,12 @@ var Global = {
         });
     },
     HtmlEncode: function (value) {
-        var encodedValue = $('<div />').text(value).html();
-        return encodedValue;
+        return String(value)
+            .replace(/&/g, '&amp;')
+            .replace(/"/g, '&quot;')
+            .replace(/'/g, '&#39;')
+            .replace(/</g, '&lt;')
+            .replace(/>/g, '&gt;');
     }
 }
 
@@ -172,6 +202,7 @@ var Pages = {
             $(this).tooltipster({
                 animation: 'grow',
                 content: $(this).find('.character-stats-info').html(),
+                contentAsHTML: true,
                 delay: 200,
                 position: 'top',
                 theme: 'tooltipster-crescent'
@@ -227,27 +258,6 @@ var Battle = {
             error: function ()
             {
                 console.log("Failed on UpdateEnergy - Ajax failed");
-            }
-        });
-    },
-    UpdateUser: function () {
-        $.ajax({
-            type: "post",
-            cache: false,
-            async: true,
-            dataType: "json",
-            url: "/Battle/UpdateUser",
-            success: function (response) {
-                if (response.Success) {
-                    // Do something
-                    Global.RefreshHeader();
-                }
-                else {
-                    console.log("Failed on UpdateUser - Success = false");
-                }
-            },
-            error: function () {
-                console.log("Failed on UpdateUser - Ajax failed");
             }
         });
     }

@@ -4,11 +4,14 @@
             
         </ul>
     </div>
-    <div class="type-box">
-        <div id="sendmessage">
-            <span class="sprite-icon sprite-icon-thinkbubble"></span>
+    @if (Request.IsAuthenticated)
+    {
+        <div class="type-box">
+            <div id="sendmessage">
+                <span class="sprite-icon sprite-icon-thinkbubble"></span>
+            </div>
+            <input type="text" id="message" class="form-control" />
+            <input type="hidden" id="displayname" />
         </div>
-        <input type="text" id="message" class="form-control" />
-        <input type="hidden" id="displayname" />
-    </div>
+    }
 </div>

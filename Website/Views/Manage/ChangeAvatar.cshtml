@@ -1,4 +1,7 @@
-﻿@model CrescentIsland.Website.Models.ChangeAvatarViewModel
+﻿@using CrescentIsland.Website.Models
+@using CrescentIsland.Website.Helpers
+@model ChangeAvatarViewModel
+
 @{
     ViewBag.Title = "Change Avatar";
 }
@@ -15,11 +18,11 @@
             <div class="row form-row">
                 <div class="col-sm-6 current-avatar">
                     Current Avatar:
-                    <img src="@MvcApplication.GetGlobalModel().CurrentUser.AvatarUrl" />
+                    <img src="@(AvatarHelper.GetAvatarUrl(Model.UserAvatarImage, Model.UserAvatarMimeType))" />
                 </div>
                 <div class="col-sm-6 selected-avatar">
                     Selected Avatar:
-                    <img src="@MvcApplication.GetGlobalModel().CurrentUser.AvatarUrl" />
+                    <img src="@(AvatarHelper.GetAvatarUrl(Model.UserAvatarImage, Model.UserAvatarMimeType))" />
                 </div>
             </div>
             <div class="row form-row change-avatar">

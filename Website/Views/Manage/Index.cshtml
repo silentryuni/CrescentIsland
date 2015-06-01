@@ -1,4 +1,7 @@
-﻿@model CrescentIsland.Website.Models.IndexViewModel
+﻿@using CrescentIsland.Website.Helpers
+@using CrescentIsland.Website.Models
+@model IndexViewModel
+
 @{
     ViewBag.Title = "Manage";
 }
@@ -11,7 +14,7 @@
         <p class="text-success">@ViewBag.StatusMessage</p>
         <div class="row">
             <div class="col-xs-4 manage-avatar">
-                <img src="@MvcApplication.GetGlobalModel().CurrentUser.AvatarUrl" />
+                <img src="@(AvatarHelper.GetAvatarUrl(Model.AvatarImage, Model.AvatarMimeType))" />
             </div>
             <div class="col-xs-8">
                 <div class="row">
@@ -25,7 +28,7 @@
                         }
                         else
                         {
-                            @Html.ActionLink("Create", "SetPassword")
+                            @Html.ActionLink("Create new password", "SetPassword")
                         }
                     </div>
                 </div>

@@ -1,6 +1,6 @@
-﻿@{
-    var globalModel = MvcApplication.GetGlobalModel();
-}
+﻿@using CrescentIsland.Website.Models
+@using CrescentIsland.Website.Helpers
+@model HeaderModel
 
 <div id="nav-top" class="row">
     @if (Request.IsAuthenticated)
@@ -13,32 +13,32 @@
                 <div class="character-name">
                     <div class="avatar">
                         <a href="@Url.Action("Index", "Manage", routeValues: null)">
-                            <img src="@globalModel.CurrentUser.AvatarUrl" />
+                            <img src="@(AvatarHelper.GetAvatarUrl(Model.AvatarImage, Model.AvatarMimeType))" />
                         </a>
                     </div>
 
                     <div class="username">
                         <a href="@Url.Action("Index", "Manage")">
-                            @if (globalModel.CurrentUser.IsAdmin)
+                            @if (User.IsInRole("Administrator"))
                             {
-                                <span class="sprite-icon sprite-icon-medal"></span>
+                                <span class="admin-medal sprite-icon sprite-icon-medal"></span>
                             }
-                            @globalModel.CurrentUser.Username
+                            @Model.Username
                         </a>
                     </div>
                     <div class="level">
-                        [@globalModel.CurrentUser.Level]
+                        [@Model.Level]
                     </div>
                 </div>
 
                 <div class="health-energy">
                     <div class="health">
                         <span class="sprite-icon sprite-icon-redpotion"></span>
-                        <span class="cur-health">@globalModel.CurrentUser.CurHealth</span> / @globalModel.CurrentUser.MaxHealth
+                        <span class="cur-health">@Model.CurHealth</span> / @Model.MaxHealth
                     </div>
                     <div class="energy">
                         <span class="sprite-icon sprite-icon-bread"></span>
-                        <span class="cur-energy">@globalModel.CurrentUser.CurEnergy</span> / @globalModel.CurrentUser.MaxEnergy
+                        <span class="cur-energy">@Model.CurEnergy</span> / @Model.MaxEnergy
                     </div>
                 </div>
             </div>

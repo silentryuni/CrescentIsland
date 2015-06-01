@@ -62,29 +62,19 @@ namespace CrescentIsland.Website.Controllers
                 : message == ManageMessageId.EmailSent ? "E-mail successfully sent"
                 : "";
 
-            var userId = User.Identity.GetUserId();
-            var user = UserManager.FindById(userId);
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null) return RedirectToAction("Index", "Page");
 
             IndexViewModel model;
 
-            if (user == null)
+            model = new IndexViewModel
             {
-                model = new IndexViewModel
-                {
-                    HasPassword = false,
-                    HasVerified = false,
-                    Email = ""
-                };
-            }
-            else
-            {
-                model = new IndexViewModel
-                {
-                    HasPassword = user.PasswordHash != null,
-                    HasVerified = user.EmailConfirmed,
-                    Email = user.Email
-                };
-            }
+                HasPassword = user.PasswordHash != null,
+                HasVerified = user.EmailConfirmed,
+                Email = user.Email,
+                AvatarImage = user.AvatarImage,
+                AvatarMimeType = user.AvatarMimeType
+            };
 
             return View(model);
         }
@@ -181,6 +171,12 @@ namespace CrescentIsland.Website.Controllers
         {
             var model = new ChangeAvatarViewModel();
 
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user == null) return RedirectToAction("Index", "Page");
+
+            model.UserAvatarImage = user.AvatarImage;
+            model.UserAvatarMimeType = user.AvatarMimeType;
+
             DirectoryInfo d = new DirectoryInfo(Server.MapPath("/Assets/Images/Avatars"));
             FileInfo[] files = d.GetFiles("*.png");
 
@@ -196,53 +192,57 @@ namespace CrescentIsland.Website.Controllers
         public async Task<ActionResult> ChangeAvatar(ChangeAvatarViewModel model)
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
-            
-            if (user != null)
+
+            if (user == null) return RedirectToAction("Index", "Page");
+
+            var file = Server.MapPath(model.SelectedAvatar);
+
+            if (!string.IsNullOrEmpty(file))
             {
-                var file = Server.MapPath(model.SelectedAvatar);
+                FileStream stream = System.IO.File.OpenRead(file);
+                var fileBytes = new byte[stream.Length];
 
-                if (!string.IsNullOrEmpty(file))
-                {
-                    FileStream stream = System.IO.File.OpenRead(file);
-                    var fileBytes = new byte[stream.Length];
+                stream.Read(fileBytes, 0, fileBytes.Length);
+                stream.Close();
 
-                    stream.Read(fileBytes, 0, fileBytes.Length);
-                    stream.Close();
+                var ext = Path.GetExtension(stream.Name).Substring(1);
 
-                    var ext = Path.GetExtension(stream.Name).Substring(1);
-
-                    user.AvatarImage = fileBytes;
-                    user.AvatarMimeType = ext;
-                }
-
-                using (var db = HttpContext.GetOwinContext().Get<ApplicationDbContext>())
-                {
-                    db.Users.Attach(user);
-                    db.Entry(user).Property(x => x.AvatarImage).IsModified = true;
-                    db.Entry(user).Property(x => x.AvatarMimeType).IsModified = true;
-                    var result = await db.SaveChangesAsync();
-                }
-
-                MvcApplication.SetGlobalModel(user, new List<PropertyUpdate>() { PropertyUpdate.Avatar });
-
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangeAvatarSuccess });
+                user.AvatarImage = fileBytes;
+                user.AvatarMimeType = ext;
             }
 
-            return View(model);
+            using (var db = HttpContext.GetOwinContext().Get<ApplicationDbContext>())
+            {
+                db.Users.Attach(user);
+                db.Entry(user).Property(x => x.AvatarImage).IsModified = true;
+                db.Entry(user).Property(x => x.AvatarMimeType).IsModified = true;
+                var result = await db.SaveChangesAsync();
+            }
+
+            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeAvatarSuccess });
         }
 
         protected override void Dispose(bool disposing)
         {
-            if (disposing && _userManager != null)
+            if (disposing)
             {
-                _userManager.Dispose();
-                _userManager = null;
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+
+                if (_signInManager != null)
+                {
+                    _signInManager.Dispose();
+                    _signInManager = null;
+                }
             }
 
             base.Dispose(disposing);
         }
 
-#region Helpers
+        #region Helpers
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

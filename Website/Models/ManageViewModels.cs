@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
 
 namespace CrescentIsland.Website.Models
 {
@@ -10,6 +8,8 @@ namespace CrescentIsland.Website.Models
         public bool HasPassword { get; set; }
         public bool HasVerified { get; set; }
         public string Email { get; set; }
+        public byte[] AvatarImage { get; set; }
+        public string AvatarMimeType { get; set; }
     }
     
     public class SetPasswordViewModel
@@ -47,6 +47,8 @@ namespace CrescentIsland.Website.Models
 
     public class ChangeAvatarViewModel
     {
+        public byte[] UserAvatarImage { get; set; }
+        public string UserAvatarMimeType { get; set; }
         public IEnumerable<Avatar> Avatars { get; set; }
         public string SelectedAvatar { get; set; }
     }

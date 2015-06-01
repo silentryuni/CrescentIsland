@@ -1,7 +1,6 @@
 ﻿using CrescentIsland.Website.Models;
 using CrescentIsland.Website.Models.Interfaces;
 using CrescentIsland.Website.Models.Repositories;
-using Microsoft.AspNet.Identity;
 using System;
 using System.Threading.Tasks;
 using System.Web.Mvc;
@@ -57,16 +56,6 @@ namespace CrescentIsland.Website.Controllers
 
             model.Success = await _userRepository.UpdateEnergy(energyChange);
             if (model.Success) model.CurEnergyChange = energyChange;
-
-            return Json(model, JsonRequestBehavior.DenyGet);
-        }
-
-        [HttpPost]
-        public async Task<JsonResult> UpdateUser()
-        {
-            var model = new BattleModel();
-
-            model.Success = await _userRepository.UpdateUser();
 
             return Json(model, JsonRequestBehavior.DenyGet);
         }

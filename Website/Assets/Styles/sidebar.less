@@ -104,7 +104,45 @@
                     margin: 0;
 
                     li {
+                        position: relative;
                         margin-bottom: 5px;
+
+                        .role {
+                            color: @dark-teal;
+                            font-weight: bold;
+                        }
+                        .roleAdmin {
+                            color: @light-red;
+                            font-weight: bold;
+                        }
+
+                        .chat-time {
+                            color: @dark-yellow;
+                        }
+
+                        .sprite-icon {
+                            display: none;
+                            position: absolute;
+                            top: 15px;
+                            left: 0;
+
+                            &.sprite-icon-skullbone {
+                                left: 29px;
+                            }
+                        }
+
+                        &.selected {
+                            .sprite-icon {
+                                display: inline-block;
+                            }
+                        }
+
+                        .admin-buttons {
+                            a {
+                                display: inline;
+                                color: @dark-green;
+                            }
+                        }
                     }
                 }
             }
