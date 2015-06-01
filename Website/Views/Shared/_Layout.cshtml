@@ -42,6 +42,12 @@
 
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/mainjs")
+    <script src="~/signalr/hubs"></script>
+    <script type="text/javascript">
+        $(function () {
+            Global.ChatBox('@User.Identity.Name');
+        });
+    </script>
     @RenderSection("scripts", required: false)
 </body>
 </html>

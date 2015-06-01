@@ -21,6 +21,16 @@
             }
             $('#main').toggleClass('no-menu');
         });
+    },
+    CustomScrollbar: function ($selector) {
+        $selector.mCustomScrollbar({
+            mouseWheel: {
+                enable: true,
+                preventDefault: true,
+                scrollAmount: 200
+            },
+            theme: 'minimal-dark'
+        });
     }
 };
 
@@ -51,6 +61,86 @@ var Global = {
             });
         })
         $('#global-animations').prepend($updateDiv);
+    },
+    ChatBox: function (username) {
+        // Reference the auto-generated proxy for the hub.
+
+        var chat = $.connection.chatHub;
+        // Create a function that the hub can call back to display messages.
+        chat.client.addNewMessageToPage = function (name, message, timestamp) {
+            // Add the message to the page.
+            $('#discussion').prepend('<li><strong>' + Global.HtmlEncode(name)
+                + '</strong>: ' + timestamp + '<br />' + Global.HtmlEncode(message) + '</li>');
+
+            if ($('#discussion li').length > 50) {
+                $('#discussion li').last().remove();
+            }
+        };
+        // Set initial focus to message input box.
+        $('#message').focus();
+        // Start the connection.
+        $.connection.hub.start().done(function () {
+            if (username) {
+                $('#sendmessage').click(function () {
+                    var textvalue = $('#message').val().trim();
+                    if (textvalue) {
+                        $.ajax({
+                            type: "post",
+                            cache: false,
+                            async: true,
+                            dataType: "json",
+                            url: "/Chat/SaveMessage",
+                            data: Global.AddAntiForgeryToken({ username: username, message: textvalue}),
+                            success: function (response) {
+                                if (response) {
+                                    chat.server.send(username, textvalue, response);
+                                }
+                                else {
+                                    chat.server.send(username, textvalue, '00:00');
+                                }
+                            },
+                            error: function () {
+                                chat.server.send(username, textvalue, '00:00');
+                            }
+                        });
+
+                    }
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            } else {
+                $('#sendmessage, #message').remove();
+            }
+        });
+
+        $('#message').keypress(function (e) {
+            if (e.which == 13) {
+                $('#sendmessage').click();
+                return false;
+            }
+        });
+    },
+    GetChatMessages: function () {
+        $.ajax({
+            type: "post",
+            cache: false,
+            async: true,
+            dataType: "json",
+            url: "/Chat/GetMessages",
+            success: function (response) {
+                $.each(response, function () {
+                    $('#discussion').html('');
+                    $('#discussion').prepend(response);
+                });
+            },
+            error: function () {
+                
+            }
+        });
+    },
+    HtmlEncode: function (value) {
+        var encodedValue = $('<div />').text(value).html();
+        return encodedValue;
     }
 }
 

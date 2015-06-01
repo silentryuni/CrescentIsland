@@ -56,6 +56,14 @@
       <HintPath>..\packages\YUICompressor.NET.2.0.0.0\lib\NET20\Iesi.Collections.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.1.2\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.1.2.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.1.2\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="SquishIt.Framework, Version=0.9.8.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\SquishIt.0.9.8\lib\SquishIt.Framework.dll</HintPath>
@@ -183,6 +191,8 @@
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
+    <Compile Include="Controllers\ChatController.cs" />
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\BattleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -193,6 +203,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BattleModels.cs" />
+    <Compile Include="Models\ChatModels.cs" />
     <Compile Include="Models\GlobalModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interfaces\IUserRepository.cs" />
@@ -283,6 +294,8 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <None Include="Assets\Scripts\jquery.validate-vsdoc.js" />
     <Content Include="Assets\Scripts\jquery.ba-resize.min.js" />
+    <Content Include="Assets\Scripts\jquery.mCustomScrollbar.min.js" />
+    <Content Include="Assets\Scripts\jquery.mousewheel.min.js" />
     <Content Include="Assets\Scripts\jquery.tooltipster.js" />
     <Content Include="Assets\Scripts\jquery.validate.js" />
     <Content Include="Assets\Scripts\jquery.validate.min.js" />
@@ -295,6 +308,7 @@
     <Content Include="Assets\Styles\bootstrap.css" />
     <Content Include="Assets\Styles\font-awesome.css" />
     <Content Include="Assets\Styles\header.less" />
+    <Content Include="Assets\Styles\jquery.mCustomScrollbar.min.css" />
     <Content Include="favicon.png" />
     <Content Include="Global.asax" />
     <Content Include="Assets\Styles\global.less" />
@@ -302,6 +316,8 @@
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff" />
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff2" />
+    <Content Include="Assets\Scripts\jquery.signalR-2.1.2.js" />
+    <Content Include="Assets\Scripts\jquery.signalR-2.1.2.min.js" />
     <Content Include="Views\Page\AltIndex.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Web.config" />
@@ -346,6 +362,7 @@
     <Content Include="Assets\Styles\classes.less" />
     <Content Include="Assets\Styles\pages.less" />
     <Content Include="Assets\Styles\tooltipster.less" />
+    <Content Include="Views\Chat\ChatBox.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

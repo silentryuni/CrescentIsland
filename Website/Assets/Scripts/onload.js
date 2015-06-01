@@ -1,6 +1,9 @@
 ﻿$(function () {
     Initialize.Grids('.equal-row .equal-col');
     Initialize.HideMenu('.hide-menu a');
+    Initialize.CustomScrollbar($('.chatbox .message-box'));
+
+    Global.GetChatMessages();
 
     Pages.SetAvatar();
     Pages.SetClass();

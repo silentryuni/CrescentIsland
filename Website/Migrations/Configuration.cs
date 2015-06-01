@@ -26,4 +26,18 @@ namespace CrescentIsland.Website.Migrations
             //
         }
     }
+
+    internal sealed class ChatConfiguration : DbMigrationsConfiguration<Models.ChatDbContext>
+    {
+        public ChatConfiguration()
+        {
+            AutomaticMigrationsEnabled = true;
+            //AutomaticMigrationDataLossAllowed = true;
+        }
+
+        protected override void Seed(Models.ChatDbContext context)
+        {
+
+        }
+    }
 }
