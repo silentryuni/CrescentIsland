@@ -10,6 +10,28 @@ namespace CrescentIsland.Website.Hubs
 {
     public class ChatHub : Hub
     {
+        private ChatDbContext _chatDb;
+
+        public ChatHub()
+        {
+        }
+        public ChatHub(ChatDbContext chatDb)
+        {
+            ChatDb = chatDb;
+        }
+
+        public ChatDbContext ChatDb
+        {
+            get
+            {
+                return _chatDb ?? HttpContext.Current.GetOwinContext().GetUserManager<ChatDbContext>();
+            }
+            private set
+            {
+                _chatDb = value;
+            }
+        }
+
         public void Send(string name, string message)
         {
             var chatmsg = new ChatMessage()
@@ -22,12 +44,9 @@ namespace CrescentIsland.Website.Hubs
             };
 
             // Add chat message to database
-            using (var db = new ChatDbContext())
-            {
-                db.Entry(chatmsg).State = EntityState.Added;
-                db.SaveChanges();
-                db.Entry(chatmsg).GetDatabaseValues();
-            }
+            ChatDb.Entry(chatmsg).State = EntityState.Added;
+            ChatDb.SaveChanges();
+            ChatDb.Entry(chatmsg).GetDatabaseValues();
             
             Clients.All.addMessage(chatmsg.Id, chatmsg.UserName, message, chatmsg.Timestamp.ToString("HH:mm"), chatmsg.Role);
         }
@@ -35,14 +54,11 @@ namespace CrescentIsland.Website.Hubs
         [Authorize(Roles = "Administrator")]
         public void Delete(int id)
         {
-            using (var db = new ChatDbContext())
-            {
-                var msg = db.ChatMessages.Find(id);
-                if (msg == null) return;
+            var msg = ChatDb.ChatMessages.Find(id);
+            if (msg == null) return;
 
-                db.Entry(msg).State = EntityState.Deleted;
-                db.SaveChanges();
-            }
+            ChatDb.Entry(msg).State = EntityState.Deleted;
+            ChatDb.SaveChanges();
 
             Clients.All.removeMessage(id);
         }
@@ -52,20 +68,31 @@ namespace CrescentIsland.Website.Hubs
         {
             ChatMessage msg;
 
-            using (var db = new ChatDbContext())
+            msg = ChatDb.ChatMessages.Find(id);
+            if (msg == null) return;
+
+            User user;
+            using (var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>())
             {
-                msg = db.ChatMessages.Find(id);
-                if (msg == null) return;
+                user = userManager.FindByName(msg.UserName);
+
+                if (user == null) return;
+
+                userManager.SetLockoutEndDate(user.Id, DateTime.Now.AddDays(1));
             }
 
-            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            var user = userManager.FindByName(msg.UserName);
-
-            if (user == null) return;
-
-            userManager.SetLockoutEndDate(user.Id, DateTime.Now.AddDays(1));
-
             Clients.Client(msg.ConnectionId).lockout();
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing && _chatDb != null)
+            {
+                _chatDb.Dispose();
+                _chatDb = null;
+            }
+
+            base.Dispose(disposing);
         }
     }
 }

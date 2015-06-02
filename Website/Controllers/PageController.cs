@@ -40,45 +40,6 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Page/Character
-        public ActionResult Character()
-        {
-            if (!Request.IsAuthenticated) return View("Index");
-
-            var model = new CharacterPageModel();
-            var user = UserManager.FindById(User.Identity.GetUserId());
-
-            if (user == null) return View("Index");
-
-            model.UserClass = user.UserClass;
-            model.Level = user.Level;
-            model.CurExp = user.CurExp;
-            model.MaxExp = user.MaxExp;
-            model.Gold = user.Gold;
-            model.CurHealth = user.CurHealth;
-            model.MaxHealth = user.MaxHealth;
-            model.CurEnergy = user.CurEnergy;
-            model.MaxEnergy = user.MaxEnergy;
-            model.Attack = user.Attack;
-            model.Defense = user.Defense;
-            model.MagicAttack = user.MagicAttack;
-            model.MagicDefense = user.MagicDefense;
-            model.Accuracy = user.Accuracy;
-            model.Evasion = user.Evasion;
-
-            return View(model);
-        }
-
-        //
-        // GET: /Page/Inventory
-        public ActionResult Inventory()
-        {
-            if (!Request.IsAuthenticated) return View("Index");
-
-            return View();
-        }
-
-        //
         // GET: /Page/Lucys
         public ActionResult Lucys()
         {

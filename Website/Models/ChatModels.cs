@@ -35,6 +35,11 @@ namespace CrescentIsland.Website.Models
         {
         }
 
+        public static ChatDbContext Create()
+        {
+            return new ChatDbContext();
+        }
+
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
 

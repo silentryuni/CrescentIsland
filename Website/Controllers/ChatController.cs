@@ -1,4 +1,5 @@
 ﻿using CrescentIsland.Website.Models;
+using Microsoft.AspNet.Identity.Owin;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -28,7 +29,7 @@ namespace CrescentIsland.Website.Controllers
             var messages = new List<string>();
             List<ChatMessage> chatmessages;
 
-            using (var db = new ChatDbContext())
+            using (var db = HttpContext.GetOwinContext().Get<ChatDbContext>())
             {
                 chatmessages = db.ChatMessages.AsNoTracking().OrderByDescending(c => c.Timestamp).Take(amount).ToList();
             }

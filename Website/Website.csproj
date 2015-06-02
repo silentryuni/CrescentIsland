@@ -206,6 +206,7 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BattleModels.cs" />
+    <Compile Include="Models\CharacterModels.cs" />
     <Compile Include="Models\ChatModels.cs" />
     <Compile Include="Models\GlobalModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -371,12 +372,12 @@
     <Content Include="Assets\Styles\tooltipster.less" />
     <Content Include="Views\Chat\ChatBox.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
+    <Content Include="Views\Character\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Models\Factories\" />
     <Folder Include="Views\Battle\" />
-    <Folder Include="Views\Character\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />

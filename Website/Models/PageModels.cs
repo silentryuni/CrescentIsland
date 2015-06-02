@@ -15,23 +15,4 @@ namespace CrescentIsland.Website.Models
         public int CurEnergy { get; set; }
         public int MaxEnergy { get; set; }
     }
-
-    public class CharacterPageModel
-    {
-        public UserClass UserClass { get; set; }
-        public int Level { get; set; }
-        public int CurExp { get; set; }
-        public int MaxExp { get; set; }
-        public int Gold { get; set; }
-        public int CurHealth { get; set; }
-        public int MaxHealth { get; set; }
-        public int CurEnergy { get; set; }
-        public int MaxEnergy { get; set; }
-        public int Attack { get; set; }
-        public int Defense { get; set; }
-        public int MagicAttack { get; set; }
-        public int MagicDefense { get; set; }
-        public int Accuracy { get; set; }
-        public int Evasion { get; set; }
-    }
 }
