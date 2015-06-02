@@ -2,14 +2,13 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 using System.Web;
 
 namespace CrescentIsland.Website.Models.Repositories
 {
-    public class UserRepository : IUserRepository
+    public class UserRepository : IUserRepository, IDisposable
     {
         private ApplicationUserManager _userManager;
 
@@ -214,5 +213,38 @@ namespace CrescentIsland.Website.Models.Repositories
 
             return true;
         }
+
+        #region Disposing
+
+        private bool disposed;
+
+        ~UserRepository()
+        {
+            this.Dispose(false);
+        }
+        public void Dispose()
+        {
+            this.Dispose(true);
+        }
+        protected virtual void Dispose(bool disposing)
+        {
+            if (!disposed)
+            {
+                if (disposing)
+                {
+                    // Dispose managed resources here.
+                }
+
+                if (_userManager != null)
+                {
+                    _userManager.Dispose();
+                    _userManager = null;
+                }
+            }
+
+            disposed = true;
+        }
+
+        #endregion
     }
 }

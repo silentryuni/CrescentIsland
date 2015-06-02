@@ -8,5 +8,7 @@ namespace CrescentIsland.Website.Models.Interfaces
 
         Task<bool> UpdateHealth(int healthChange, int maxHealthChange = 0);
         Task<bool> UpdateEnergy(int energyChange, int maxEnergyChange = 0);
+
+        void Dispose();
     }
 }

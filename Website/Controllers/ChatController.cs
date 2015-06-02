@@ -1,5 +1,4 @@
 ﻿using CrescentIsland.Website.Models;
-using System;
 using System.Collections.Generic;
 using System.Data.Entity;
 using System.Linq;
@@ -19,7 +18,9 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Chat/GetMessages
+        // POST: /Chat/GetMessages
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult GetMessages()
         {
             var amount = 20;

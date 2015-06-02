@@ -1,4 +1,6 @@
 ﻿$(function () {
+    Global.AntiCSRFHeaders();
+
     Initialize.Grids('.equal-row .equal-col');
     Initialize.HideMenu('.hide-menu a');
     Initialize.CustomScrollbar($('.chatbox .message-box'));
@@ -9,6 +11,8 @@
     Pages.SetClass();
     Pages.StatsTooltip();
 
+
+    // Temp code
     $battleButton = $('.battle a');
     $battleButton.on('click', function (e) {
         e.preventDefault();

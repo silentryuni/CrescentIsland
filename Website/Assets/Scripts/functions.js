@@ -2,7 +2,6 @@
     Grids: function (selector) {
         $(selector).responsiveEqualHeightGrid();
     },
-
     HideMenu: function (selector) {
         var menuhidden = false;
 
@@ -35,9 +34,15 @@
 };
 
 var Global = {
-    AddAntiForgeryToken: function(data) {
-        data.__RequestVerificationToken = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
-        return data;
+    AntiCSRFHeaders: function() {
+        var token = $('#__AjaxAntiForgeryForm input[name=__RequestVerificationToken]').val();
+        $.ajaxPrefilter(function (options, originalOptions) {
+            if (options.type.toUpperCase() == "POST") {
+                options.data = $.param($.extend(originalOptions.data, { __RequestVerificationToken: token }));
+            }
+        });
+        // If posting FormData, this is required:
+        // options.data.append("__RequestVerificationToken", token);  
     },
     RefreshHeader: function () {
         $('header').load('/Page/HeaderPartial');
@@ -100,8 +105,6 @@ var Global = {
             });
         };
 
-        // Set initial focus to message input box.
-        $('#message').focus();
         // Start the connection.
         $.connection.hub.start().done(function () {
             if (username) {
@@ -147,7 +150,7 @@ var Global = {
     },
     GetChatMessages: function () {
         $.ajax({
-            type: "post",
+            type: "POST",
             cache: false,
             async: true,
             dataType: "json",
@@ -218,7 +221,7 @@ var Battle = {
             async: true,
             dataType: "json",
             url: "/Battle/UpdateHealth",
-            data: Global.AddAntiForgeryToken({ actionId: actionId }),
+            data: { actionId: actionId },
             success: function (response) {
                 if (response.Success) {
                     $.when(Global.RefreshHeader()).then(function () {
@@ -242,7 +245,7 @@ var Battle = {
             async: true,
             dataType: "json",
             url: "/Battle/UpdateEnergy",
-            data: Global.AddAntiForgeryToken({ actionId: actionId }),
+            data: { actionId: actionId },
             success: function (response) {
                 if (response.Success) {
                     $.when(Global.RefreshHeader()).then(function () {

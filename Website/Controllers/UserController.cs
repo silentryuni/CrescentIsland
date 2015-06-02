@@ -129,7 +129,7 @@ namespace CrescentIsland.Website.Controllers
             // If we got this far, something failed, redisplay form
             return View(model);
         }
-
+        
         //
         // GET: /User/ConfirmEmail
         [AllowAnonymous]
@@ -244,9 +244,10 @@ namespace CrescentIsland.Website.Controllers
             return RedirectToAction("Index", "Page");
         }
 
-
         //
         // POST: /User/Lockout
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public JsonResult Lockout()
         {
             if (UserManager.IsLockedOut(User.Identity.GetUserId()))

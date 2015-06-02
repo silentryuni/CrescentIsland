@@ -64,5 +64,20 @@ namespace CrescentIsland.Website.Controllers
 
             return Json(model, JsonRequestBehavior.DenyGet);
         }
+
+
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                if (_userRepository != null)
+                {
+                    _userRepository.Dispose();
+                    _userRepository = null;
+                }
+            }
+
+            base.Dispose(disposing);
+        }
     }
 }
