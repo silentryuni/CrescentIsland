@@ -195,7 +195,7 @@
     <Compile Include="Helpers\AvatarHelper.cs" />
     <Compile Include="Helpers\MathHelper.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
-    <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\UserController.cs" />
     <Compile Include="Controllers\BattleController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\PageController.cs" />
@@ -320,6 +320,7 @@
     <Content Include="Assets\Fonts\glyphicons-halflings-regular.woff2" />
     <Content Include="Assets\Scripts\jquery.signalR-2.1.2.js" />
     <Content Include="Assets\Scripts\jquery.signalR-2.1.2.min.js" />
+    <None Include="Properties\PublishProfiles\ToLocal.pubxml" />
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
@@ -336,13 +337,13 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
-    <Content Include="Views\Account\ForgotPassword.cshtml" />
-    <Content Include="Views\Account\ForgotPasswordConfirmation.cshtml" />
-    <Content Include="Views\Account\Login.cshtml" />
-    <Content Include="Views\Account\Register.cshtml" />
-    <Content Include="Views\Account\ResetPassword.cshtml" />
-    <Content Include="Views\Account\ResetPasswordConfirmation.cshtml" />
+    <Content Include="Views\User\ConfirmEmail.cshtml" />
+    <Content Include="Views\User\ForgotPassword.cshtml" />
+    <Content Include="Views\User\ForgotPasswordConfirmation.cshtml" />
+    <Content Include="Views\User\Login.cshtml" />
+    <Content Include="Views\User\Register.cshtml" />
+    <Content Include="Views\User\ResetPassword.cshtml" />
+    <Content Include="Views\User\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
     <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
@@ -354,7 +355,7 @@
     <Content Include="Views\Shared\_SideBar.cshtml" />
     <Content Include="Assets\Styles\main.less" />
     <Content Include="Assets\Styles\sprite-icons.less" />
-    <Content Include="Views\Account\EditorTemplates\UserGender.cshtml" />
+    <Content Include="Views\User\EditorTemplates\UserGender.cshtml" />
     <Content Include="Views\Manage\ChangeAvatar.cshtml" />
     <Content Include="Assets\Styles\sidebar.less" />
     <Content Include="Views\Manage\EditorTemplates\Avatar.cshtml" />
@@ -363,7 +364,7 @@
     <Content Include="Views\Page\LastSpell.cshtml" />
     <Content Include="Views\Page\Character.cshtml" />
     <Content Include="Views\Page\Inventory.cshtml" />
-    <Content Include="Views\Account\EditorTemplates\UserClass.cshtml" />
+    <Content Include="Views\User\EditorTemplates\UserClass.cshtml" />
     <Content Include="Assets\Styles\classes.less" />
     <Content Include="Assets\Styles\pages.less" />
     <Content Include="Assets\Styles\tooltipster.less" />

@@ -21,12 +21,15 @@ namespace CrescentIsland.Website.Controllers
 
         #endregion
 
-        // GET: Battle
+        //
+        // GET: /Battle/Index
         public ActionResult Index()
         {
             return View();
         }
 
+        //
+        // POST: /Battle/UpdateHealth
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateHealth(string actionId)
@@ -43,6 +46,8 @@ namespace CrescentIsland.Website.Controllers
             return Json(model, JsonRequestBehavior.DenyGet);
         }
 
+        //
+        // POST: /Battle/UpdateEnergy
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<JsonResult> UpdateEnergy(string actionId)

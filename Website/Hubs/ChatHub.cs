@@ -34,21 +34,19 @@ namespace CrescentIsland.Website.Hubs
             Clients.All.addMessage(chatmsg.Id, chatmsg.UserName, message, chatmsg.Timestamp.ToString("HH:mm"), chatmsg.Role);
         }
 
+        [Authorize(Roles = "Administrator")]
         public void Delete(int id)
         {
-            if (HttpContext.Current.User.IsInRole("Administrator"))
+            using (var db = new ChatDbContext())
             {
-                using (var db = new ChatDbContext())
-                {
-                    var msg = db.ChatMessages.Find(id);
-                    if (msg == null) return;
+                var msg = db.ChatMessages.Find(id);
+                if (msg == null) return;
 
-                    db.Entry(msg).State = EntityState.Deleted;
-                    db.SaveChanges();
-                }
-
-                Clients.All.removeMessage(id);
+                db.Entry(msg).State = EntityState.Deleted;
+                db.SaveChanges();
             }
+
+            Clients.All.removeMessage(id);
         }
 
         public void Ban(int id)

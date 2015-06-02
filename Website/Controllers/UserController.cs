@@ -5,28 +5,26 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
-using System.IO;
-using Microsoft.AspNet.Identity.EntityFramework;
 using CrescentIsland.Website.Models.Interfaces;
 using CrescentIsland.Website.Models.Repositories;
 
 namespace CrescentIsland.Website.Controllers
 {
     [Authorize]
-    public class AccountController : Controller
+    public class UserController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
 
-        public AccountController()
+        public UserController()
         {
         }
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public UserController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
-
+        
         public ApplicationSignInManager SignInManager
         {
             get
@@ -51,7 +49,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/Login
+        // GET: /User/Login
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
@@ -60,7 +58,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // POST: /Account/Login
+        // POST: /User/Login
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -88,7 +86,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/Register
+        // GET: /User/Register
         [AllowAnonymous]
         public ActionResult Register()
         {
@@ -96,7 +94,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // POST: /Account/Register
+        // POST: /User/Register
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -113,7 +111,7 @@ namespace CrescentIsland.Website.Controllers
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
 
                     string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                    var callbackUrl = Url.Action("ConfirmEmail", "User", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     try
                     {
                         await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
@@ -133,7 +131,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/ConfirmEmail
+        // GET: /User/ConfirmEmail
         [AllowAnonymous]
         public async Task<ActionResult> ConfirmEmail(string userId, string code)
         {
@@ -146,7 +144,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/ForgotPassword
+        // GET: /User/ForgotPassword
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
@@ -154,7 +152,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // POST: /Account/ForgotPassword
+        // POST: /User/ForgotPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -170,7 +168,7 @@ namespace CrescentIsland.Website.Controllers
                 }
 
                 string code = await UserManager.GeneratePasswordResetTokenAsync(user.Id);
-                var callbackUrl = Url.Action("ResetPassword", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                var callbackUrl = Url.Action("ResetPassword", "User", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                 try
                 {
                     await UserManager.SendEmailAsync(user.Id, "Reset Password", "Please reset your password by clicking <a href=\"" + callbackUrl + "\">here</a>");
@@ -179,7 +177,7 @@ namespace CrescentIsland.Website.Controllers
                 {
                     // TODO: Error message for failing to send
                 }
-                return RedirectToAction("ForgotPasswordConfirmation", "Account");
+                return RedirectToAction("ForgotPasswordConfirmation", "User");
             }
 
             // If we got this far, something failed, redisplay form
@@ -187,7 +185,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/ForgotPasswordConfirmation
+        // GET: /User/ForgotPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ForgotPasswordConfirmation()
         {
@@ -195,7 +193,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Account/ResetPassword
+        // GET: /User/ResetPassword
         [AllowAnonymous]
         public ActionResult ResetPassword(string code)
         {
@@ -203,7 +201,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // POST: /Account/ResetPassword
+        // POST: /User/ResetPassword
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -217,19 +215,19 @@ namespace CrescentIsland.Website.Controllers
             if (user == null)
             {
                 // Don't reveal that the user does not exist
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPasswordConfirmation", "User");
             }
             var result = await UserManager.ResetPasswordAsync(user.Id, model.Code, model.Password);
             if (result.Succeeded)
             {
-                return RedirectToAction("ResetPasswordConfirmation", "Account");
+                return RedirectToAction("ResetPasswordConfirmation", "User");
             }
             AddErrors(result);
             return View();
         }
 
         //
-        // GET: /Account/ResetPasswordConfirmation
+        // GET: /User/ResetPasswordConfirmation
         [AllowAnonymous]
         public ActionResult ResetPasswordConfirmation()
         {
@@ -237,7 +235,7 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // POST: /Account/LogOff
+        // POST: /User/LogOff
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult LogOff()
@@ -248,8 +246,8 @@ namespace CrescentIsland.Website.Controllers
 
 
         //
-        // POST: /Account/LockoutUser
-        public JsonResult LockoutUser()
+        // POST: /User/Lockout
+        public JsonResult Lockout()
         {
             if (UserManager.IsLockedOut(User.Identity.GetUserId()))
             {

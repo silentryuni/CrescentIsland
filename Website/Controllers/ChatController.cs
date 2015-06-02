@@ -11,12 +11,15 @@ namespace CrescentIsland.Website.Controllers
 {
     public class ChatController : Controller
     {
-        // GET: Chat
+        //
+        // GET: /Chat/ChatBox
         public ActionResult ChatBox()
         {
             return PartialView();
         }
 
+        //
+        // GET: /Chat/GetMessages
         public JsonResult GetMessages()
         {
             var amount = 20;

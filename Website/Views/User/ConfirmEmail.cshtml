@@ -1,5 +1,5 @@
 ﻿@{
-    ViewBag.Title = "Reset password confirmation";
+    ViewBag.Title = "Confirm Email";
 }
 
 <div class="row">
@@ -8,10 +8,10 @@
         <h2 class="text-center">@ViewBag.Title</h2>
         <div>
             <p class="text-center">
-                Your password has been reset. 
+                Thank you for confirming your email.
                 @if (!Request.IsAuthenticated)
                 {
-                    <text>Please @Html.ActionLink("click here to log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</text>
+                    <text>Please @Html.ActionLink("Click here to Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })</text>
                 }
             </p>
         </div>

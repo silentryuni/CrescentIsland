@@ -90,9 +90,8 @@ var Global = {
                 type: "post",
                 cache: false,
                 dataType: "json",
-                url: "/Account/LockoutUser",
+                url: "/User/Lockout",
                 success: function (response) {
-                    console.log('lock');
                     window.location = response;
                 },
                 error: function () {

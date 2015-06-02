@@ -5,7 +5,7 @@
 <div id="nav-top" class="row">
     @if (Request.IsAuthenticated)
     {
-        using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm" }))
+        using (Html.BeginForm("LogOff", "User", FormMethod.Post, new { id = "logoutForm" }))
         {
             @Html.AntiForgeryToken()
 
@@ -71,10 +71,10 @@
         <div class="col-xs-3">
             <ul class="nav-login">
                 <li>
-                    @Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })
+                    @Html.ActionLink("Log in", "Login", "User", routeValues: null, htmlAttributes: new { id = "loginLink" })
                 </li>
                 <li>
-                    @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+                    @Html.ActionLink("Register", "Register", "User", routeValues: null, htmlAttributes: new { id = "registerLink" })
                 </li>
             </ul>
         </div>
