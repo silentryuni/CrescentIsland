@@ -10,8 +10,6 @@ namespace CrescentIsland.Website.Hubs
 {
     public class ChatHub : Hub
     {
-        public string clientId = "";
-
         public void Send(string name, string message)
         {
             var chatmsg = new ChatMessage()
@@ -49,27 +47,25 @@ namespace CrescentIsland.Website.Hubs
             Clients.All.removeMessage(id);
         }
 
+        [Authorize(Roles = "Administrator")]
         public void Ban(int id)
         {
-            if (HttpContext.Current.User.IsInRole("Administrator"))
+            ChatMessage msg;
+
+            using (var db = new ChatDbContext())
             {
-                ChatMessage msg;
-
-                using (var db = new ChatDbContext())
-                {
-                    msg = db.ChatMessages.Find(id);
-                    if (msg == null) return;
-                }
-
-                var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
-                var user = userManager.FindByName(msg.UserName);
-
-                if (user == null) return;
-
-                userManager.SetLockoutEndDate(user.Id, DateTime.Now.AddDays(1));
-
-                Clients.Client(msg.ConnectionId).lockout();
+                msg = db.ChatMessages.Find(id);
+                if (msg == null) return;
             }
+
+            var userManager = HttpContext.Current.GetOwinContext().GetUserManager<ApplicationUserManager>();
+            var user = userManager.FindByName(msg.UserName);
+
+            if (user == null) return;
+
+            userManager.SetLockoutEndDate(user.Id, DateTime.Now.AddDays(1));
+
+            Clients.Client(msg.ConnectionId).lockout();
         }
     }
 }
