@@ -8,6 +8,10 @@ using Microsoft.Owin;
 using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
 using System.Net.Mail;
+using System.Linq.Expressions;
+using System.Data.Entity;
+using System.Linq;
+using System.Data.Entity.Utilities;
 
 namespace CrescentIsland.Website
 {
@@ -28,9 +32,12 @@ namespace CrescentIsland.Website
     // Configure the application user manager used in this application. UserManager is defined in ASP.NET Identity and is used by the application.
     public class ApplicationUserManager : UserManager<User>
     {
+        private IUserStore<User> UserStore;
+
         public ApplicationUserManager(IUserStore<User> store)
             : base(store)
         {
+            UserStore = store;
         }
 
         public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context) 

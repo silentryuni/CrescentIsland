@@ -1,6 +1,7 @@
 ﻿using CrescentIsland.Website.Models;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
@@ -80,11 +81,18 @@ namespace CrescentIsland.Website.Controllers
                     model.AvatarMimeType = user.AvatarMimeType;
                     model.UserRoles = user.Roles;
                     model.Username = user.UserName;
-                    model.Level = user.Level;
-                    model.CurHealth = user.CurHealth;
-                    model.MaxHealth = user.MaxHealth;
-                    model.CurEnergy = user.CurEnergy;
-                    model.MaxEnergy = user.MaxEnergy;
+
+                    var character = user.Characters.FirstOrDefault();
+
+                    if (character != null)
+                    {
+                        model.CharacterName = character.CharacterName;
+                        model.Level = character.Level;
+                        model.CurHealth = character.CurHealth;
+                        model.MaxHealth = character.MaxHealth;
+                        model.CurEnergy = character.CurEnergy;
+                        model.MaxEnergy = character.MaxEnergy;
+                    }
                 }
             }
 

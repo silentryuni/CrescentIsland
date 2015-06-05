@@ -45,13 +45,13 @@
             <div class="col-sm-3 col-md-4">
                 <ul class="nav-character">
                     <li>
-                        <a href="@Url.Action("Index", "Character", new { username = "Ryuni" })">
+                        <a href="@Url.Action("Index", "Character", new { charname = Model.CharacterName })">
                             <span class="sprite-icon sprite-icon-character"></span>
                             Character
                         </a>
                     </li>
                     <li>
-                        <a href="@Url.Action("Inventory", "Page")">
+                        <a href="@Url.Action("Inventory", "Character")">
                             <span class="sprite-icon sprite-icon-bag"></span>
                             Inventory
                         </a>

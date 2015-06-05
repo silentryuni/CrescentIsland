@@ -9,6 +9,7 @@ namespace CrescentIsland.Website.Models
         public string AvatarMimeType { get; set; }
         public ICollection<IdentityUserRole> UserRoles { get; set; }
         public string Username { get; set; }
+        public string CharacterName { get; set; }
         public int Level { get; set; }
         public int CurHealth { get; set; }
         public int MaxHealth { get; set; }

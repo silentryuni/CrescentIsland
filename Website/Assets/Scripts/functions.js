@@ -188,7 +188,18 @@ var Pages = {
         });
     },
     SetClass: function () {
-        $('.class-selection .class-button').click(function () {
+        // Sets selection initially based on checked radio button
+        var $checkedDiv = $('.class-selection').find('input[type=radio]:checked').prev();
+        if ($checkedDiv.length > 0) {
+            var selectedClass = $checkedDiv.data('class');
+            $('.class-selection .class-button').removeClass('selected');
+            $($checkedDiv).addClass('selected');
+            $('.class-selected > div').removeClass('selected');
+            $('.class-selected').find(selectedClass).addClass('selected');
+        }
+
+
+        $('.class-selection').find('.class-button').click(function () {
             $('.class-selection .class-button').removeClass('selected');
             $(this).addClass('selected');
             var selectedClass = $(this).data('class');

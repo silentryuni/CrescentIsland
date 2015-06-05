@@ -1,27 +1,56 @@
-﻿using System.Data.Entity;
+﻿using System.ComponentModel.DataAnnotations;
+using System.Data.Entity;
 
 namespace CrescentIsland.Website.Models
 {
     public class Character
     {
+        [Key]
+        [Required]
+        [StringLength(128)]
+        public string Id { get; set; }
 
+        [Required]
+        [StringLength(256)]
+        public string CharacterName { get; set; }
+
+        [Required]
+        public UserClass UserClass { get; set; }
+
+        [Required]
+        public int Level { get; set; }
+        [Required]
+        public int CurExp { get; set; }
+        [Required]
+        public int MaxExp { get; set; }
+
+        [Required]
+        public int Gold { get; set; }
+
+        [Required]
+        public int CurHealth { get; set; }
+        [Required]
+        public int MaxHealth { get; set; }
+
+        [Required]
+        public int CurEnergy { get; set; }
+        [Required]
+        public int MaxEnergy { get; set; }
+
+        [Required]
+        public int Attack { get; set; }
+        [Required]
+        public int Defense { get; set; }
+        [Required]
+        public int MagicAttack { get; set; }
+        [Required]
+        public int MagicDefense { get; set; }
+        [Required]
+        public int Accuracy { get; set; }
+        [Required]
+        public int Evasion { get; set; }
     }
-
-    public partial class CharacterDbContext : DbContext
-    {
-        public CharacterDbContext()
-            : base("LocalConnection")
-        {
-        }
-
-        protected override void OnModelCreating(DbModelBuilder modelBuilder)
-        {
-
-        }
-
-        public virtual DbSet<Character> Characters { get; set; }
-    }
-
+    
     public class CharacterViewModel
     {
         public bool CharacterFound { get; set; }

@@ -17,6 +17,7 @@ namespace CrescentIsland.Website
             app.CreatePerOwinContext(ApplicationDbContext.Create);
             app.CreatePerOwinContext<ApplicationUserManager>(ApplicationUserManager.Create);
             app.CreatePerOwinContext<ApplicationSignInManager>(ApplicationSignInManager.Create);
+            app.CreatePerOwinContext<CharacterManager>(CharacterManager.Create);
             app.CreatePerOwinContext(ChatDbContext.Create);
 
             // Enable the application to use a cookie to store information for the signed in user

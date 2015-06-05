@@ -10,27 +10,34 @@
             }
         }
 
-        .character-class {
-            text-align: right;
-
-            @media (max-width: 1199px) {
-                text-align: center;
-            }
-        }
-
-        .character-stats-row {
-            margin-bottom: 5px;
-
-            &.extra-margin {
-                margin-bottom: 15px;
+        .character-page {
+            h2 {
+                color: @light-teal;
+                margin-bottom: 50px;
             }
 
-            .character-stats-name {
-                cursor: help;
+            .character-class {
+                text-align: right;
+
+                @media (max-width: 1199px) {
+                    text-align: center;
+                }
             }
 
-            .character-stats-info {
-                display: none;
+            .character-stats-row {
+                margin-bottom: 5px;
+
+                &.extra-margin {
+                    margin-bottom: 15px;
+                }
+
+                .character-stats-name {
+                    cursor: help;
+                }
+
+                .character-stats-info {
+                    display: none;
+                }
             }
         }
     }

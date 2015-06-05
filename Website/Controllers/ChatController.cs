@@ -59,7 +59,7 @@ namespace CrescentIsland.Website.Controllers
                 messages.Add(sb.ToString());
             }
 
-            return Json(messages, JsonRequestBehavior.DenyGet);
+            return Json(messages);
         }
     }
 }

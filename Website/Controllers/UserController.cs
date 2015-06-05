@@ -7,6 +7,7 @@ using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
 using CrescentIsland.Website.Models.Interfaces;
 using CrescentIsland.Website.Models.Repositories;
+using System.Text.RegularExpressions;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -100,30 +101,37 @@ namespace CrescentIsland.Website.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
-            if (ModelState.IsValid)
+            if (!HasForbiddenWords(model.Username))
             {
-                IUserRepository userRepo = new UserRepository();
-                var user = userRepo.CreateNewUser(model, Server.MapPath("/"));
-
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (ModelState.IsValid)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    IUserRepository userRepo = new UserRepository();
+                    var user = userRepo.CreateNewUser(model, Server.MapPath("/"));
 
-                    string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    var callbackUrl = Url.Action("ConfirmEmail", "User", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    try
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
                     {
-                        await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                    }
-                    catch
-                    {
-                        // TODO: Error message for failing to send mail
-                    }
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Page");
+                        string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        var callbackUrl = Url.Action("ConfirmEmail", "User", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        try
+                        {
+                            await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                        }
+                        catch
+                        {
+                            // TODO: Error message for failing to send mail
+                        }
+
+                        return RedirectToAction("Index", "Page");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+            }
+            else
+            {
+                ModelState.AddModelError("", "That user name is forbidden. Please enter a different user name.");
             }
 
             // If we got this far, something failed, redisplay form
@@ -255,9 +263,9 @@ namespace CrescentIsland.Website.Controllers
                 AuthenticationManager.SignOut(DefaultAuthenticationTypes.ApplicationCookie);
             }
 
-            return Json(Url.Action("Index", "Page"), JsonRequestBehavior.DenyGet);
+            return Json(Url.Action("Index", "Page"));
         }
-
+        
         protected override void Dispose(bool disposing)
         {
             if (disposing)
@@ -279,6 +287,13 @@ namespace CrescentIsland.Website.Controllers
         }
 
         #region Helpers
+        private bool HasForbiddenWords(string inputWords)
+        {
+            var forbiddenWords = "(inventory)";
+            Regex wordFilter = new Regex(forbiddenWords);
+            return wordFilter.IsMatch(inputWords.ToLower());
+        }
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 

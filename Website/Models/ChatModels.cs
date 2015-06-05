@@ -6,6 +6,7 @@ namespace CrescentIsland.Website.Models
 {
     public class ChatMessage
     {
+        [Key]
         [Required]
         public int Id { get; set; }
         [Required]

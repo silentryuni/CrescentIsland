@@ -3,6 +3,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
 using System.IO;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 
@@ -36,9 +37,16 @@ namespace CrescentIsland.Website.Models.Repositories
             var user = new User
             {
                 UserGender = model.Gender.HasValue ? model.Gender.Value : UserGender.None,
-                UserClass = model.UserClass.HasValue ? model.UserClass.Value : UserClass.Valkyrie,
+                
                 UserName = model.Username,
-                Email = model.Email,
+                Email = model.Email
+            };
+
+            var character = new Character
+            {
+                Id = Guid.NewGuid().ToString(),
+                CharacterName = model.Username,
+                UserClass = model.UserClass.HasValue ? model.UserClass.Value : UserClass.Valkyrie,
                 Level = 1,
                 CurExp = 0,
                 MaxExp = 10,
@@ -48,8 +56,10 @@ namespace CrescentIsland.Website.Models.Repositories
                 CurEnergy = 10,
                 MaxEnergy = 10
             };
+            
+            SetUserStats(ref character);
 
-            SetUserStats(ref user);
+            user.Characters.Add(character);
 
             var file = string.Empty;
             switch (user.UserGender)
@@ -70,7 +80,7 @@ namespace CrescentIsland.Website.Models.Repositories
 
             if (!string.IsNullOrEmpty(file))
             {
-                FileStream stream = System.IO.File.OpenRead(file);
+                FileStream stream = File.OpenRead(file);
                 var fileBytes = new byte[stream.Length];
 
                 stream.Read(fileBytes, 0, fileBytes.Length);
@@ -85,65 +95,65 @@ namespace CrescentIsland.Website.Models.Repositories
             return user;
         }
 
-        private void SetUserStats(ref User user)
+        private void SetUserStats(ref Character character)
         {
-            switch (user.UserClass)
+            switch (character.UserClass)
             {
                 case UserClass.Valkyrie:
-                    user.Attack = 20;
-                    user.Defense = 20;
-                    user.MagicAttack = 20;
-                    user.MagicDefense = 20;
-                    user.Accuracy = 15;
-                    user.Evasion = 10;
+                    character.Attack = 20;
+                    character.Defense = 20;
+                    character.MagicAttack = 20;
+                    character.MagicDefense = 20;
+                    character.Accuracy = 15;
+                    character.Evasion = 10;
                     break;
                 case UserClass.Warrior:
-                    user.Attack = 30;
-                    user.Defense = 25;
-                    user.MagicAttack = 10;
-                    user.MagicDefense = 15;
-                    user.Accuracy = 15;
-                    user.Evasion = 10;
+                    character.Attack = 30;
+                    character.Defense = 25;
+                    character.MagicAttack = 10;
+                    character.MagicDefense = 15;
+                    character.Accuracy = 15;
+                    character.Evasion = 10;
                     break;
                 case UserClass.Sorceress:
-                    user.Attack = 10;
-                    user.Defense = 15;
-                    user.MagicAttack = 30;
-                    user.MagicDefense = 25;
-                    user.Accuracy = 10;
-                    user.Evasion = 15;
+                    character.Attack = 10;
+                    character.Defense = 15;
+                    character.MagicAttack = 30;
+                    character.MagicDefense = 25;
+                    character.Accuracy = 10;
+                    character.Evasion = 15;
                     break;
                 case UserClass.Rogue:
-                    user.Attack = 25;
-                    user.Defense = 15;
-                    user.MagicAttack = 10;
-                    user.MagicDefense = 15;
-                    user.Accuracy = 15;
-                    user.Evasion = 25;
+                    character.Attack = 25;
+                    character.Defense = 15;
+                    character.MagicAttack = 10;
+                    character.MagicDefense = 15;
+                    character.Accuracy = 15;
+                    character.Evasion = 25;
                     break;
                 case UserClass.Engineer:
-                    user.Attack = 15;
-                    user.Defense = 25;
-                    user.MagicAttack = 15;
-                    user.MagicDefense = 25;
-                    user.Accuracy = 20;
-                    user.Evasion = 5;
+                    character.Attack = 15;
+                    character.Defense = 25;
+                    character.MagicAttack = 15;
+                    character.MagicDefense = 25;
+                    character.Accuracy = 20;
+                    character.Evasion = 5;
                     break;
                 case UserClass.Samurai:
-                    user.Attack = 30;
-                    user.Defense = 20;
-                    user.MagicAttack = 10;
-                    user.MagicDefense = 15;
-                    user.Accuracy = 10;
-                    user.Evasion = 20;
+                    character.Attack = 30;
+                    character.Defense = 20;
+                    character.MagicAttack = 10;
+                    character.MagicDefense = 15;
+                    character.Accuracy = 10;
+                    character.Evasion = 20;
                     break;
                 default:
-                    user.Attack = 0;
-                    user.Defense = 0;
-                    user.MagicAttack = 0;
-                    user.MagicDefense = 0;
-                    user.Accuracy = 0;
-                    user.Evasion = 0;
+                    character.Attack = 0;
+                    character.Defense = 0;
+                    character.MagicAttack = 0;
+                    character.MagicDefense = 0;
+                    character.Accuracy = 0;
+                    character.Evasion = 0;
                     break;
             }
         }
@@ -154,27 +164,29 @@ namespace CrescentIsland.Website.Models.Repositories
 
             var user = await UserManager.FindByIdAsync(HttpContext.Current.User.Identity.GetUserId());
             if (user == null) return false;
+            var character = user.Characters.FirstOrDefault();
+            if (character == null) return false;
 
             bool modifiedMax = false;
 
             if (maxHealthChange > 0)
             {
-                user.MaxHealth += maxHealthChange;
+                character.MaxHealth += maxHealthChange;
                 modifiedMax = true;
             }
 
-            if (user.CurHealth > 0)
+            if (character.CurHealth > 0)
             {
-                user.CurHealth += healthChange;
-                if (user.CurHealth < 0) user.CurHealth = 0;
-                else if (user.CurHealth > user.MaxHealth) user.CurHealth = user.MaxHealth;
+                character.CurHealth += healthChange;
+                if (character.CurHealth < 0) character.CurHealth = 0;
+                else if (character.CurHealth > character.MaxHealth) character.CurHealth = character.MaxHealth;
             }
 
             using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
             {
-                db.Users.Attach(user);
-                db.Entry(user).Property(x => x.CurHealth).IsModified = true;
-                if (modifiedMax) db.Entry(user).Property(x => x.MaxHealth).IsModified = true;
+                db.Characters.Attach(character);
+                db.Entry(character).Property(x => x.CurHealth).IsModified = true;
+                if (modifiedMax) db.Entry(character).Property(x => x.MaxHealth).IsModified = true;
                 var result = await db.SaveChangesAsync();
             }
 
@@ -187,27 +199,29 @@ namespace CrescentIsland.Website.Models.Repositories
 
             var user = await UserManager.FindByIdAsync(HttpContext.Current.User.Identity.GetUserId());
             if (user == null) return false;
+            var character = user.Characters.FirstOrDefault();
+            if (character == null) return false;
 
             bool modifiedMax = false;
 
             if (maxEnergyChange > 0)
             {
-                user.MaxEnergy += maxEnergyChange;
+                character.MaxEnergy += maxEnergyChange;
                 modifiedMax = true;
             }
 
-            if (user.CurEnergy > 0)
+            if (character.CurEnergy > 0)
             {
-                user.CurEnergy += energyChange;
-                if (user.CurEnergy < 0) user.CurEnergy = 0;
-                else if (user.CurEnergy > user.MaxEnergy) user.CurEnergy = user.MaxEnergy;
+                character.CurEnergy += energyChange;
+                if (character.CurEnergy < 0) character.CurEnergy = 0;
+                else if (character.CurEnergy > character.MaxEnergy) character.CurEnergy = character.MaxEnergy;
             }
 
             using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
             {
-                db.Users.Attach(user);
-                db.Entry(user).Property(x => x.CurEnergy).IsModified = true;
-                if (modifiedMax) db.Entry(user).Property(x => x.MaxEnergy).IsModified = true;
+                db.Characters.Attach(character);
+                db.Entry(character).Property(x => x.CurEnergy).IsModified = true;
+                if (modifiedMax) db.Entry(character).Property(x => x.MaxEnergy).IsModified = true;
                 var result = await db.SaveChangesAsync();
             }
 

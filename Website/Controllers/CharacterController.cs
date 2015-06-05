@@ -1,6 +1,6 @@
 ﻿using CrescentIsland.Website.Models;
-using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -10,13 +10,15 @@ namespace CrescentIsland.Website.Controllers
     public class CharacterController : Controller
     {
         private ApplicationUserManager _userManager;
+        private CharacterManager _charManager;
 
         public CharacterController()
         {
         }
-        public CharacterController(ApplicationUserManager userManager)
+        public CharacterController(ApplicationUserManager userManager, CharacterManager charManager)
         {
             UserManager = userManager;
+            CharManager = charManager;
         }
 
         public ApplicationUserManager UserManager
@@ -30,41 +32,57 @@ namespace CrescentIsland.Website.Controllers
                 _userManager = value;
             }
         }
+        public CharacterManager CharManager
+        {
+            get
+            {
+                return _charManager ?? HttpContext.GetOwinContext().Get<CharacterManager>();
+            }
+            private set
+            {
+                _charManager = value;
+            }
+        }
 
         //
         // GET: /Character/{username}
-        public async Task<ActionResult> Index(string username)
+        public async Task<ActionResult> Index(string charname)
         {
             if (!Request.IsAuthenticated) return RedirectToAction("Index", "Page");
 
             var model = new CharacterViewModel();
-            var user = await UserManager.FindByNameAsync(username);
+            var character = await CharManager.FindCharacterAsync(charname);
 
-            if (user == null)
+            if (character == null)
             {
                 model.CharacterFound = false;
                 return View(model);
             }
 
             model.CharacterFound = true;
-            model.CharacterName = user.UserName;
-            model.UserClass = user.UserClass;
-            model.Level = user.Level;
-            model.CurExp = user.CurExp;
-            model.MaxExp = user.MaxExp;
-            model.Gold = user.Gold;
-            model.CurHealth = user.CurHealth;
-            model.MaxHealth = user.MaxHealth;
-            model.CurEnergy = user.CurEnergy;
-            model.MaxEnergy = user.MaxEnergy;
-            model.Attack = user.Attack;
-            model.Defense = user.Defense;
-            model.MagicAttack = user.MagicAttack;
-            model.MagicDefense = user.MagicDefense;
-            model.Accuracy = user.Accuracy;
-            model.Evasion = user.Evasion;
+            model.CharacterName = character.CharacterName;
+            model.UserClass = character.UserClass;
+            model.Level = character.Level;
+            model.CurExp = character.CurExp;
+            model.MaxExp = character.MaxExp;
+            model.Gold = character.Gold;
+            model.CurHealth = character.CurHealth;
+            model.MaxHealth = character.MaxHealth;
+            model.CurEnergy = character.CurEnergy;
+            model.MaxEnergy = character.MaxEnergy;
+            model.Attack = character.Attack;
+            model.Defense = character.Defense;
+            model.MagicAttack = character.MagicAttack;
+            model.MagicDefense = character.MagicDefense;
+            model.Accuracy = character.Accuracy;
+            model.Evasion = character.Evasion;
 
             return View(model);
+        }
+
+        public ActionResult Inventory()
+        {
+            return View();
         }
 
         protected override void Dispose(bool disposing)

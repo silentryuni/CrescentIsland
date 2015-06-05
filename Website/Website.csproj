@@ -188,6 +188,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\CharacterConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -204,11 +205,10 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
-    <Compile Include="Models\AccountViewModels.cs" />
+    <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\BattleModels.cs" />
     <Compile Include="Models\CharacterModels.cs" />
     <Compile Include="Models\ChatModels.cs" />
-    <Compile Include="Models\GlobalModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\Interfaces\IUserRepository.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -326,6 +326,7 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
+    <Content Include="Views\Character\Index.cshtml" />
     <Content Include="Views\Page\AltIndex.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Web.config" />
@@ -364,15 +365,13 @@
     <Content Include="Views\Page\Lucys.cshtml" />
     <Content Include="Views\Page\Axebeards.cshtml" />
     <Content Include="Views\Page\LastSpell.cshtml" />
-    <Content Include="Views\Page\Character.cshtml" />
-    <Content Include="Views\Page\Inventory.cshtml" />
     <Content Include="Views\User\EditorTemplates\UserClass.cshtml" />
     <Content Include="Assets\Styles\classes.less" />
     <Content Include="Assets\Styles\pages.less" />
     <Content Include="Assets\Styles\tooltipster.less" />
     <Content Include="Views\Chat\ChatBox.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
-    <Content Include="Views\Character\Index.cshtml" />
+    <Content Include="Views\Character\Inventory.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
