@@ -40,11 +40,13 @@ namespace CrescentIsland.Website.Controllers
 
                 sb.Append("<li id=\"");
                 sb.Append(msg.Id);
+                sb.Append("\"><a href=\"/Character/");
+                sb.Append(msg.UserName);
                 sb.Append("\"><span class=\"role");
                 sb.Append(msg.Role);
                 sb.Append("\">");
                 sb.Append(msg.UserName);
-                sb.Append(": </span><span class=\"chat-time\">");
+                sb.Append("</a>: </span><span class=\"chat-time\">");
                 sb.Append(msg.Timestamp.ToString("HH:mm"));
                 sb.Append("</span>");
                 if (User.IsInRole("Administrator"))

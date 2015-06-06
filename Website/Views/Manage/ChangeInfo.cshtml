@@ -1,0 +1,92 @@
+﻿@using CrescentIsland.Website.Models
+@model ChangeInfoViewModel
+
+@{
+    ViewBag.Title = "Change User Info";
+}
+
+<div class="row">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        @Html.Partial("_ManageMenu")
+        @Html.HiddenFor(m => m.HasPassword)
+        @Html.HiddenFor(m => m.HasVerified)
+
+        <h2 class="text-center">@ViewBag.Title</h2>
+
+        <p class="text-success">@ViewBag.StatusMessage</p>
+
+        @using (Html.BeginForm("ChangeInfo", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="row form-row">
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.FirstName) })
+                </div>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(m => m.LastName, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.LastName) })
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(m => m.Country, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Country) })
+                </div>
+                <div class="col-xs-6">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Email) })
+                    <span class="manage-verify">
+                        @if (Model.HasVerified)
+                        {
+                            <text>Your e-mail has been verified</text>
+                        }
+                        else
+                        {
+                            <text>Your e-mail has not been verified yet.<br /><a href="javascript:document.getElementById('sendVerification').submit()">Re-send verification e-mail</a></text>
+                        }
+                    </span>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-6">
+                    <div class="row">
+                        @Html.LabelFor(m => m.UserGender, new { @class = "col-md-4" })
+                        <div class="col-md-8">
+                            @Html.EditorFor(m => m.UserGender, new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xs-6 birthday">
+                    <div class="row">
+                        <div class="col-xs-12">
+                            <label>Birthday</label>
+                        </div>
+
+                        <div class="col-md-12 col-lg-4">
+                            @Html.DropDownListFor(m => m.Year, Model.YearList, "Year", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            @Html.DropDownListFor(m => m.Month, Model.MonthList, "Month", new { @class = "form-control" })
+                        </div>
+                        <div class="col-md-6 col-lg-4">
+                            @Html.DropDownListFor(m => m.Day, Model.DayList, "Day", new { @class = "form-control" })
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-12">
+                    <input type="submit" value="Change info" class="btn btn-default" />
+                </div>
+            </div>
+        }
+        @using (Html.BeginForm("SendVerification", "Manage", FormMethod.Post, new { id = "sendVerification" }))
+        {
+            @Html.AntiForgeryToken()
+        }
+    </div>
+    <div class="col-xs-2"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

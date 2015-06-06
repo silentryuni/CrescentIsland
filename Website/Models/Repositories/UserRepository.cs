@@ -36,10 +36,22 @@ namespace CrescentIsland.Website.Models.Repositories
         {
             var user = new User
             {
+                Created = DateTime.Now,
+                LastLogin = DateTime.Now,
+
+                FirstName = "",
+                LastName = "",
+                Birthday = new DateTime(model.Year, model.Month, model.Day),
+                Country = "",
+
                 UserGender = model.Gender.HasValue ? model.Gender.Value : UserGender.None,
                 
                 UserName = model.Username,
-                Email = model.Email
+                Email = model.Email,
+
+                ShowAge = false,
+                ShowGender = false,
+                ShowMoney = false
             };
 
             var character = new Character

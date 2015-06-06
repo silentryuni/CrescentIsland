@@ -1,8 +1,8 @@
 ﻿#main {
     display: block;
     width: 100%;
-    border-left: solid 1px @gray;
-    border-right: solid 1px @gray;
+    border-left: solid 1px @light-gray;
+    border-right: solid 1px @light-gray;
 
     .equal-row {
 
@@ -100,6 +100,31 @@
 
         #registerForm {
             padding-bottom: 60px;
+        }
+
+        .birthday {
+            .row {
+                margin-left: -7px;
+                margin-right: -7px;
+
+                .col-xs-12, .col-lg-4 {
+                    padding-left: 7px;
+                    padding-right: 7px;
+                }
+            }
+
+            .form-control {
+                padding: 6px;
+                margin-bottom: 14px;
+
+                option {
+                    color: @dark-gray;
+                }
+
+                &.first-option {
+                    color: @gray;
+                }
+            }
         }
 
         .form-row {

@@ -1,0 +1,83 @@
+﻿@using CrescentIsland.Website.Models
+@model ChangeSettingsViewModel
+
+@{
+    ViewBag.Title = "Change User Settings";
+}
+
+<div class="row account-settings-page">
+    <div class="col-xs-2"></div>
+    <div class="col-xs-8">
+        @Html.Partial("_ManageMenu")
+        @Html.HiddenFor(m => m.HasPassword)
+
+        <h2 class="text-center">@ViewBag.Title</h2>
+
+        <p class="text-success">@ViewBag.StatusMessage</p>
+
+        @using (Html.BeginForm("ChangeSettings", "Manage", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+        {
+            @Html.AntiForgeryToken()
+            @Html.ValidationSummary("", new { @class = "text-danger" })
+            <div class="row form-row">
+                <div class="col-xs-6">
+                    @Html.LabelFor(m => m.ShowAge)
+                    <div class="switch-checkbox">
+                        @if (Model.ShowAge)
+                        {
+                            <input type="checkbox" value="None" id="show-age" name="check" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="None" id="show-age" name="check" />
+                        }
+                        <label for="show-age"></label>
+                        @Html.HiddenFor(m => m.ShowAge)
+                    </div>
+                </div>
+                <div class="col-xs-6">
+                    @Html.LabelFor(m => m.ShowGender)
+                    <div class="switch-checkbox">
+                        @if (Model.ShowGender)
+                        {
+                            <input type="checkbox" value="None" id="show-gender" name="check" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="None" id="show-gender" name="check" />
+                        }
+                        <label for="show-gender"></label>
+                        @Html.HiddenFor(m => m.ShowGender)
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-6">
+                    @Html.LabelFor(m => m.ShowMoney)
+                    <div class="switch-checkbox">
+                        @if (Model.ShowMoney)
+                        {
+                            <input type="checkbox" value="None" id="show-money" name="check" checked="checked" />
+                        }
+                        else
+                        {
+                            <input type="checkbox" value="None" id="show-money" name="check" />
+                        }
+                        <label for="show-money"></label>
+                        @Html.HiddenFor(m => m.ShowMoney)
+                    </div>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-12">
+                    <input type="submit" value="Change settings" class="btn btn-default" />
+                </div>
+            </div>
+        }
+    </div>
+    <div class="col-xs-2"></div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

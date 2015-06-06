@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Web.Mvc;
 
 namespace CrescentIsland.Website.Models
@@ -45,6 +46,16 @@ namespace CrescentIsland.Website.Models
         public UserGender? Gender { get; set; }
 
         [Required]
+        [Display(Name = "Year")]
+        public int Year { get; set; }
+        [Required]
+        [Display(Name = "Month")]
+        public int Month { get; set; }
+        [Required]
+        [Display(Name = "Day")]
+        public int Day { get; set; }
+
+        [Required]
         [StringLength(100, ErrorMessage = "The {0} must be at least {2} characters long.", MinimumLength = 1)]
         [DataType(DataType.Password)]
         [Display(Name = "Password")]
@@ -54,6 +65,10 @@ namespace CrescentIsland.Website.Models
         [Display(Name = "Confirm password")]
         [System.ComponentModel.DataAnnotations.Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        public IEnumerable<SelectListItem> YearList { get; set; }
+        public IEnumerable<SelectListItem> MonthList { get; set; }
+        public IEnumerable<SelectListItem> DayList { get; set; }
     }
 
     public class ResetPasswordViewModel

@@ -7,6 +7,7 @@ using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
 using System.IO;
+using System;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -49,62 +50,158 @@ namespace CrescentIsland.Website.Controllers
         }
 
         //
-        // GET: /Manage/Index
-        public ActionResult Index(ManageMessageId? message)
+        // GET: /Manage/ChangeInfo
+        public ActionResult ChangeInfo(ManageMessageId? message)
         {
             ViewBag.StatusMessage =
-                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
-                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
-                : message == ManageMessageId.ChangeAvatarSuccess ? "Your avatar has been changed."
-                : message == ManageMessageId.Error ? "An error has occurred."
+                message == ManageMessageId.ChangeInfoSuccess ? "Your information has been changed."
                 : message == ManageMessageId.EmailSent ? "E-mail successfully sent"
+                : message == ManageMessageId.Error ? "An error has occurred."
                 : "";
 
+            var model = new ChangeInfoViewModel();
+
+            model.HasPassword = false;
+            model.UserGender = UserGender.Male;
+            model.YearList = Enumerable.Range(DateTime.Now.Year - 100, 100).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).Reverse();
+            model.MonthList = Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+            model.DayList = Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+
             var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user == null) return RedirectToAction("Index", "Page");
-
-            IndexViewModel model;
-
-            model = new IndexViewModel
+            if (user != null)
             {
-                HasPassword = user.PasswordHash != null,
-                HasVerified = user.EmailConfirmed,
-                Email = user.Email,
-                AvatarImage = user.AvatarImage,
-                AvatarMimeType = user.AvatarMimeType
-            };
+                model.HasPassword = user.PasswordHash != null;
+                model.Email = user.Email;
+                model.HasVerified = user.EmailConfirmed;
+                model.FirstName = user.FirstName;
+                model.LastName = user.LastName;
+                model.UserGender = user.UserGender;
+                model.Year = user.Birthday.Year;
+                model.Month = user.Birthday.Month;
+                model.Day = user.Birthday.Day;
+                model.Country = user.Country;
+            }
 
             return View(model);
         }
 
         //
-        // POST: /Manage/SendVerification
+        // POST: /Manage/ChangeInfo
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> SendVerification(IndexViewModel model)
+        public async Task<ActionResult> ChangeInfo(ChangeInfoViewModel model)
         {
-            var userId = User.Identity.GetUserId();
-
-            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
-            var callbackUrl = Url.Action("ConfirmEmail", "User", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
-            try
+            if (ModelState.IsValid)
             {
-                await UserManager.SendEmailAsync(userId, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-                ViewBag.StatusMessage = "E-mail successfully sent";
-            }
-            catch
-            {
-                ViewBag.StatusMessage = "An error has occurred.";
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user == null) return RedirectToAction("ChangeInfo", new { message = ManageMessageId.Error });
+
+                user.FirstName = model.FirstName;
+                user.LastName = model.LastName;
+                user.Country = model.Country;
+                user.UserGender = model.UserGender;
+                user.Birthday = new DateTime(model.Year, model.Month, model.Day);
+                if (user.Email != model.Email)
+                {
+                    user.Email = model.Email;
+                    user.EmailConfirmed = false;
+                }
+
+                var result = await UserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ChangeInfo", new { message = ManageMessageId.ChangeInfoSuccess });
+                }
+                else
+                {
+                    return RedirectToAction("ChangeInfo", new { message = ManageMessageId.Error });
+                }
             }
 
-            return View("Index", model);
+            model.YearList = Enumerable.Range(DateTime.Now.Year - 100, 100).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).Reverse();
+            model.MonthList = Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+            model.DayList = Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+
+            return View(model);
+        }
+
+        //
+        // GET: /Manage/ChangeSettings
+        public ActionResult ChangeSettings(ManageMessageId? message)
+        {
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangeSettingsSuccess ? "Your settings has been changed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+
+            var model = new ChangeSettingsViewModel() {
+                HasPassword = false,
+                ShowAge = false,
+                ShowGender = false,
+                ShowMoney = false
+            };
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                model.HasPassword = user.PasswordHash != null;
+                model.ShowAge = user.ShowAge;
+                model.ShowGender = user.ShowGender;
+                model.ShowMoney = user.ShowMoney;
+            }
+
+            return View(model);
+        }
+
+        //
+        // POST: /Manage/ChangeSettings
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ChangeSettings(ChangeSettingsViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+                if (user == null) return RedirectToAction("ChangeSettings", new { message = ManageMessageId.Error });
+
+                user.ShowAge = model.ShowAge;
+                user.ShowGender = model.ShowGender;
+                user.ShowMoney = model.ShowMoney;
+
+                var result = await UserManager.UpdateAsync(user);
+
+                if (result.Succeeded)
+                    return RedirectToAction("ChangeSettings", new { message = ManageMessageId.ChangeSettingsSuccess });
+                else
+                    return RedirectToAction("ChangeSettings", new { message = ManageMessageId.Error });
+            }
+
+            return View(model);
         }
 
         //
         // GET: /Manage/ChangePassword
-        public ActionResult ChangePassword()
+        public ActionResult ChangePassword(ManageMessageId? message)
         {
-            return View();
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangePasswordSuccess ? "Your password has been changed."
+                : message == ManageMessageId.SetPasswordSuccess ? "Your password has been set."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
+
+            var model = new ChangePasswordViewModel()
+            {
+                HasPassword = false
+            };
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                model.HasPassword = user.PasswordHash != null;
+            }
+
+            return View(model);
         }
 
         //
@@ -117,6 +214,7 @@ namespace CrescentIsland.Website.Controllers
             {
                 return View(model);
             }
+
             var result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword, model.NewPassword);
             if (result.Succeeded)
             {
@@ -125,7 +223,7 @@ namespace CrescentIsland.Website.Controllers
                 {
                     await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                 }
-                return RedirectToAction("Index", new { Message = ManageMessageId.ChangePasswordSuccess });
+                return RedirectToAction("ChangePassword", new { Message = ManageMessageId.ChangePasswordSuccess });
             }
             AddErrors(result);
             return View(model);
@@ -135,7 +233,18 @@ namespace CrescentIsland.Website.Controllers
         // GET: /Manage/SetPassword
         public ActionResult SetPassword()
         {
-            return View();
+            var model = new SetPasswordViewModel()
+            {
+                HasPassword = false
+            };
+
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                model.HasPassword = user.PasswordHash != null;
+            }
+
+            return View(model);
         }
 
         //
@@ -154,7 +263,7 @@ namespace CrescentIsland.Website.Controllers
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
                     }
-                    return RedirectToAction("Index", new { Message = ManageMessageId.SetPasswordSuccess });
+                    return RedirectToAction("ChangePassword", new { Message = ManageMessageId.SetPasswordSuccess });
                 }
                 AddErrors(result);
             }
@@ -165,21 +274,32 @@ namespace CrescentIsland.Website.Controllers
 
         //
         // GET: /Manage/ChangeAvatar
-        public ActionResult ChangeAvatar()
+        public ActionResult ChangeAvatar(ManageMessageId? message)
         {
-            var model = new ChangeAvatarViewModel();
-
-            var user = UserManager.FindById(User.Identity.GetUserId());
-            if (user == null) return RedirectToAction("Index", "Page");
-
-            model.UserAvatarImage = user.AvatarImage;
-            model.UserAvatarMimeType = user.AvatarMimeType;
+            ViewBag.StatusMessage =
+                message == ManageMessageId.ChangeAvatarSuccess ? "Your avatar has been changed."
+                : message == ManageMessageId.Error ? "An error has occurred."
+                : "";
 
             DirectoryInfo d = new DirectoryInfo(Server.MapPath("/Assets/Images/Avatars"));
             FileInfo[] files = d.GetFiles("*.png");
 
-            model.Avatars = files.Select(f => new Avatar { ImageUrl = f.Name });
+            var model = new ChangeAvatarViewModel()
+            {
+                HasPassword = false,
+                Avatars = files.Select(f => new Avatar { ImageUrl = f.Name }),
+                UserAvatarImage = new byte[0],
+                UserAvatarMimeType = ""
+            };
 
+            var user = UserManager.FindById(User.Identity.GetUserId());
+            if (user != null)
+            {
+                model.HasPassword = user.PasswordHash != null;
+                model.UserAvatarImage = user.AvatarImage;
+                model.UserAvatarMimeType = user.AvatarMimeType;
+            }
+            
             return View(model);
         }
 
@@ -191,7 +311,7 @@ namespace CrescentIsland.Website.Controllers
         {
             var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
 
-            if (user == null) return RedirectToAction("Index", "Page");
+            if (user == null) return RedirectToAction("ChangeAvatar", new { message = ManageMessageId.Error });
 
             var file = Server.MapPath(model.SelectedAvatar);
 
@@ -209,15 +329,33 @@ namespace CrescentIsland.Website.Controllers
                 user.AvatarMimeType = ext;
             }
 
-            using (var db = HttpContext.GetOwinContext().Get<ApplicationDbContext>())
-            {
-                db.Users.Attach(user);
-                db.Entry(user).Property(x => x.AvatarImage).IsModified = true;
-                db.Entry(user).Property(x => x.AvatarMimeType).IsModified = true;
-                var result = await db.SaveChangesAsync();
-            }
+            var result = await UserManager.UpdateAsync(user);
 
-            return RedirectToAction("Index", new { Message = ManageMessageId.ChangeAvatarSuccess });
+            if (result.Succeeded)
+                return RedirectToAction("ChangeAvatar", new { message = ManageMessageId.ChangeAvatarSuccess });
+            else
+                return RedirectToAction("ChangeAvatar", new { message = ManageMessageId.Error });
+        }
+
+        //
+        // POST: /Manage/SendVerification
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> SendVerification()
+        {
+            var userId = User.Identity.GetUserId();
+
+            string code = await UserManager.GenerateEmailConfirmationTokenAsync(userId);
+            var callbackUrl = Url.Action("ConfirmEmail", "User", new { userId = userId, code = code }, protocol: Request.Url.Scheme);
+            try
+            {
+                await UserManager.SendEmailAsync(userId, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                return RedirectToAction("ChangeInfo", new { message = ManageMessageId.EmailSent });
+            }
+            catch
+            {
+                return RedirectToAction("ChangeInfo", new { message = ManageMessageId.Error });
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -262,6 +400,8 @@ namespace CrescentIsland.Website.Controllers
 
         public enum ManageMessageId
         {
+            ChangeInfoSuccess,
+            ChangeSettingsSuccess,
             ChangePasswordSuccess,
             SetPasswordSuccess,
             ChangeAvatarSuccess,

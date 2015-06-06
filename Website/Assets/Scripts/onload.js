@@ -10,6 +10,8 @@
     Pages.SetAvatar();
     Pages.SetClass();
     Pages.StatsTooltip();
+    Pages.DropdownUnselected();
+    Pages.SetSwitchCheckbox();
 
 
     // Temp code

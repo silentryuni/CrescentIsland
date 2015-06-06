@@ -1,0 +1,51 @@
+﻿@{
+    var url = Request.RawUrl;
+    string info = "", settings = "", avatar = "", password = "";
+
+    if (url.ToLower().Contains("manage/changeinfo"))
+    {
+        info = " selected";
+    }
+    else if (url.ToLower().Contains("manage/changesettings"))
+    {
+        settings = " selected";
+    }
+    else if (url.ToLower().Contains("manage/changeavatar"))
+    {
+        avatar = " selected";
+    }
+    else if (url.ToLower().Contains("manage/changepassword"))
+    {
+        password = " selected";
+    }
+}
+
+<div class="row manage-menu">
+    <div class="col-xs-3">
+        <div class="manage-menu-item@(info)">
+            @Html.ActionLink("Information", "ChangeInfo")
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="manage-menu-item@(settings)">
+            @Html.ActionLink("Settings", "ChangeSettings")
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="manage-menu-item@(avatar)">
+            @Html.ActionLink("Avatar", "ChangeAvatar")
+        </div>
+    </div>
+    <div class="col-xs-3">
+        <div class="manage-menu-item@(password)">
+            @if (Model.HasPassword)
+            {
+                @Html.ActionLink("Password", "ChangePassword")
+            }
+            else
+            {
+                @Html.ActionLink("Password", "SetPassword")
+            }
+        </div>
+    </div>
+</div>

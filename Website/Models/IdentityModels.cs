@@ -4,6 +4,8 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Collections.Generic;
+using System;
+using System.ComponentModel.DataAnnotations;
 
 namespace CrescentIsland.Website.Models
 {
@@ -23,11 +25,29 @@ namespace CrescentIsland.Website.Models
             return userIdentity;
         }
 
-        //Extended Properties
+        // Extended Properties
+        [Required]
+        public DateTime Created { get; set; }
+        [Required]
+        public DateTime LastLogin { get; set; }
 
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        [Required]
+        public DateTime Birthday { get; set; }
+        public string Country { get; set; }
+        [Required]
         public UserGender UserGender { get; set; }
         public byte[] AvatarImage { get; set; }
         public string AvatarMimeType { get; set; }
+
+        // User Settings
+        [Required]
+        public bool ShowAge { get; set; }
+        [Required]
+        public bool ShowMoney { get; set; }
+        [Required]
+        public bool ShowGender { get; set; }
 
         public virtual ICollection<Character> Characters { get; set; }
     }
@@ -63,15 +83,5 @@ namespace CrescentIsland.Website.Models
         Male,
         Female,
         None
-    }
-
-    public enum UserClass
-    {
-        Valkyrie,
-        Warrior,
-        Sorceress,
-        Rogue,
-        Engineer,
-        Samurai
     }
 }

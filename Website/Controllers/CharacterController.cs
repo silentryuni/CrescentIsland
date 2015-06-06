@@ -1,4 +1,5 @@
-﻿using CrescentIsland.Website.Models;
+﻿using CrescentIsland.Website.Helpers;
+using CrescentIsland.Website.Models;
 using Microsoft.AspNet.Identity.Owin;
 using System.Linq;
 using System.Threading.Tasks;
@@ -51,14 +52,21 @@ namespace CrescentIsland.Website.Controllers
             if (!Request.IsAuthenticated) return RedirectToAction("Index", "Page");
 
             var model = new CharacterViewModel();
-            var character = await CharManager.FindCharacterAsync(charname);
 
-            if (character == null)
+            var user = await CharManager.FindCharacterOwnerAsync(charname);
+            if (user == null)
             {
                 model.CharacterFound = false;
                 return View(model);
             }
 
+            var character = user.Characters.FirstOrDefault();
+            if (character == null)
+            {
+                model.CharacterFound = false;
+                return View(model);
+            }
+            
             model.CharacterFound = true;
             model.CharacterName = character.CharacterName;
             model.UserClass = character.UserClass;

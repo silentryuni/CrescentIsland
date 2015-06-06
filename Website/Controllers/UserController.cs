@@ -8,6 +8,8 @@ using CrescentIsland.Website.Models;
 using CrescentIsland.Website.Models.Interfaces;
 using CrescentIsland.Website.Models.Repositories;
 using System.Text.RegularExpressions;
+using System.Linq;
+using System;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -76,6 +78,16 @@ namespace CrescentIsland.Website.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
+                    using (var db = HttpContext.GetOwinContext().Get<ApplicationDbContext>())
+                    {
+                        var user = db.Users.Where(x => x.UserName.ToUpper() == model.Username.ToUpper()).FirstOrDefault();
+                        if (user != null)
+                        {
+                            user.LastLogin = DateTime.Now;
+                            db.Entry(user).Property(x => x.LastLogin).IsModified = true;
+                            await db.SaveChangesAsync();
+                        }
+                    }
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("Lockout");
@@ -91,7 +103,12 @@ namespace CrescentIsland.Website.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            var model = new RegisterViewModel();
+            model.YearList = Enumerable.Range(DateTime.Now.Year - 100, 100).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).Reverse();
+            model.MonthList = Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+            model.DayList = Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+
+            return View(model);
         }
 
         //
@@ -133,6 +150,10 @@ namespace CrescentIsland.Website.Controllers
             {
                 ModelState.AddModelError("", "That user name is forbidden. Please enter a different user name.");
             }
+
+            model.YearList = Enumerable.Range(DateTime.Now.Year - 100, 100).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).Reverse();
+            model.MonthList = Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
+            model.DayList = Enumerable.Range(1, 31).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
 
             // If we got this far, something failed, redisplay form
             return View(model);
@@ -289,7 +310,7 @@ namespace CrescentIsland.Website.Controllers
         #region Helpers
         private bool HasForbiddenWords(string inputWords)
         {
-            var forbiddenWords = "(inventory)";
+            var forbiddenWords = "(inventory|character)";
             Regex wordFilter = new Regex(forbiddenWords);
             return wordFilter.IsMatch(inputWords.ToLower());
         }

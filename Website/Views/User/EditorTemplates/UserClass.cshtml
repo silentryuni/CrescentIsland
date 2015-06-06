@@ -4,41 +4,41 @@
 <div class="class-selection">
     @foreach (UserClass userclass in Enum.GetValues(typeof(UserClass)))
     {
-        <div class="col-sm-4">
+        <div class="col-md-4">
             @switch (userclass)
             {
                 case UserClass.Valkyrie:
-                    <div class="class-button selected" data-class=".class-valkyrie">
+                    <div class="class-button selected enum@(userclass.GetHashCode())" data-class=".class-valkyrie" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-spear3"></span>
                         Valkyrie
                     </div>
                     break;
                 case UserClass.Warrior:
-                    <div class="class-button" data-class=".class-warrior">
+                    <div class="class-button enum@(userclass.GetHashCode())" data-class=".class-warrior" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-axe"></span>
                         Warrior
                     </div>
                     break;
                 case UserClass.Sorceress:
-                    <div class="class-button" data-class=".class-sorceress">
+                    <div class="class-button enum@(userclass.GetHashCode())" data-class=".class-sorceress" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-staff3"></span>
                         Sorceress
                     </div>
                     break;
                 case UserClass.Rogue:
-                    <div class="class-button" data-class=".class-rogue">
+                    <div class="class-button enum@(userclass.GetHashCode())" data-class=".class-rogue" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-knife3"></span>
                         Rogue
                     </div>
                     break;
                 case UserClass.Engineer:
-                    <div class="class-button" data-class=".class-engineer">
+                    <div class="class-button enum@(userclass.GetHashCode())" data-class=".class-engineer" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-gun2"></span>
                         Engineer
                     </div>
                     break;
                 case UserClass.Samurai:
-                    <div class="class-button" data-class=".class-samurai">
+                    <div class="class-button enum@(userclass.GetHashCode())" data-class=".class-samurai" data-value="@userclass.GetHashCode()">
                         <span class="sprite-icon sprite-icon-katana"></span>
                         Samurai
                     </div>
@@ -47,9 +47,9 @@
                     break;
             }
 
-            @Html.RadioButtonFor(m => m, userclass)
         </div>
     }
+    @Html.HiddenFor(m => m, new { @class = "model-value" })
 </div>
 
 <div class="class-selected">

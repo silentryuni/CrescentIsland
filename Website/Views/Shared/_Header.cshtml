@@ -12,13 +12,13 @@
             <div class="col-xs-6">
                 <div class="character-name">
                     <div class="avatar">
-                        <a href="@Url.Action("Index", "Manage", routeValues: null)">
+                        <a href="@Url.Action("ChangeAvatar", "Manage", routeValues: null)">
                             <img src="@(AvatarHelper.GetAvatarUrl(Model.AvatarImage, Model.AvatarMimeType))" />
                         </a>
                     </div>
 
                     <div class="username">
-                        <a href="@Url.Action("Index", "Manage")">
+                        <a href="@Url.Action("ChangeInfo", "Manage")">
                             @if (User.IsInRole("Administrator"))
                             {
                                 <span class="admin-medal sprite-icon sprite-icon-medal"></span>

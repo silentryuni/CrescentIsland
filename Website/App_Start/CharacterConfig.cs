@@ -35,6 +35,12 @@ namespace CrescentIsland.Website
             return character;
         }
 
+        protected virtual async Task<User> GetUserAggregateAsync(IQueryable<User> entitySet, Expression<Func<User, bool>> filter)
+        {
+            var user = await entitySet.FirstOrDefaultAsync(filter).WithCurrentCulture();
+            return user;
+        }
+
         public virtual Task<Character> FindCharacterAsync(string charName)
         {
             ThrowIfDisposed();
@@ -43,6 +49,16 @@ namespace CrescentIsland.Website
 
             IQueryable<Character> entityset = Context.Set<Character>();
             return GetCharacterAggregateAsync(entityset, c => c.CharacterName.ToUpper() == charName.ToUpper());
+        }
+
+        public virtual Task<User> FindCharacterOwnerAsync(string charName)
+        {
+            ThrowIfDisposed();
+            if (charName == null)
+                throw new ArgumentNullException("charName");
+
+            IQueryable<User> entityset = Context.Set<User>();
+            return GetUserAggregateAsync(entityset, u => u.Characters.Any(c => c.CharacterName.ToUpper() == charName.ToUpper()));
         }
 
 

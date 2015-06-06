@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.Data.Entity;
 
 namespace CrescentIsland.Website.Models
 {
@@ -9,34 +8,27 @@ namespace CrescentIsland.Website.Models
         [Required]
         [StringLength(128)]
         public string Id { get; set; }
-
         [Required]
         [StringLength(256)]
         public string CharacterName { get; set; }
-
         [Required]
         public UserClass UserClass { get; set; }
-
         [Required]
         public int Level { get; set; }
         [Required]
         public int CurExp { get; set; }
         [Required]
         public int MaxExp { get; set; }
-
         [Required]
         public int Gold { get; set; }
-
         [Required]
         public int CurHealth { get; set; }
         [Required]
         public int MaxHealth { get; set; }
-
         [Required]
         public int CurEnergy { get; set; }
         [Required]
         public int MaxEnergy { get; set; }
-
         [Required]
         public int Attack { get; set; }
         [Required]
@@ -54,8 +46,6 @@ namespace CrescentIsland.Website.Models
     public class CharacterViewModel
     {
         public bool CharacterFound { get; set; }
-        public bool Owner { get; set; }
-
         public string CharacterName { get; set; }
         public UserClass UserClass { get; set; }
         public int Level { get; set; }
@@ -72,5 +62,20 @@ namespace CrescentIsland.Website.Models
         public int MagicDefense { get; set; }
         public int Accuracy { get; set; }
         public int Evasion { get; set; }
+    }
+
+    public class CharacterUserViewModel
+    {
+
+    }
+
+    public enum UserClass
+    {
+        Valkyrie,
+        Warrior,
+        Sorceress,
+        Rogue,
+        Engineer,
+        Samurai
     }
 }

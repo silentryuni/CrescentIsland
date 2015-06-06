@@ -13,35 +13,54 @@
             @using (Html.BeginForm("Register", "User", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
             {
                 @Html.AntiForgeryToken()
-                @Html.ValidationSummary("", new { @class = "text-danger" })
-
+                
                 <div class="row form-row">
                     @Html.EditorFor(m => m.UserClass)
                 </div>
 
+                @Html.ValidationSummary("", new { @class = "text-danger" })
+
                 <div class="row form-row">
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         @Html.TextBoxFor(m => m.Username, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Username) })
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         @Html.TextBoxFor(m => m.Email, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Email) })
                     </div>
                 </div>
                 <div class="row form-row">
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         @Html.PasswordFor(m => m.Password, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Password) })
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6">
                         @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.ConfirmPassword) })
                     </div>
                 </div>
                 <div class="row form-row">
-                    @Html.LabelFor(m => m.Gender, new { @class = "col-sm-2" })
-                    <div class="col-sm-4">
-                        @Html.EditorFor(m => m.Gender, new { @class = "form-control" })
+                    <div class="col-xs-6">
+                        <div class="row">
+                            @Html.LabelFor(m => m.Gender, new { @class = "col-md-4" })
+                            <div class="col-md-8">
+                                @Html.EditorFor(m => m.Gender, new { @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
-                    <div class="col-sm-6">
+                    <div class="col-xs-6 birthday">
+                        <div class="row">
+                            <div class="col-xs-12">
+                                <label>Birthday</label>
+                            </div>
 
+                            <div class="col-md-12 col-lg-4">
+                                @Html.DropDownListFor(m => m.Year, Model.YearList, "Year", new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                @Html.DropDownListFor(m => m.Month, Model.MonthList, "Month", new { @class = "form-control" })
+                            </div>
+                            <div class="col-md-6 col-lg-4">
+                                @Html.DropDownListFor(m => m.Day, Model.DayList, "Day", new { @class = "form-control" })
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="row form-row">

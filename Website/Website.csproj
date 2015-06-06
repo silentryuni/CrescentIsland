@@ -348,7 +348,6 @@
     <Content Include="Views\User\ResetPassword.cshtml" />
     <Content Include="Views\User\ResetPasswordConfirmation.cshtml" />
     <Content Include="Views\Manage\ChangePassword.cshtml" />
-    <Content Include="Views\Manage\Index.cshtml" />
     <Content Include="Views\Manage\SetPassword.cshtml" />
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Assets\Styles\variables.less" />
@@ -372,6 +371,10 @@
     <Content Include="Views\Chat\ChatBox.cshtml" />
     <Content Include="Scripts\jquery-2.1.4.min.map" />
     <Content Include="Views\Character\Inventory.cshtml" />
+    <Content Include="Views\Manage\ChangeInfo.cshtml" />
+    <Content Include="Views\Manage\EditorTemplates\UserGender.cshtml" />
+    <Content Include="Views\Manage\ChangeSettings.cshtml" />
+    <Content Include="Views\Manage\_ManageMenu.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
