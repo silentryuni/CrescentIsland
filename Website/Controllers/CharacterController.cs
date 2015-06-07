@@ -1,6 +1,8 @@
 ﻿using CrescentIsland.Website.Helpers;
 using CrescentIsland.Website.Models;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
+using System;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Web;
@@ -56,6 +58,60 @@ namespace CrescentIsland.Website.Controllers
             var user = await CharManager.FindCharacterOwnerAsync(charname);
             if (user == null)
             {
+                model.UserFound = false;
+                return View(model);
+            }
+
+            model.UserFound = true;
+            model.Username = user.UserName;
+            model.FirstName = user.FirstName;
+            model.LastName = user.LastName;
+            model.Gender = (user.ShowGender ? user.UserGender.ToString() : hiddenValue);
+            model.Age = (user.ShowAge ? CalculateAge(user.Birthday).ToString() : hiddenValue);
+            model.Country = user.Country;
+            model.Biography = user.Biography;
+            model.AvatarImage = user.AvatarImage;
+            model.AvatarMimeType = user.AvatarMimeType;
+            model.AccountAge = AccountAge(user.Created);
+            model.LastLogin = LastLogin(user.LastLogin);
+
+            var character = user.Characters.FirstOrDefault();
+            if (character == null)
+            {
+                model.CharacterFound = false;
+                return View(model);
+            }
+
+            model.CharacterFound = true;
+            model.OwnCharacter = user.Id.Equals(User.Identity.GetUserId());
+
+            model.CharacterName = character.CharacterName;
+            model.UserClass = character.UserClass.ToString();
+            model.Level = character.Level;
+            model.CurExp = character.CurExp;
+            model.MaxExp = character.MaxExp;
+            model.Gold = (user.ShowMoney ? character.Gold.ToString() : hiddenValue);
+            model.CurHealth = character.CurHealth;
+            model.MaxHealth = character.MaxHealth;
+            model.Attack = character.Attack;
+            model.Defense = character.Defense;
+            model.MagicAttack = character.MagicAttack;
+            model.MagicDefense = character.MagicDefense;
+            model.Accuracy = character.Accuracy;
+            model.Evasion = character.Evasion;
+
+            return View(model);
+        }
+
+        //
+        // GET: /Character/User/Index
+        public async Task<ActionResult> UserIndex()
+        {
+            var model = new CharacterUserViewModel();
+
+            var user = await UserManager.FindByIdAsync(User.Identity.GetUserId());
+            if (user == null)
+            {
                 model.CharacterFound = false;
                 return View(model);
             }
@@ -66,7 +122,7 @@ namespace CrescentIsland.Website.Controllers
                 model.CharacterFound = false;
                 return View(model);
             }
-            
+
             model.CharacterFound = true;
             model.CharacterName = character.CharacterName;
             model.UserClass = character.UserClass;
@@ -87,11 +143,72 @@ namespace CrescentIsland.Website.Controllers
 
             return View(model);
         }
-
+        
+        //
+        // GET: /Character/Inventory
         public ActionResult Inventory()
         {
             return View();
         }
+
+        #region Helpers
+
+        private const string hiddenValue = "<span class=\"value-hidden\">Hidden</span>";
+
+        private int CalculateAge(DateTime birthday)
+        {
+            DateTime today = DateTime.Today;
+            int age = today.Year - birthday.Year;
+            if (birthday > today.AddYears(-age)) age--;
+
+            return age;
+        }
+
+        public string AccountAge(DateTime created)
+        {
+            var totaldays = DaysBetween(created, DateTime.Now);
+            var years = totaldays / 365;
+            var days = totaldays % 365;
+
+            return string.Format("{0} Years, {1} Days", years, days);
+        }
+
+        public string LastLogin(DateTime lastlogin)
+        {
+            var today = DateTime.Now;
+            TimeSpan span = today.Subtract(lastlogin);
+            
+            if ((int)span.TotalDays == 0 && span.Hours == 0 && span.Minutes == 0 && span.Seconds < 60)
+            {
+                return string.Format("{0} seconds ago", span.Seconds);
+            }
+            else if ((int)span.TotalDays == 0 && span.Hours == 0 && span.Minutes < 60)
+            {
+                return string.Format("{0} minutes ago", span.Minutes);
+            }
+            else if ((int)span.TotalDays == 0 && span.Hours < 24)
+            {
+                return string.Format("{0} hours ago", span.Hours);
+            }
+            else if ((int)span.TotalDays != 0)
+            {
+                return string.Format("{0} days ago", (int)span.TotalDays);
+            }
+            else
+            {
+                return string.Format("Online now");
+            }
+        }
+
+        public int DaysBetween(DateTime d1, DateTime d2)
+        {
+            TimeSpan span = d2.Subtract(d1);
+            return Math.Abs((int)span.TotalDays);
+        }
+
+        #endregion
+
+        #region Dispose
 
         protected override void Dispose(bool disposing)
         {
@@ -103,5 +220,7 @@ namespace CrescentIsland.Website.Controllers
 
             base.Dispose(disposing);
         }
+
+        #endregion
     }
 }

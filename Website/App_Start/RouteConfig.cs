@@ -10,6 +10,12 @@ namespace CrescentIsland.Website
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
 
             routes.MapRoute(
+                name: "CharacterUserIndex",
+                url: "Character/User/Index",
+                defaults: new { controller = "Character", action = "UserIndex" }
+            );
+
+            routes.MapRoute(
                 name: "CharacterInventory",
                 url: "Character/Inventory",
                 defaults: new { controller = "Character", action = "Inventory" }

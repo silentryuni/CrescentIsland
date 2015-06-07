@@ -56,6 +56,8 @@ namespace CrescentIsland.Website.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            if (Request.IsAuthenticated) return RedirectToAction("Index", "Page");
+
             ViewBag.ReturnUrl = returnUrl;
             return View();
         }
@@ -103,6 +105,8 @@ namespace CrescentIsland.Website.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            if (Request.IsAuthenticated) return RedirectToAction("Index", "Page");
+
             var model = new RegisterViewModel();
             model.YearList = Enumerable.Range(DateTime.Now.Year - 100, 100).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() }).Reverse();
             model.MonthList = Enumerable.Range(1, 12).Select(i => new SelectListItem { Value = i.ToString(), Text = i.ToString() });
@@ -177,6 +181,8 @@ namespace CrescentIsland.Website.Controllers
         [AllowAnonymous]
         public ActionResult ForgotPassword()
         {
+            if (Request.IsAuthenticated) return RedirectToAction("Index", "Page");
+
             return View();
         }
 
@@ -310,7 +316,7 @@ namespace CrescentIsland.Website.Controllers
         #region Helpers
         private bool HasForbiddenWords(string inputWords)
         {
-            var forbiddenWords = "(inventory|character)";
+            var forbiddenWords = "(inventory|character|characters|user|users|register)";
             Regex wordFilter = new Regex(forbiddenWords);
             return wordFilter.IsMatch(inputWords.ToLower());
         }

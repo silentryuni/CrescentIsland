@@ -36,6 +36,7 @@ namespace CrescentIsland.Website.Models
         [Required]
         public DateTime Birthday { get; set; }
         public string Country { get; set; }
+        public string Biography { get; set; }
         [Required]
         public UserGender UserGender { get; set; }
         public byte[] AvatarImage { get; set; }

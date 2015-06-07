@@ -22,6 +22,8 @@ namespace CrescentIsland.Website.Models
         [Required]
         public int Day { get; set; }
         public string Country { get; set; }
+        [AllowHtml]
+        public string Biography { get; set; }
         public bool HasVerified { get; set; }
         [Required]
         [EmailAddress]

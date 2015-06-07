@@ -8,6 +8,7 @@ using Microsoft.Owin.Security;
 using CrescentIsland.Website.Models;
 using System.IO;
 using System;
+using System.Text.RegularExpressions;
 
 namespace CrescentIsland.Website.Controllers
 {
@@ -80,6 +81,7 @@ namespace CrescentIsland.Website.Controllers
                 model.Month = user.Birthday.Month;
                 model.Day = user.Birthday.Day;
                 model.Country = user.Country;
+                model.Biography = user.Biography;
             }
 
             return View(model);
@@ -99,6 +101,7 @@ namespace CrescentIsland.Website.Controllers
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.Country = model.Country;
+                user.Biography = CloseAllTags(SanitizeHtml(model.Biography));
                 user.UserGender = model.UserGender;
                 user.Birthday = new DateTime(model.Year, model.Month, model.Day);
                 if (user.Email != model.Email)
@@ -379,6 +382,50 @@ namespace CrescentIsland.Website.Controllers
         }
 
         #region Helpers
+
+        private string SanitizeHtml(string html)
+        {
+            string acceptable = "u|em|b|strong|h4|h5|br|a";
+            string stringPattern = @"</?(?(?=" + acceptable + @")notag|[a-zA-Z0-9]+)(?:\s[a-zA-Z0-9\-]+=?(?:(["",']?).*?\1?)?)*\s*/?>";
+            return Regex.Replace(html, stringPattern, "");
+        }
+
+        private string CloseAllTags(string html)
+        {
+            html = CloseTags(html, "<u>", "</u>", "<u ");
+            html = CloseTags(html, "<ul", "</ul>");
+            html = CloseTags(html, "<em", "</em>");
+            html = CloseTags(html, "<b>", "</b>", "<b ");
+            html = CloseTags(html, "<strong", "</strong>");
+            html = CloseTags(html, "<h4", "</h4>");
+            html = CloseTags(html, "<h5", "</h5>");
+            html = CloseTags(html, "<a", "</a>");
+
+            return html;
+        }
+
+        private string CloseTags(string html, string tag, string closeTag, string extraTag = "")
+        {
+            // Counts the amount of tags in the html
+            int count = new Regex(Regex.Escape(tag)).Matches(html).Count;
+            // A secondary tag to count as well
+            if (!string.IsNullOrEmpty(extraTag))
+                count += new Regex(Regex.Escape(extraTag)).Matches(html).Count;
+            // Counts the amount of closing tags
+            int endcount = new Regex(Regex.Escape(closeTag)).Matches(html).Count;
+            // How many starting tags are unclosed
+            int difference = count - endcount;
+            // Don't do anything if there's enough or more closing tags than starting tags
+            if (difference > 0)
+            {
+                // Add a closing tag for every unclosed starting tag
+                for (int i = 0; i < difference; i++)
+                    html += closeTag;
+            }
+
+            return html;
+        }
+
         // Used for XSRF protection when adding external logins
         private const string XsrfKey = "XsrfId";
 
@@ -409,6 +456,6 @@ namespace CrescentIsland.Website.Controllers
             Error
         }
 
-#endregion
+        #endregion
     }
 }

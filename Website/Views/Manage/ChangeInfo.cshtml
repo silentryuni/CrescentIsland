@@ -2,10 +2,10 @@
 @model ChangeInfoViewModel
 
 @{
-    ViewBag.Title = "Change User Info";
+    ViewBag.Title = "Change User Information";
 }
 
-<div class="row">
+<div class="row account-info-page">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
         @Html.Partial("_ManageMenu")
@@ -44,6 +44,16 @@
                             <text>Your e-mail has not been verified yet.<br /><a href="javascript:document.getElementById('sendVerification').submit()">Re-send verification e-mail</a></text>
                         }
                     </span>
+                </div>
+            </div>
+            <div class="row form-row">
+                <div class="col-xs-12 biography">
+                    <span class="sprite-icon sprite-icon-note">
+                        <span class="biography-info">
+                            Html tags allowed: u, em, b, strong, h4, h5, br, a
+                        </span>
+                    </span>
+                    @Html.TextAreaFor(m => m.Biography, new { @class = "form-control", @placeholder = Html.DisplayNameFor(m => m.Biography) })
                 </div>
             </div>
             <div class="row form-row">

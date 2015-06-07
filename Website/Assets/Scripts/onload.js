@@ -3,16 +3,18 @@
 
     Initialize.Grids('.equal-row .equal-col');
     Initialize.HideMenu('.hide-menu a');
-    Initialize.CustomScrollbar($('.chatbox .message-box'));
+    Initialize.CustomScrollbar($('.chatbox').find('.message-box'), 'minimal-dark');
+    Initialize.CustomScrollbar($('.character-page').find('.biography'), 'minimal');
+    Initialize.Tooltip($('.character-stats-row').find('.character-stats-name'), '.character-stats-info', 'tooltipster-crescent-dark');
+    Initialize.Tooltip($('.nav-top-menu').find('a'), '.top-menu-info', 'tooltipster-crescent-dark');
+    Initialize.Tooltip($('.account-info-page').find('.biography').find('.sprite-icon'), '.biography-info', 'tooltipster-crescent-dark');
 
     Global.GetChatMessages();
 
     Pages.SetAvatar();
     Pages.SetClass();
-    Pages.StatsTooltip();
     Pages.DropdownUnselected();
     Pages.SetSwitchCheckbox();
-
 
     // Temp code
     $battleButton = $('.battle a');

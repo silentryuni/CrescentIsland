@@ -23,7 +23,7 @@
             $('#main').toggleClass('no-menu');
         });
     },
-    CustomScrollbar: function ($selector) {
+    CustomScrollbar: function ($selector, theme) {
         // Initializes mCustomScrollbar plugin
         $selector.mCustomScrollbar({
             mouseWheel: {
@@ -31,9 +31,22 @@
                 preventDefault: true,
                 scrollAmount: 200
             },
-            theme: 'minimal-dark'
+            theme: theme
         });
-    }
+    },
+    Tooltip: function ($selector, infoElem, theme) {
+        // Add tooltips on stat names, content is gotten from inner div with character-stats-info class
+        $selector.each(function () {
+            $(this).tooltipster({
+                animation: 'grow',
+                content: $(this).find(infoElem).html(),
+                contentAsHTML: true,
+                delay: 200,
+                position: 'top',
+                theme: theme
+            });
+        });
+    },
 };
 
 var Global = {
@@ -223,19 +236,6 @@ var Pages = {
             $('.class-selection').find('input.model-value').val(modelValue);
             $('.class-selected > div').removeClass('selected');
             $('.class-selected').find(selectedClass).addClass('selected');
-        });
-    },
-    StatsTooltip: function () {
-        // Add tooltips on stat names, content is gotten from inner div with character-stats-info class
-        $('.character-stats-row .character-stats-name').each(function () {
-            $(this).tooltipster({
-                animation: 'grow',
-                content: $(this).find('.character-stats-info').html(),
-                contentAsHTML: true,
-                delay: 200,
-                position: 'top',
-                theme: 'tooltipster-crescent'
-            });
         });
     },
     DropdownUnselected: function () {

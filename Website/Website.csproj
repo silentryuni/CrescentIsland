@@ -375,6 +375,7 @@
     <Content Include="Views\Manage\EditorTemplates\UserGender.cshtml" />
     <Content Include="Views\Manage\ChangeSettings.cshtml" />
     <Content Include="Views\Manage\_ManageMenu.cshtml" />
+    <Content Include="Views\Character\UserIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

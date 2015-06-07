@@ -1,5 +1,77 @@
 ﻿#main {
     .body-content {
+        /* Register Page */
+        #registerForm {
+            padding-bottom: 60px;
+        }
+
+        .class-selection {
+            float: left;
+            width: 100%;
+            margin-bottom: 25px;
+
+            .class-button {
+                display: block;
+                width: 100%;
+                height: 50px;
+                padding: 10px;
+                text-align: center;
+                line-height: 30px;
+                cursor: pointer;
+
+                &.selected {
+                    padding: 8px 6px 4px 6px;
+                    border: solid 2px @light-teal;
+                }
+            }
+
+            input {
+                display: none;
+            }
+        }
+
+        .class-selected {
+            float: left;
+            width: 100%;
+            text-align: center;
+
+            > div {
+                display: none;
+
+                &.selected {
+                    display: inline-block;
+                }
+            }
+        }
+
+
+        /* Front Page */
+        .frontpage-logo {
+            width: 100%;
+            text-align: center;
+
+            img {
+                max-width: 100%;
+            }
+        }
+
+        .frontpage-intro {
+            padding: 20px 0;
+
+            ul, li {
+                list-style: disc;
+                list-style-position: inside;
+            }
+            ul {
+                padding-left: 30px;
+            }
+            h1 {
+                margin-top: 0;
+            }
+        }
+
+
+        /* Manager User Menu */
         .manage-menu {
             .manage-menu-item {
                 text-align: center;
@@ -19,6 +91,7 @@
                 a {
                     display: inline-block;
                     color: @white;
+                    width: 100%;
                     padding: 5px 10px;
 
                     &:hover {
@@ -28,43 +101,61 @@
             }
         }
 
-        .sub-title {
-            display: block;
-            width: 100%;
-            font-size: 18px;
 
-            &.extra-margin {
-                margin-top: 25px;
+        /* Manage User Pages */
+        .account-info-page {
+            .manage-verify {
+                font-size: 12px;
+            }
+
+            .biography {
+                .sprite-icon {
+                    position: absolute;
+                    top: -28px;
+                    left: 15px;
+                    cursor: help;
+
+                    .biography-info {
+                        display: none;
+                    }
+                }
             }
         }
 
-        .character-page {
-            h2 {
-                color: @light-teal;
-                margin-bottom: 50px;
-            }
-
-            .character-class {
-                text-align: right;
-
-                @media (max-width: 1199px) {
-                    text-align: center;
+        .account-avatar-page {
+            .manage-avatar {
+                img {
+                    max-width: 100%;
+                    height: auto;
                 }
             }
 
-            .character-stats-row {
-                margin-bottom: 5px;
+            .current-avatar img, .selected-avatar img {
+                max-width: 100%;
+                height: auto;
+                margin: 15px 0 20px;
+            }
+            .selected-avatar {
+                display: none;
+            }
 
-                &.extra-margin {
-                    margin-bottom: 15px;
+            .change-avatar {
+                max-height: 300px;
+                overflow-y: scroll;
+            }
+
+            .avatar-selection {
+                padding: 15px;
+                margin-bottom: 15px;
+
+                &.selected {
+                    padding: 13px;
+                    border: solid 2px @light-teal;
                 }
 
-                .character-stats-name {
-                    cursor: help;
-                }
-
-                .character-stats-info {
-                    display: none;
+                img {
+                    max-width: 100%;
+                    height: auto;
                 }
             }
         }
@@ -151,6 +242,64 @@
 
                 input[type=checkbox]:checked + label {
 	                left: 43px;
+                }
+            }
+        }
+
+
+        /* Character Page */
+        .character-page {
+            h2 {
+                color: @light-teal;
+                margin-bottom: 50px;
+            }
+            h5 {
+                color: @light-teal;
+                margin-bottom: 0px;
+            }
+            .value-hidden {
+                color: @gray;
+            }
+            .biography {
+                margin-top: 3px;
+                max-height: 150px;
+
+                a {
+                    color: @gray;
+                    
+                    &:hover {
+                        color: @white;
+                        text-decoration: underline;
+                    }
+                }
+
+                .mCSB_outside + .mCS-minimal-dark.mCSB_scrollTools_vertical,
+                .mCSB_outside + .mCS-minimal.mCSB_scrollTools_vertical {
+                    margin: 0;
+                }
+            }
+
+            .character-class {
+                text-align: right;
+
+                @media (max-width: 1199px) {
+                    text-align: center;
+                }
+            }
+
+            .character-stats-row {
+                margin-bottom: 5px;
+
+                &.extra-margin {
+                    margin-bottom: 15px;
+                }
+
+                .character-stats-name {
+                    cursor: help;
+                }
+
+                .character-stats-info {
+                    display: none;
                 }
             }
         }

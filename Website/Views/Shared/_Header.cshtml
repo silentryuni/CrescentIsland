@@ -18,12 +18,12 @@
                     </div>
 
                     <div class="username">
-                        <a href="@Url.Action("ChangeInfo", "Manage")">
+                        <a href="@Url.Action("Index", "Character", new { charname = Model.CharacterName })">
                             @if (User.IsInRole("Administrator"))
                             {
                                 <span class="admin-medal sprite-icon sprite-icon-medal"></span>
                             }
-                            @Model.Username
+                            @Model.CharacterName
                         </a>
                     </div>
                     <div class="level">
@@ -43,17 +43,29 @@
                 </div>
             </div>
             <div class="col-sm-3 col-md-4">
-                <ul class="nav-character">
+                <ul class="nav-top-menu">
                     <li>
-                        <a href="@Url.Action("Index", "Character", new { charname = Model.CharacterName })">
+                        <a href="@Url.Action("UserIndex", "Character")">
                             <span class="sprite-icon sprite-icon-character"></span>
-                            Character
+                            <span class="top-menu-info">
+                                View your character
+                            </span>
                         </a>
                     </li>
                     <li>
                         <a href="@Url.Action("Inventory", "Character")">
                             <span class="sprite-icon sprite-icon-bag"></span>
-                            Inventory
+                            <span class="top-menu-info">
+                                View your inventory
+                            </span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ChangeInfo", "Manage")">
+                            <span class="sprite-icon sprite-icon-redbook"></span>
+                            <span class="top-menu-info">
+                                Change your settings
+                            </span>
                         </a>
                     </li>
                 </ul>

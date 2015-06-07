@@ -7,8 +7,8 @@ namespace CrescentIsland.Website.Helpers
         // Send in User.AvatarImage and User.AvatarMimeType
         public static string GetAvatarUrl(byte[] avatar, string mimetype)
         {
-            if (avatar == null) return String.Empty;
-            return String.Format("data:image/{0};base64,{1}", mimetype, Convert.ToBase64String(avatar, 0, avatar.Length));
+            if (avatar == null) return string.Empty;
+            return string.Format("data:image/{0};base64,{1}", mimetype, Convert.ToBase64String(avatar, 0, avatar.Length));
         }
     }
 }
