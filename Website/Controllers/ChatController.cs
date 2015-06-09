@@ -40,7 +40,7 @@ namespace CrescentIsland.Website.Controllers
 
                 sb.Append("<li id=\"");
                 sb.Append(msg.Id);
-                sb.Append("\"><a href=\"/Character/");
+                sb.Append("\"><a href=\"/Character/View/");
                 sb.Append(msg.UserName);
                 sb.Append("\"><span class=\"role");
                 sb.Append(msg.Role);

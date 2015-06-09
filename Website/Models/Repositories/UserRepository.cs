@@ -2,6 +2,8 @@
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using System;
+using System.Collections.Generic;
+using System.Data.Entity.Validation;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
@@ -12,14 +14,17 @@ namespace CrescentIsland.Website.Models.Repositories
     public class UserRepository : IUserRepository, IDisposable
     {
         private ApplicationUserManager _userManager;
+        private CharacterManager _charManager;
 
         public UserRepository()
         {
         }
-        public UserRepository(ApplicationUserManager userManager)
+        public UserRepository(ApplicationUserManager userManager, CharacterManager charManager)
         {
             UserManager = userManager;
+            CharManager = charManager;
         }
+
         public ApplicationUserManager UserManager
         {
             get
@@ -29,6 +34,17 @@ namespace CrescentIsland.Website.Models.Repositories
             private set
             {
                 _userManager = value;
+            }
+        }
+        public CharacterManager CharManager
+        {
+            get
+            {
+                return _charManager ?? HttpContext.Current.GetOwinContext().Get<CharacterManager>();
+            }
+            private set
+            {
+                _charManager = value;
             }
         }
 
@@ -62,7 +78,7 @@ namespace CrescentIsland.Website.Models.Repositories
                 Level = 1,
                 CurExp = 0,
                 MaxExp = 10,
-                Gold = 300,
+                Gold = 5000,
                 CurHealth = 20,
                 MaxHealth = 20,
                 CurEnergy = 10,
@@ -194,13 +210,10 @@ namespace CrescentIsland.Website.Models.Repositories
                 else if (character.CurHealth > character.MaxHealth) character.CurHealth = character.MaxHealth;
             }
 
-            using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
-            {
-                db.Characters.Attach(character);
-                db.Entry(character).Property(x => x.CurHealth).IsModified = true;
-                if (modifiedMax) db.Entry(character).Property(x => x.MaxHealth).IsModified = true;
-                var result = await db.SaveChangesAsync();
-            }
+            var items = character.Items;
+            CharManager.Context.Entry(character).Property(x => x.CurHealth).IsModified = true;
+            if (modifiedMax) CharManager.Context.Entry(character).Property(x => x.MaxHealth).IsModified = true;
+            var result = await CharManager.Context.SaveChangesAsync();
 
             return true;
         }
@@ -229,13 +242,10 @@ namespace CrescentIsland.Website.Models.Repositories
                 else if (character.CurEnergy > character.MaxEnergy) character.CurEnergy = character.MaxEnergy;
             }
 
-            using (var db = HttpContext.Current.GetOwinContext().Get<ApplicationDbContext>())
-            {
-                db.Characters.Attach(character);
-                db.Entry(character).Property(x => x.CurEnergy).IsModified = true;
-                if (modifiedMax) db.Entry(character).Property(x => x.MaxEnergy).IsModified = true;
-                var result = await db.SaveChangesAsync();
-            }
+            var items = character.Items;
+            CharManager.Context.Entry(character).Property(x => x.CurEnergy).IsModified = true;
+            if (modifiedMax) CharManager.Context.Entry(character).Property(x => x.MaxEnergy).IsModified = true;
+            var result = await CharManager.Context.SaveChangesAsync();
 
             return true;
         }
@@ -265,6 +275,11 @@ namespace CrescentIsland.Website.Models.Repositories
                 {
                     _userManager.Dispose();
                     _userManager = null;
+                }
+                if (_charManager != null)
+                {
+                    _charManager.Dispose();
+                    _charManager = null;
                 }
             }
 

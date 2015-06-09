@@ -11,20 +11,14 @@ namespace CrescentIsland.Website
 
             routes.MapRoute(
                 name: "CharacterUserIndex",
-                url: "Character/User/Index",
+                url: "Character/User/",
                 defaults: new { controller = "Character", action = "UserIndex" }
             );
 
             routes.MapRoute(
-                name: "CharacterInventory",
-                url: "Character/Inventory",
-                defaults: new { controller = "Character", action = "Inventory" }
-            );
-
-            routes.MapRoute(
-                name: "Character",
-                url: "Character/{charname}",
-                defaults: new { controller = "Character", action = "Index", charname = "" }
+                name: "CharacterView",
+                url: "Character/View/{charname}",
+                defaults: new { controller = "Character", action = "ViewIndex", charname = "" }
             );
 
             routes.MapRoute(

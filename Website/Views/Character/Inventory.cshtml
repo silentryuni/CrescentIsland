@@ -1,11 +1,120 @@
-﻿@{
+﻿@using CrescentIsland.Website.Models
+@model InventoryViewModel
+
+@{
     ViewBag.Title = "Inventory";
 }
 
-<div class="row">
+<div class="row inventory-page">
     <div class="col-xs-2"></div>
     <div class="col-xs-8">
         <h2 class="text-center">Inventory</h2>
+
+        <div class="row">
+            <div class="col-lg-5 equipment-container">
+                <div class="equipment">
+                    <div class="equipment-row">
+                        <div class="left-hand">
+                            <div class="inventory-slot Weapon" data-area="equipment" data-slot="1">
+                                @if (Model.Equipment[0] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[0].Id" data-type="@Model.Equipment[0].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[0].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Right-hand
+                            </div>
+                        </div>
+                        <div class="right-hand">
+                            <div class="inventory-slot Weapon" data-area="equipment" data-slot="2">
+                                @if (Model.Equipment[1] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[1].Id" data-type="@Model.Equipment[1].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[1].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Left-hand
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipment-row">
+                        <div class="headgear">
+                            <div class="inventory-slot Headgear" data-area="equipment" data-slot="3">
+                                @if (Model.Equipment[2] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[2].Id" data-type="@Model.Equipment[2].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[2].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Headgear
+                            </div>
+                        </div>
+                        <div class="armor">
+                            <div class="inventory-slot Armor" data-area="equipment" data-slot="4">
+                                @if (Model.Equipment[3] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[3].Id" data-type="@Model.Equipment[3].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[3].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Armor
+                            </div>
+                        </div>
+                    </div>
+                    <div class="equipment-row last">
+                        <div class="left-accessory">
+                            <div class="inventory-slot Accessory" data-area="equipment" data-slot="5">
+                                @if (Model.Equipment[4] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[4].Id" data-type="@Model.Equipment[4].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[4].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Accessory
+                            </div>
+                        </div>
+                        <div class="right-accessory">
+                            <div class="inventory-slot Accessory" data-area="equipment" data-slot="6">
+                                @if (Model.Equipment[5] != null)
+                                {
+                                    <div class="item" data-id="@Model.Equipment[5].Id" data-type="@Model.Equipment[5].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Equipment[5].Icon"></span></div>
+                                }
+                            </div>
+                            <div class="slot-header">
+                                Accessory
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-7 inventory-container">
+                <div class="inventory">
+                    <div class="inventory-top-row">
+                        @for (int i = 0; i < 5; i++)
+                        {
+                            <div class="inventory-slot bag@(i == 0 ? " first" : "")" data-area="bag" data-slot="@(i+1)">
+                                @if (Model.Bag[i] != null)
+                                {
+                                    <div class="item" data-id="@Model.Bag[i].Id" data-type="@Model.Bag[i].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Bag[i].Icon"></span></div>
+                                }
+                            </div>
+                        }
+
+                    </div>
+                    <div class="inventory-row">
+                        @for (int i = 5; i < 10; i++)
+                        {
+                            <div class="inventory-slot bag@(i == 5 ? " first" : "")" data-area="bag" data-slot="@(i+1)">
+                                @if (Model.Bag[i] != null)
+                                {
+                                    <div class="item" data-id="@Model.Bag[i].Id" data-type="@Model.Bag[i].Type.ToString()"><span class="sprite-icon big sprite-icon-@Model.Bag[i].Icon"></span></div>
+                                }
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
     <div class="col-xs-2"></div>
 </div>

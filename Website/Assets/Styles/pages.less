@@ -226,10 +226,9 @@
 	                left: 3px;
 	                z-index: 1;
 
-	                -webkit-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-	                -moz-box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-	                box-shadow: 0px 2px 5px 0px rgba(0,0,0,0.3);
-	                background: #fcfff4;
+	                -webkit-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+	                -moz-box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
+	                box-shadow: 0 2px 5px 0 rgba(0,0,0,0.3);
 
 	                background: -webkit-linear-gradient(top, @light-teal 0, @light-teal 40%, @dark-teal 100%);
 	                background: -moz-linear-gradient(top, @light-teal 0, @light-teal 40%, @dark-teal 100%);
@@ -300,6 +299,135 @@
 
                 .character-stats-info {
                     display: none;
+                }
+            }
+        }
+
+
+        /* Inventory Page */
+        .inventory-page {
+            .inventory {
+                display: inline-block;
+                width: 344px;
+	            border: solid 2px @dark-gray;
+                margin: 0 auto;
+	            padding: 5px;
+                -webkit-border-radius: 5px;
+	            -moz-border-radius: 5px;
+	            border-radius: 5px;
+
+                @media (min-width: 1200px) {
+                    margin: 0;
+                }
+            }
+
+            .inventory-top-row {
+                float: left;
+                margin-bottom: 15px;
+            }
+
+            .inventory-slot {
+                float: left;
+	            position: relative;
+	            width: 54px;
+	            height: 54px;
+                padding: 1px;
+	            background-color: @dark-gray;
+                -webkit-border-radius: 5px;
+	            -moz-border-radius: 5px;
+	            border-radius: 5px;
+                -webkit-box-shadow: inset 2px 3px 5px 0 rgba(0,0,0,0.3);
+	            -moz-box-shadow: inset 2px 3px 5px 0 rgba(0,0,0,0.3);
+	            box-shadow: inset 2px 3px 5px 0 rgba(0,0,0,0.3);
+                margin-left: 15px;
+                
+                &.first {
+                    margin-left: 0;
+                }
+            }
+
+            .inventory-slot .slot-position {
+                z-index: 24;
+	            position: absolute; 
+	            margin-left: 50%; 
+	            left: -4px; top: 2px;
+            }
+
+            .item {
+	            position: relative;
+	            z-index: 25;
+	            width: 52px;
+	            height: 52px;
+                border: solid 2px @dark-teal;
+                padding-top: 1px;
+                -webkit-border-radius: 5px;
+	            -moz-border-radius: 5px;
+	            border-radius: 5px;
+
+                background: -webkit-linear-gradient(top, @white 0, @light-teal 30%, @dark-teal 100%);
+	            background: -moz-linear-gradient(top, @white 0, @light-teal 30%, @dark-teal 100%);
+	            background: -o-linear-gradient(top, @white 0, @light-teal 30%, @dark-teal 100%);
+	            background: -ms-linear-gradient(top, @white 0, @light-teal 30%, @dark-teal 100%);
+                background-color: @white;
+	            background-image: linear-gradient(to bottom, @white 0, @light-teal 30%, @dark-teal 100%);
+	            filter: progid:DXImageTransform.Microsoft.gradient( startColorstr=@white, endColorstr=@dark-teal,GradientType=0 );
+            }
+
+            .inventory-container {
+                text-align: center;
+
+                @media (min-width: 1200px) {
+                    text-align: left;
+                }
+            }
+
+            .equipment-container {
+                text-align: center;
+
+                @media (min-width: 1200px) {
+                    text-align: right;
+                }
+
+                .equipment {
+                    display: inline-block;
+                    width: 50%;
+                    border: solid 2px @dark-gray;
+                    margin: 0 auto 25px auto;
+	                padding: 5px;
+                    -webkit-border-radius: 5px;
+	                -moz-border-radius: 5px;
+	                border-radius: 5px;
+                    font-size: 13px;
+
+                    @media (min-width: 1200px) {
+                        margin: 0;
+                        width: 80%;
+                    }
+
+                    .equipment-row {
+                        float: left;
+                        width: 100%;
+                        margin-bottom: 15px;
+
+                        &.last {
+                            margin-bottom: 0;
+                        }
+
+                        .inventory-slot {
+                            margin: 0;
+                        }
+
+                        .left-hand, .headgear, .left-accessory {
+                            float: left;
+                        }
+                        .right-hand, .armor, .right-accessory {
+                            float: right;
+
+                            .inventory-slot {
+                                float: right;
+                            }
+                        }
+                    }
                 }
             }
         }

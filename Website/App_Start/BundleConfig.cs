@@ -28,6 +28,7 @@ namespace CrescentIsland.Website
                     "~/Assets/Scripts/jquery.mousewheel.min.js",
                     "~/Assets/Scripts/jquery.mCustomScrollbar.min.js",
                     "~/Assets/Scripts/jquery.tooltipster.js",
+                    "~/Assets/Scripts/jquery-ui.js",
                     "~/Assets/Scripts/functions.js",
                     "~/Assets/Scripts/onload.js"));
 
@@ -44,7 +45,8 @@ namespace CrescentIsland.Website
                     "~/Assets/Styles/pages.less",
                     "~/Assets/Styles/sprite-icons.less",
                     "~/Assets/Styles/jquery.mCustomScrollbar.min.css",
-                    "~/Assets/Styles/tooltipster.less");
+                    "~/Assets/Styles/tooltipster.less",
+                    "~/Assets/Styles/jquery-ui.css");
             lessBundle.Transforms.Add(new LessTransform());
             lessBundle.Transforms.Add(new CssMinify());
 

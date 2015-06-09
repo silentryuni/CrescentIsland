@@ -1,4 +1,6 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CrescentIsland.Website.Models
 {
@@ -41,6 +43,11 @@ namespace CrescentIsland.Website.Models
         public int Accuracy { get; set; }
         [Required]
         public int Evasion { get; set; }
+
+        [Required]
+        public virtual User User { get; set; }
+        [Required]
+        public virtual ICollection<UserItem> Items { get; set; }
     }
     
     public class CharacterUserViewModel
@@ -97,6 +104,23 @@ namespace CrescentIsland.Website.Models
         public int MagicDefense { get; set; }
         public int Accuracy { get; set; }
         public int Evasion { get; set; }
+    }
+
+    public class InventoryViewModel
+    {
+        public InventoryItem[] Equipment { get; set; }
+        public InventoryItem[] Bag { get; set; }
+    }
+
+    public class UpdateCharacterInventory
+    {
+        public int ItemId { get; set; }
+        public int BagSlot { get; set; }
+        public int EquipmentSlot { get; set; }
+
+        public int SecondItemId { get; set; }
+        public int SecondBagSlot { get; set; }
+        public int SecondEquipmentSlot { get; set; }
     }
 
     public enum UserClass

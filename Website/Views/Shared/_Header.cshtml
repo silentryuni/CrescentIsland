@@ -18,7 +18,7 @@
                     </div>
 
                     <div class="username">
-                        <a href="@Url.Action("Index", "Character", new { charname = Model.CharacterName })">
+                        <a href="@Url.Action("ViewIndex", "Character", new { charname = Model.CharacterName })">
                             @if (User.IsInRole("Administrator"))
                             {
                                 <span class="admin-medal sprite-icon sprite-icon-medal"></span>

@@ -99,7 +99,7 @@ var Global = {
             }
 
             // Add the message to the page.
-            $('#discussion').prepend('<li id="' + id + '"><a href="/Character/' + Global.HtmlEncode(name) + '"><span class="role' + role + '">' + Global.HtmlEncode(name)
+            $('#discussion').prepend('<li id="' + id + '"><a href="/Character/View/' + Global.HtmlEncode(name) + '"><span class="role' + role + '">' + Global.HtmlEncode(name)
                 + '</a>: </span><span class="chat-time">' + timestamp + '</span>' + buttons + '<br /><span class="chat-message">'
                 + Global.HtmlEncode(message) + '</span></li>');
 
@@ -262,6 +262,152 @@ var Pages = {
     SetSwitchCheckbox: function () {
         $('.switch-checkbox').find('label').click(function () {
             $(this).next().val(!$(this).prev()[0].checked);
+        });
+    },
+    Inventory: function () {
+        // Enable elements with item class to be draggable. Hide cloned item while dragging
+        $('.item').draggable({
+            containment: '.inventory-page',
+            cursorAt: false,
+            start: function (event, ui) {
+                ui.helper.parent().find('.ui-draggable-handle').not('.ui-draggable-dragging').hide();
+            },
+            helper: 'clone',
+            revert: function () {
+                $(this).show();
+            },
+            scroll: true,
+            stack: '.item',
+            zIndex: 100
+        });
+        // Allow draggable elements to be dropped on elements with inventory-slot class
+        $('.inventory-slot').droppable({
+            accept: '.item',
+            drop: function (event, ui) {
+                var $slot = $(this);
+                var $item = $(this).find('.item');
+                var type = $item.data('type')
+                
+                var $originSlot = ui.draggable.parent();
+                var $originItem = ui.draggable;
+                var originType = ui.draggable.data('type');
+                
+                // If it's not the bag slot, check if destination slot is a valid slot for held item
+                if (!$slot.hasClass('bag')) {
+                    if (!$slot.hasClass(originType)) {
+                        return false;
+                    }
+                }
+
+                // If destination slot is empty, just append item to the slot
+                if ($item.length == 0) {
+                    $originItem.detach().appendTo($slot).show();
+
+                    // Update slot for dropped item
+                    var update = new Object();
+                    update.ItemId = $originItem.data('id');
+                    if ($slot.data('area') == 'equipment') {
+                        update.EquipmentSlot = $slot.data('slot');
+                        update.BagSlot = 0;
+                    }
+                    else {
+                        update.BagSlot = $slot.data('slot');
+                        update.EquipmentSlot = 0;
+                    }
+
+                    update.SecondItemId = 0;
+                    update.SecondBagSlot = 0;
+                    update.SecondEquipmentSlot = 0;
+
+                    Pages.UpdateInventory(update);
+                }
+                else {
+                    // If both origin and destination are bag type slots, allow swap
+                    // Otherwise if origin slot is not the right type for current item in destination slot, cancel swap
+                    if (!($originSlot.hasClass('bag') && $slot.hasClass('bag'))) {
+                        if (!$originSlot.hasClass('bag') && !$originSlot.hasClass(type)) {
+                            return false;
+                        }
+                    }
+
+                    // Swap origin and destination items with each other's slots
+                    $item.detach().appendTo($originSlot);
+                    $originItem.detach().appendTo($slot);
+
+                    var update = new Object();
+                    update.ItemId = $originItem.data('id');
+                    if ($slot.data('area') == 'equipment') {
+                        update.EquipmentSlot = $slot.data('slot');
+                        update.BagSlot = 0;
+                    }
+                    else {
+                        update.BagSlot = $slot.data('slot');
+                        update.EquipmentSlot = 0;
+                    }
+
+                    update.SecondItemId = $item.data('id');
+                    if ($originSlot.data('area') == 'equipment') {
+                        update.SecondEquipmentSlot = $originSlot.data('slot');
+                        update.SecondBagSlot = 0;
+                    }
+                    else {
+                        update.SecondBagSlot = $originSlot.data('slot');
+                        update.SecondEquipmentSlot = 0;
+                    }
+
+                    Pages.UpdateInventory(update);
+                }
+            }
+        });
+    },
+    UpdateInventory: function (object) {
+        // Updates items in the inventory
+        $.ajax({
+            type: "post",
+            cache: false,
+            async: true,
+            dataType: "json",
+            url: "/Character/UpdateInventory",
+            data: { model: object },
+            success: function (response) {
+                if (response == 0) {
+                    console.log('Failed on UpdateInventory - Failed to save');
+                }
+            },
+            error: function () {
+                console.log("Failed on UpdateInventory - Ajax failed");
+            }
+        });
+    },
+    BuyItem: function () {
+        $('.buyitem').click(function () {
+            var id = $(this).data('id');
+            $.ajax({
+                type: "post",
+                cache: false,
+                async: true,
+                dataType: "json",
+                url: "/Character/BuyItem",
+                data: { itemId: id },
+                success: function (response) {
+                    console.log(response);
+                    if (response == "full") {
+                        alert("You can't buy any more items, you got a full inventory.");
+                    }
+                    else if (response == "no money") {
+                        alert("You do not have enough money to buy this item.");
+                    }
+                    else if (response == -1) {
+                        console.log('Failed on BuyItem - Failed to save');
+                    }
+                    else {
+                        alert("You bought the item for " + response + " gold");
+                    }
+                },
+                error: function () {
+                    console.log("Failed on BuyItem - Ajax failed");
+                }
+            });
         });
     }
 }

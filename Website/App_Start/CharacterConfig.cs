@@ -35,10 +35,16 @@ namespace CrescentIsland.Website
             return character;
         }
 
-        protected virtual async Task<User> GetUserAggregateAsync(IQueryable<User> entitySet, Expression<Func<User, bool>> filter)
+        protected virtual async Task<Item> GetItemAggregateAsync(IQueryable<Item> entitySet, Expression<Func<Item, bool>> filter)
         {
-            var user = await entitySet.FirstOrDefaultAsync(filter).WithCurrentCulture();
-            return user;
+            var item = await entitySet.FirstOrDefaultAsync(filter).WithCurrentCulture();
+            return item;
+        }
+
+        protected virtual async Task<UserItem> GetUserItemAggregateAsync(IQueryable<UserItem> entitySet, Expression<Func<UserItem, bool>> filter)
+        {
+            var useritem = await entitySet.FirstOrDefaultAsync(filter).WithCurrentCulture();
+            return useritem;
         }
 
         public virtual Task<Character> FindCharacterAsync(string charName)
@@ -51,14 +57,20 @@ namespace CrescentIsland.Website
             return GetCharacterAggregateAsync(entityset, c => c.CharacterName.ToUpper() == charName.ToUpper());
         }
 
-        public virtual Task<User> FindCharacterOwnerAsync(string charName)
+        public virtual Task<Item> FindItemAsync(int itemId)
         {
             ThrowIfDisposed();
-            if (charName == null)
-                throw new ArgumentNullException("charName");
 
-            IQueryable<User> entityset = Context.Set<User>();
-            return GetUserAggregateAsync(entityset, u => u.Characters.Any(c => c.CharacterName.ToUpper() == charName.ToUpper()));
+            IQueryable<Item> entityset = Context.Set<Item>();
+            return GetItemAggregateAsync(entityset, u => u.Id == itemId);
+        }
+
+        public virtual Task<UserItem> FindUserItemAsync(int userItemId)
+        {
+            ThrowIfDisposed();
+
+            IQueryable<UserItem> entityset = Context.Set<UserItem>();
+            return GetUserItemAggregateAsync(entityset, u => u.Id == userItemId);
         }
 
 

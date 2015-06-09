@@ -50,6 +50,7 @@ namespace CrescentIsland.Website.Models
         [Required]
         public bool ShowGender { get; set; }
 
+        [Required]
         public virtual ICollection<Character> Characters { get; set; }
     }
 
@@ -63,12 +64,12 @@ namespace CrescentIsland.Website.Models
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
-            modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo").Property(p => p.Id).HasColumnName("UserId");
+            modelBuilder.Entity<IdentityUser>().ToTable("Users", "dbo");
             modelBuilder.Entity<User>().ToTable("Users", "dbo").Property(p => p.Id).HasColumnName("UserId");
             modelBuilder.Entity<IdentityUserRole>().ToTable("UsersToRoles");
             modelBuilder.Entity<IdentityUserLogin>().ToTable("UserLogins");
             modelBuilder.Entity<IdentityUserClaim>().ToTable("UserClaims").Property(p => p.Id).HasColumnName("ClaimId");
-            modelBuilder.Entity<IdentityRole>().ToTable("UserRoles").Property(p => p.Id).HasColumnName("RoleId"); ;
+            modelBuilder.Entity<IdentityRole>().ToTable("UserRoles").Property(p => p.Id).HasColumnName("RoleId");
         }
 
         public static ApplicationDbContext Create()
@@ -77,6 +78,8 @@ namespace CrescentIsland.Website.Models
         }
 
         public virtual DbSet<Character> Characters { get; set; }
+        public virtual DbSet<Item> Items { get; set; }
+        public virtual DbSet<UserItem> UserItems { get; set; }
     }
 
     public enum UserGender

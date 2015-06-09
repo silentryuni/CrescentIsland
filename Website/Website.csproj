@@ -205,6 +205,7 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
+    <Compile Include="Models\ItemModels.cs" />
     <Compile Include="Models\UserViewModels.cs" />
     <Compile Include="Models\BattleModels.cs" />
     <Compile Include="Models\CharacterModels.cs" />
@@ -287,6 +288,7 @@
     <Content Include="Assets\Images\Classes\class-sorceress.png" />
     <Content Include="Assets\Images\Classes\class-valkyrie.png" />
     <Content Include="Assets\Images\Classes\class-warrior.png" />
+    <Content Include="Assets\Images\icon-set-big.png" />
     <Content Include="Assets\Images\icon-set.png" />
     <Content Include="Assets\Scripts\bootstrap.min.js" />
     <Content Include="Assets\Scripts\functions.js" />
@@ -297,6 +299,7 @@
     <Content Include="Assets\Fonts\fontawesome-webfont.woff" />
     <Content Include="Assets\Fonts\fontawesome-webfont.woff2" />
     <None Include="Assets\Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Assets\Scripts\jquery-ui.js" />
     <Content Include="Assets\Scripts\jquery.ba-resize.min.js" />
     <Content Include="Assets\Scripts\jquery.mCustomScrollbar.min.js" />
     <Content Include="Assets\Scripts\jquery.mousewheel.min.js" />
@@ -312,6 +315,7 @@
     <Content Include="Assets\Styles\bootstrap.css" />
     <Content Include="Assets\Styles\font-awesome.css" />
     <Content Include="Assets\Styles\header.less" />
+    <Content Include="Assets\Styles\jquery-ui.css" />
     <Content Include="Assets\Styles\jquery.mCustomScrollbar.min.css" />
     <Content Include="favicon.png" />
     <Content Include="Global.asax" />
@@ -326,7 +330,7 @@
     <None Include="Scripts\jquery-2.1.4.intellisense.js" />
     <Content Include="Scripts\jquery-2.1.4.js" />
     <Content Include="Scripts\jquery-2.1.4.min.js" />
-    <Content Include="Views\Character\Index.cshtml" />
+    <Content Include="Views\Character\ViewIndex.cshtml" />
     <Content Include="Views\Page\AltIndex.cshtml" />
     <Content Include="Views\Page\Index.cshtml" />
     <Content Include="Web.config" />

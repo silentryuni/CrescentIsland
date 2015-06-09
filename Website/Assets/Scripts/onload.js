@@ -10,11 +10,12 @@
     Initialize.Tooltip($('.account-info-page').find('.biography').find('.sprite-icon'), '.biography-info', 'tooltipster-crescent-dark');
 
     Global.GetChatMessages();
-
     Pages.SetAvatar();
     Pages.SetClass();
     Pages.DropdownUnselected();
     Pages.SetSwitchCheckbox();
+    Pages.Inventory();
+    Pages.BuyItem();
 
     // Temp code
     $battleButton = $('.battle a');
